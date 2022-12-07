@@ -1,53 +1,56 @@
-import Comment from '../types/Comment';
+import Comment from "../types/Comment";
 
-import React from 'react';
-import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
+import React from "react";
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 type Props = {
-    comment: Comment;
-    styled: boolean;
+  comment: Comment;
 };
 
-const useStyles = makeStyles({
-    commentBody: {
-        fontSize: 16,
-        whiteSpace: 'pre-wrap',
-        paddingBottom: '1em',
-    },
-    commentCard: {
-        marginBottom: '1em',
-    },
-    metadata: {
-        fontSize: 14,
-    },
-});
+const CommentItem: React.FC<Props> = ({ comment }) => {
+  //   if (styled) {
+  //     return (
+  //       <Card className={classes.commentCard}>
+  //         <CardContent>
+  //           <Typography
+  //             variant="body2"
+  //             color="textPrimary"
+  //             className={classes.commentBody}
+  //             component="p"
+  //           >
+  //             {comment.body}
+  //           </Typography>
+  //           <Typography
+  //             color="textSecondary"
+  //             className={classes.metadata}
+  //             gutterBottom
+  //           >
+  //             {"Posted by " +
+  //               comment.author +
+  //               " on " +
+  //               comment.timestamp.toLocaleString()}
+  //           </Typography>
+  //         </CardContent>
+  //       </Card>
+  //     );
+  //   }
 
-const CommentItem: React.FC<Props> = ({ comment, styled }) => {
-    const classes = useStyles();
-
-    if (styled) {
-        return (
-            <Card className={classes.commentCard}>
-                <CardContent>
-                    <Typography variant="body2" color="textPrimary" className={classes.commentBody} component="p">
-                        {comment.body}
-                    </Typography>
-                    <Typography color="textSecondary" className={classes.metadata} gutterBottom>
-                        {'Posted by ' + comment.author + ' on ' + comment.timestamp.toLocaleString()}
-                    </Typography>
-                </CardContent>
-            </Card>
-        );
-    }
-
-    // unstyled
-    return (
-        <li className={classes.commentBody}>
-            {comment.body}
-            <br />
-            <em>{'posted by ' + comment.author + ' on ' + comment.timestamp.toLocaleString()}</em>
-        </li>
-    );
+  // unstyled
+  return (
+    <li>
+      {comment.body}
+      <br />
+      <em>
+        {"posted by " +
+          comment.author +
+          " on " +
+          comment.timestamp.toLocaleString()}
+      </em>
+    </li>
+  );
 };
 
 export default CommentItem;
