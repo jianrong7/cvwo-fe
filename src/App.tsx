@@ -1,22 +1,30 @@
 import React from "react";
-import "./App.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { green, purple } from "@mui/material/colors";
+
 import NavBar from "./components/NavBar";
 import AppRouter from "./components/Routers/AppRouter";
-// import { createTheme, ThemeProvider } from "@material-ui/core";
-// import { blue, orange } from "@material-ui/core/colors";
 
-// const theme = createTheme({
-//   palette: {
-//     primary: blue,
-//     secondary: orange,
-//   },
-// });
+import "./App.css";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: green[500],
+    },
+  },
+});
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <NavBar />
-      <AppRouter />
+      <ThemeProvider theme={theme}>
+        <NavBar />
+        <AppRouter />
+      </ThemeProvider>
     </div>
   );
 };
