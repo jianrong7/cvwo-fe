@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import AppRouter from "./components/Routers/AppRouter";
 
 import "./App.css";
+import { useFindUser } from "./utils/useFindUser";
 
 const theme = createTheme({
   palette: {
@@ -19,6 +20,8 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  useFindUser();
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

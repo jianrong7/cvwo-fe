@@ -5,11 +5,13 @@ import type { LoginFormState } from "../components/Authentication/AuthModal";
 import { useAppDispatch } from "../app/hooks";
 import { updateIsFetchingUser } from "../modules/users/userSlice";
 
+const baseURL = "/users/";
+
 export const LoginMutation = (handleLoginSuccess: any) => {
   const dispatch = useAppDispatch();
   return useMutation(
     (payload: LoginFormState) => {
-      return apiClient.post("/users/login", {
+      return apiClient.post(`${baseURL}login`, {
         username: payload.username,
         password: payload.password,
       });
@@ -24,11 +26,17 @@ export const LoginMutation = (handleLoginSuccess: any) => {
   );
 };
 
-export const Signup = () => {
+export const SignupMutation = () => {
   return useMutation((payload: LoginFormState) => {
-    return apiClient.post("/users/signup", {
+    return apiClient.post(`${baseURL}signup`, {
       username: payload.username,
       password: payload.password,
     });
+  });
+};
+
+export const ValidateQuery = () => {
+  return useQuery("validate-jwt", (payload) => {
+    return apiClient.get(`${baseURL}validate`, { withCredentials: true });
   });
 };

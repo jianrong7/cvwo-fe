@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,23 +11,16 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { removeCookie } from "typescript-cookie";
 
 import Authentication from "./Authentication/Authentication";
 import { getCurrentUser } from "../modules/users/userSlice";
-import { UserData } from "../modules/users/types";
-import { useAppSelector } from "../app/hooks";
-
-// const pages = ["Products", "Pricing", "Blog"];
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { removeCurrentUser } from "../modules/users/userSlice";
 
 function ResponsiveAppBar() {
   const user = useAppSelector(getCurrentUser);
-  const [curUser, setCurUser] = useState<null | UserData>(user);
-  const [settings, setSettings] = useState([
-    "Profile",
-    "Account",
-    "Dashboard",
-    "Logout",
-  ]);
+  const dispatch = useAppDispatch();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -46,12 +39,11 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  useEffect(() => {
-    setCurUser(user);
-    const newSettings: string[] = settings.map((x) => x);
-    newSettings[0] = user?.username as any;
-    setSettings(newSettings);
-  }, [user]);
+  const handleLogout = () => {
+    handleCloseUserMenu();
+    removeCookie("Authorization");
+    dispatch(removeCurrentUser());
+  };
 
   return (
     <AppBar position="static">
@@ -113,38 +105,10 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          {/* <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography> */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))} */}
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {curUser ? (
+            {user ? (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -170,11 +134,12 @@ function ResponsiveAppBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{user?.username}</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
                 </Menu>
               </>
             ) : (

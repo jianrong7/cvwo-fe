@@ -11,7 +11,7 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import AuthForm from "./AuthForm";
 import { LoginMutation } from "../../api/AuthService";
-import { getCookie, setCookie } from "typescript-cookie";
+import { setCookie } from "typescript-cookie";
 import type { AxiosResponse } from "axios";
 
 import { useAppDispatch } from "../../app/hooks";
@@ -48,12 +48,12 @@ const AuthModal: React.FC<Props> = ({
   const handleLoginSuccess = (data: AxiosResponse<any, any>) => {
     const { data: res } = data;
     // set cookie
-    setCookie("token", res.token, { expires: res.claims.exp });
+    setCookie("Authorization", res.token, { expires: res.claims.exp });
     // set redux store
     dispatch(updateCurrentUser(res));
   };
 
-  const { data, mutate } = LoginMutation(handleLoginSuccess);
+  const { mutate } = LoginMutation(handleLoginSuccess);
 
   const handleChange =
     (prop: keyof LoginFormState) =>
