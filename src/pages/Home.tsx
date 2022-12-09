@@ -1,18 +1,22 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-
-import BasicThreadList from "../components/BasicThreadList";
+import { Container, Button } from "@mui/material";
+import Posts from "../components/Posts/Posts";
 
 const Home: React.FC = () => {
   return (
-    <Box>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        p: 4,
+      }}
+    >
       <Button href="/submit" variant="contained">
         Create Post
       </Button>
-      <br />
-      <BasicThreadList />
-    </Box>
+      <Posts />
+    </Container>
   );
 };
 
