@@ -1,16 +1,19 @@
-import BasicThreadList from '../components/BasicThreadList';
-import React from 'react';
+import React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+
+import BasicThreadList from "../components/BasicThreadList";
 
 const Home: React.FC = () => {
-    return (
-        <>
-            <h3>
-                {"Welcome to CVWO's sample react app! Here's a basic list of forum threads for you to experiment with."}
-            </h3>
-            <br />
-            <BasicThreadList />
-        </>
-    );
+  return (
+    <Box>
+      <Button href="/submit" variant="contained">
+        Create Post
+      </Button>
+      <br />
+      <BasicThreadList />
+    </Box>
+  );
 };
 
 export default Home;

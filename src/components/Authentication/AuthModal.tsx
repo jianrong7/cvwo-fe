@@ -38,7 +38,7 @@ const AuthModal: React.FC<Props> = ({
   });
 
   const { mutate: loginMutate } = LoginMutation();
-  const { mutate: signupMutate, isSuccess } = SignupMutation();
+  const { mutate: signupMutate } = SignupMutation();
 
   const handleChange =
     (prop: keyof LoginFormState) =>
