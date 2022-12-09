@@ -16,6 +16,7 @@ import { PostsQuery } from "../../api/PostsService";
 
 const Posts: React.FC = () => {
   const { data: res, isError } = PostsQuery();
+
   return (
     <Stack
       spacing={2}

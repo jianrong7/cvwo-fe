@@ -1,12 +1,14 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+  Link,
+} from "@mui/material";
 import AuthForm from "./AuthForm";
 import { LoginMutation, SignupMutation } from "../../api/AuthService";
 // POSSIBLE FEATURE: Auto login after signup
@@ -59,12 +61,27 @@ const AuthModal: React.FC<Props> = ({
       username: values.username,
       password: values.password,
     };
+    console.log("payload:", payload);
+    console.log("isLogin:", isLogin);
     if (isLogin) {
       loginMutate(payload);
     } else {
       signupMutate(payload);
     }
   };
+
+  // React.useEffect(() => {
+  //   const keyDownHandler = (e: KeyboardEvent) => {
+  //     if (e.key === "Enter") {
+  //       e.preventDefault();
+  //       handleFormSubmit();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", keyDownHandler);
+  //   return () => {
+  //     document.removeEventListener("keydown", keyDownHandler);
+  //   };
+  // }, []);
 
   return (
     <div>

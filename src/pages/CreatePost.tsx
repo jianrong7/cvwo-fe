@@ -1,12 +1,12 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
+import { Box, Container, Button, Stack } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FormContainer, TextFieldElement } from "react-hook-form-mui";
-import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { useNavigate } from "react-router-dom";
+import { PostMutation } from "../api/PostsService";
+import { Post } from "../modules/posts/types";
+import { useAppSelector } from "../app/hooks";
+import { getUserId } from "../modules/users/userSlice";
 
 type Inputs = {
   title: string;
@@ -15,10 +15,18 @@ type Inputs = {
 
 const CreatePost: React.FC = () => {
   const navigate = useNavigate();
+  const userId = useAppSelector(getUserId);
+  const { data, mutate } = PostMutation();
   const { handleSubmit } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    const { title, body } = data;
+    const payload = {
+      title,
+      body,
+      userId,
+    };
     navigate("/");
+    mutate(payload as Post);
   };
   return (
     <Container maxWidth="xl">

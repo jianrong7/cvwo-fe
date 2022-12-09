@@ -40,8 +40,8 @@ export const getCurrentUser = (state: RootState): UserData | null => {
 //   return state.users.isFetchingUser;
 // };
 
-// export const getUserTier = (state: RootState): UserTier | undefined => {
-//   return state.users.currentUser?.tier as UserTier;
-// };
+export const getUserId = (state: RootState): number | undefined => {
+  return state.users.currentUser?.claims?.sub as number;
+};
 
 export default usersSlice.reducer;

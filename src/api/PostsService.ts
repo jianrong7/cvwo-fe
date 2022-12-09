@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAppDispatch } from "../app/hooks";
 import {
   updateIsFetchingPosts,
@@ -36,3 +36,45 @@ export const PostQuery = (id: string) => {
     // onSuccess: (data: any) => dispatch(updatePosts(data?.data)),
   });
 };
+
+export const PostMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (payload: Post) => {
+      return apiClient.post(baseURL, {
+        body: payload.body,
+        title: payload.title,
+        userId: payload.userId,
+      });
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries("getAllPosts");
+        queryClient.invalidateQueries("getOnePost");
+      },
+    }
+  );
+};
+
+// export const LoginMutation = () => {
+//   const dispatch = useAppDispatch();
+//   return useMutation(
+//     (payload: LoginFormState) => {
+//       return apiClient.post(`${baseURL}login`, {
+//         username: payload.username,
+//         password: payload.password,
+//       });
+//     },
+//     {
+//       // onError:
+//       onMutate: () => dispatch(updateIsFetchingUser(true)),
+//       onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
+//       onSuccess: (data) => {
+//         handleLoginSuccess(data);
+//         dispatch(updateCurrentUser(data.data));
+//       },
+//       retry: 2,
+//     }
+//   );
+// };

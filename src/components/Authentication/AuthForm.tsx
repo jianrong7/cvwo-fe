@@ -1,14 +1,15 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import {
+  Box,
+  Stack,
+  IconButton,
+  Input,
+  InputLabel,
+  InputAdornment,
+  FormControl,
+  TextField,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import type { LoginFormState } from "./AuthModal";
 
 type Props = {
@@ -48,7 +49,7 @@ const AuthForm: React.FC<Props> = ({
           value={values.username}
         />
         <FormControl variant="standard">
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="password">Password *</InputLabel>
           <Input
             id="password"
             required
