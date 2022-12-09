@@ -1,6 +1,5 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -8,15 +7,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Box from "@mui/material/Box";
 import AuthForm from "./AuthForm";
-import { LoginMutation } from "../../api/AuthService";
-import { setCookie } from "typescript-cookie";
-import type { AxiosResponse } from "axios";
-
-import { useAppDispatch } from "../../app/hooks";
-import { updateCurrentUser } from "../../modules/users/userSlice";
-
+import { LoginMutation, SignupMutation } from "../../api/AuthService";
+// POSSIBLE FEATURE: Auto login after signup
 export interface LoginFormState {
   username: string;
   password: string;
@@ -43,17 +36,9 @@ const AuthModal: React.FC<Props> = ({
     password: "",
     showPassword: false,
   });
-  const dispatch = useAppDispatch();
 
-  const handleLoginSuccess = (data: AxiosResponse<any, any>) => {
-    const { data: res } = data;
-    // set cookie
-    setCookie("Authorization", res.token, { expires: res.claims.exp });
-    // set redux store
-    dispatch(updateCurrentUser(res));
-  };
-
-  const { mutate } = LoginMutation(handleLoginSuccess);
+  const { mutate: loginMutate } = LoginMutation();
+  const { mutate: signupMutate, isSuccess } = SignupMutation();
 
   const handleChange =
     (prop: keyof LoginFormState) =>
@@ -70,10 +55,15 @@ const AuthModal: React.FC<Props> = ({
 
   const handleFormSubmit = () => {
     handleClose();
-    mutate({
+    const payload = {
       username: values.username,
       password: values.password,
-    });
+    };
+    if (isLogin) {
+      loginMutate(payload);
+    } else {
+      signupMutate(payload);
+    }
   };
 
   return (
