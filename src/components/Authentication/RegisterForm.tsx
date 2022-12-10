@@ -1,16 +1,10 @@
-import { useEffect } from "react";
-import {
-  Box,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  Typography,
-  Button,
-} from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Button } from "@mui/material";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../Form/FormInput";
+import { LoginMutation, SignupMutation } from "../../api/AuthService";
 
 const registerSchema = z
   .object({
@@ -40,6 +34,9 @@ interface Props {
 }
 
 const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
+  const { mutate: signupMutate, isSuccess } = SignupMutation();
+  const { mutate: loginMutate } = LoginMutation();
+
   const methods = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
   });
@@ -59,7 +56,13 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
   }, [isSubmitSuccessful]);
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
-    console.log(values);
+    const { username, password } = values;
+    handleModalClose();
+    signupMutate({ username, password });
+    if (isSuccess) {
+      console.log("successfull");
+      loginMutate({ username, password });
+    }
   };
 
   return (
@@ -92,20 +95,6 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
             type="password"
             variant="standard"
           />
-          {/* <FormGroup>
-            <FormControlLabel
-              control={<Checkbox required />}
-              {...register("terms")}
-              label={
-                <Typography color={errors["terms"] ? "error" : "inherit"}>
-                  Accept Terms and Conditions
-                </Typography>
-              }
-            />
-            <FormHelperText error={!!errors["terms"]}>
-              {errors["terms"] ? errors["terms"].message : ""}
-            </FormHelperText>
-          </FormGroup> */}
 
           <Button variant="text" type="submit">
             Register

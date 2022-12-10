@@ -10,6 +10,7 @@ import type { AxiosResponse } from "axios";
 import { updateCurrentUser } from "../modules/users/userSlice";
 import {
   toggleIsSnackbarOpen,
+  updateAlertSeverity,
   updateSnackbarContent,
 } from "../modules/snackbar/snackbarSlice";
 
@@ -31,7 +32,11 @@ export const LoginMutation = () => {
       });
     },
     {
-      // onError:
+      onError: () => {
+        dispatch(updateSnackbarContent("Login unsuccessful."));
+        dispatch(updateAlertSeverity("error"));
+        dispatch(toggleIsSnackbarOpen());
+      },
       onMutate: () => dispatch(updateIsFetchingUser(true)),
       onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
       onSuccess: (data) => {
@@ -39,9 +44,9 @@ export const LoginMutation = () => {
         dispatch(updateCurrentUser(data.data));
 
         dispatch(updateSnackbarContent("Logged in successfully!"));
+        dispatch(updateAlertSeverity("success"));
         dispatch(toggleIsSnackbarOpen());
       },
-      retry: 2,
     }
   );
 };
@@ -58,7 +63,10 @@ export const SignupMutation = () => {
     {
       onSuccess: (data) => {
         dispatch(updateSnackbarContent("Signed up successfully!"));
+        dispatch(updateAlertSeverity("success"));
         dispatch(toggleIsSnackbarOpen());
+        const { mutate: login } = LoginMutation();
+        login(data as any);
       },
     }
   );

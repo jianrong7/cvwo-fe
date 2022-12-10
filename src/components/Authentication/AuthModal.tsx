@@ -2,17 +2,18 @@ import * as React from "react";
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Typography,
   Link,
   Box,
+  Stack,
+  IconButton,
 } from "@mui/material";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import { LoginMutation, SignupMutation } from "../../api/AuthService";
+import CloseIcon from "@mui/icons-material/Close";
 // POSSIBLE FEATURE: Auto login after signup
 export interface LoginFormState {
   username: string;
@@ -35,19 +36,6 @@ const AuthModal: React.FC<Props> = ({
   changeAuthType,
   isLogin = false,
 }) => {
-  // React.useEffect(() => {
-  //   const keyDownHandler = (e: KeyboardEvent) => {
-  //     if (e.key === "Enter") {
-  //       e.preventDefault();
-  //       handleFormSubmit();
-  //     }
-  //   };
-  //   document.addEventListener("keydown", keyDownHandler);
-  //   return () => {
-  //     document.removeEventListener("keydown", keyDownHandler);
-  //   };
-  // }, []);
-
   return (
     <Box>
       <Button
@@ -61,7 +49,24 @@ const AuthModal: React.FC<Props> = ({
         {isLogin ? "Login" : "Sign up"}
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{isLogin ? "Login" : "Sign up"}</DialogTitle>
+        <DialogTitle>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography
+              sx={{
+                fontWeight: 700,
+              }}
+            >
+              {isLogin ? "Login" : "Sign up"}
+            </Typography>
+            <IconButton aria-label="close" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Stack>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             {isLogin ? "Login" : "Sign up"} here to participate in the forum.
@@ -84,12 +89,6 @@ const AuthModal: React.FC<Props> = ({
           </Link>
           !
         </Typography>
-        {/* <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleFormSubmit}>
-            {isLogin ? "Login" : "Sign up"}
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </Box>
   );

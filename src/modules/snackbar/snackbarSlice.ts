@@ -21,11 +21,14 @@ export const snackbarSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    updateSnackbarContent: (state, action: PayloadAction<any>) => {
+    updateSnackbarContent: (state, action: PayloadAction<string>) => {
       state.snackbarContent = action.payload;
     },
     toggleIsSnackbarOpen: (state) => {
       state.isSnackbarOpen = !state.isSnackbarOpen;
+    },
+    updateAlertSeverity: (state, action: PayloadAction<AlertColor>) => {
+      state.alertSeverity = action.payload;
     },
     // updateCurrentUser: (state, action: PayloadAction<UserData>) => {
     //   state.currentUser = action.payload;
@@ -36,8 +39,11 @@ export const snackbarSlice = createSlice({
   },
 });
 
-export const { updateSnackbarContent, toggleIsSnackbarOpen } =
-  snackbarSlice.actions;
+export const {
+  updateSnackbarContent,
+  toggleIsSnackbarOpen,
+  updateAlertSeverity,
+} = snackbarSlice.actions;
 
 export const getSnackbar = (state: RootState): SnackbarState | null => {
   return state.snackbar;

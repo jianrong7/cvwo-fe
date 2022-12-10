@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, Button } from "@mui/material";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as z from "zod";
@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../Form/FormInput";
 import { LoginMutation } from "../../api/AuthService";
 
-const registerSchema = z.object({
+const loginSchema = z.object({
   username: z
     .string()
     .nonempty("Username is required")
@@ -21,23 +21,22 @@ const registerSchema = z.object({
     .max(32, "Password must be less than 32 characters"),
 });
 
-type RegisterInput = z.TypeOf<typeof registerSchema>;
+type LoginInput = z.TypeOf<typeof loginSchema>;
 
 interface Props {
   handleModalClose: () => void;
 }
 
-const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
+const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
   const { mutate: loginMutate } = LoginMutation();
 
-  const methods = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
+  const methods = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
   });
 
   const {
     reset,
     handleSubmit,
-    register,
     formState: { isSubmitSuccessful, errors },
   } = methods;
 
@@ -48,7 +47,7 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
 
-  const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
+  const onSubmitHandler: SubmitHandler<LoginInput> = (values) => {
     handleModalClose();
     loginMutate(values);
   };
@@ -85,4 +84,4 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
