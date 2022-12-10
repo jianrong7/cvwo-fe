@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { green, purple } from "@mui/material/colors";
 
 import NavBar from "./components/NavBar";
 import AppRouter from "./components/Routers/AppRouter";
@@ -11,10 +10,10 @@ import { useFindUser } from "./utils/useFindUser";
 const theme = createTheme({
   palette: {
     primary: {
-      main: purple[500],
+      main: "#00796b",
     },
     secondary: {
-      main: green[500],
+      main: "#ffff00",
     },
   },
 });

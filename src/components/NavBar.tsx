@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Tooltip,
+  MenuItem,
+  Link,
+} from "@mui/material";
+import { Menu as MenuIcon, ChatBubbleOutline } from "@mui/icons-material";
 import { removeCookie } from "typescript-cookie";
 
 import Authentication from "./Authentication/Authentication";
-import { getCurrentUser } from "../modules/users/userSlice";
+import { getCurrentUser, removeCurrentUser } from "../modules/users/userSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { removeCurrentUser } from "../modules/users/userSlice";
 
 function ResponsiveAppBar() {
   const user = useAppSelector(getCurrentUser);
@@ -49,25 +50,29 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-
+          <Link href="/" sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <ChatBubbleOutline
+              sx={{
+                display: { xs: "none", md: "flex" },
+                mr: 1,
+                color: "white",
+              }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: 700,
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              Gossip with Go
+            </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -104,7 +109,15 @@ function ResponsiveAppBar() {
               ))} */}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Link href="/">
+            <ChatBubbleOutline
+              sx={{
+                display: { xs: "flex", md: "none" },
+                mr: 1,
+                color: "white",
+              }}
+            />
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
