@@ -10,7 +10,8 @@ import {
   Link,
   Box,
 } from "@mui/material";
-import AuthForm from "./AuthForm";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import { LoginMutation, SignupMutation } from "../../api/AuthService";
 // POSSIBLE FEATURE: Auto login after signup
 export interface LoginFormState {
@@ -34,40 +35,6 @@ const AuthModal: React.FC<Props> = ({
   changeAuthType,
   isLogin = false,
 }) => {
-  const [values, setValues] = React.useState<LoginFormState>({
-    username: "",
-    password: "",
-    showPassword: false,
-  });
-
-  const { mutateAsync: loginMutate } = LoginMutation();
-  const { mutateAsync: signupMutate } = SignupMutation();
-
-  const handleChange =
-    (prop: keyof LoginFormState) =>
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-
-  const handleFormSubmit = async () => {
-    handleClose();
-    const payload = {
-      username: values.username,
-      password: values.password,
-    };
-    if (isLogin) {
-      await loginMutate(payload);
-    } else {
-      await signupMutate(payload);
-    }
-  };
   // React.useEffect(() => {
   //   const keyDownHandler = (e: KeyboardEvent) => {
   //     if (e.key === "Enter") {
@@ -99,24 +66,30 @@ const AuthModal: React.FC<Props> = ({
           <DialogContentText>
             {isLogin ? "Login" : "Sign up"} here to participate in the forum.
           </DialogContentText>
-          <AuthForm
-            values={values}
-            handleChange={handleChange}
-            handleClickShowPassword={handleClickShowPassword}
-          />
+          {isLogin ? (
+            <LoginForm handleModalClose={handleClose} />
+          ) : (
+            <RegisterForm handleModalClose={handleClose} />
+          )}
         </DialogContent>
-        <Typography sx={{ paddingX: 3, fontSize: 12 }}>
+        <Typography sx={{ padding: 3, marginTop: -4, fontSize: 14 }}>
           {isLogin
             ? "No account? Create an account "
             : "Already have an account? Login "}
-          <Link onClick={() => changeAuthType(isLogin)}>here</Link>!
+          <Link
+            onClick={() => changeAuthType(isLogin)}
+            sx={{ cursor: "pointer" }}
+          >
+            here
+          </Link>
+          !
         </Typography>
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleFormSubmit}>
             {isLogin ? "Login" : "Sign up"}
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </Box>
   );
