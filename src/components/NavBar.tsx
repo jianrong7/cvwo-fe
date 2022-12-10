@@ -50,7 +50,15 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link href="/" sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Link
+            href="/"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              textDecoration: "none",
+            }}
+          >
             <ChatBubbleOutline
               sx={{
                 display: { xs: "none", md: "flex" },
@@ -61,7 +69,6 @@ function ResponsiveAppBar() {
             <Typography
               variant="h6"
               noWrap
-              component="a"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -123,7 +130,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             {user ? (
               <>
-                <Tooltip title="Open settings">
+                <Tooltip title="Open user menu">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt={user?.username}

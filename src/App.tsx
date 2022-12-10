@@ -6,6 +6,7 @@ import AppRouter from "./components/Routers/AppRouter";
 
 import "./App.css";
 import { useFindUser } from "./utils/useFindUser";
+import SnackbarRoot from "./components/Snackbar/SnackbarRoot";
 
 const theme = createTheme({
   palette: {
@@ -23,6 +24,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      <SnackbarRoot />
       <ThemeProvider theme={theme}>
         <NavBar />
         <AppRouter />

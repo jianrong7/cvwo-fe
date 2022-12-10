@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Box,
   Card,
   Button,
   CardHeader,
@@ -22,7 +21,7 @@ const Posts: React.FC = () => {
       spacing={2}
       sx={{
         alignItems: "center",
-        maxWidth: { xs: "unset", md: "md" },
+        maxWidth: { xs: "unset", sm: "sm" },
         width: "100%",
         marginY: 4,
       }}

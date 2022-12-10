@@ -8,6 +8,10 @@ import { setCookie } from "typescript-cookie";
 import type { AxiosResponse } from "axios";
 
 import { updateCurrentUser } from "../modules/users/userSlice";
+import {
+  toggleIsSnackbarOpen,
+  updateSnackbarContent,
+} from "../modules/snackbar/snackbarSlice";
 
 const baseURL = "/users/";
 
@@ -33,6 +37,9 @@ export const LoginMutation = () => {
       onSuccess: (data) => {
         handleLoginSuccess(data);
         dispatch(updateCurrentUser(data.data));
+
+        dispatch(updateSnackbarContent("Logged in successfully!"));
+        dispatch(toggleIsSnackbarOpen());
       },
       retry: 2,
     }
@@ -40,12 +47,21 @@ export const LoginMutation = () => {
 };
 
 export const SignupMutation = () => {
-  return useMutation((payload: LoginFormState) => {
-    return apiClient.post(`${baseURL}signup`, {
-      username: payload.username,
-      password: payload.password,
-    });
-  });
+  const dispatch = useAppDispatch();
+  return useMutation(
+    (payload: LoginFormState) => {
+      return apiClient.post(`${baseURL}signup`, {
+        username: payload.username,
+        password: payload.password,
+      });
+    },
+    {
+      onSuccess: (data) => {
+        dispatch(updateSnackbarContent("Signed up successfully!"));
+        dispatch(toggleIsSnackbarOpen());
+      },
+    }
+  );
 };
 
 export const ValidateQuery = () => {

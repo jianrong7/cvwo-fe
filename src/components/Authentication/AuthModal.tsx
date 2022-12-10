@@ -8,6 +8,7 @@ import {
   DialogTitle,
   Typography,
   Link,
+  Box,
 } from "@mui/material";
 import AuthForm from "./AuthForm";
 import { LoginMutation, SignupMutation } from "../../api/AuthService";
@@ -39,8 +40,8 @@ const AuthModal: React.FC<Props> = ({
     showPassword: false,
   });
 
-  const { mutate: loginMutate } = LoginMutation();
-  const { mutate: signupMutate } = SignupMutation();
+  const { mutateAsync: loginMutate } = LoginMutation();
+  const { mutateAsync: signupMutate } = SignupMutation();
 
   const handleChange =
     (prop: keyof LoginFormState) =>
@@ -55,21 +56,18 @@ const AuthModal: React.FC<Props> = ({
     });
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     handleClose();
     const payload = {
       username: values.username,
       password: values.password,
     };
-    console.log("payload:", payload);
-    console.log("isLogin:", isLogin);
     if (isLogin) {
-      loginMutate(payload);
+      await loginMutate(payload);
     } else {
-      signupMutate(payload);
+      await signupMutate(payload);
     }
   };
-
   // React.useEffect(() => {
   //   const keyDownHandler = (e: KeyboardEvent) => {
   //     if (e.key === "Enter") {
@@ -84,7 +82,7 @@ const AuthModal: React.FC<Props> = ({
   // }, []);
 
   return (
-    <div>
+    <Box>
       <Button
         variant="outlined"
         onClick={handleOpen}
@@ -120,7 +118,7 @@ const AuthModal: React.FC<Props> = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 };
 
