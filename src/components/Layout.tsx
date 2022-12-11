@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
 
@@ -6,7 +7,9 @@ const Layout = () => {
     <>
       <NavBar />
       <main className="App">
-        <Outlet />
+        <Container maxWidth="xl">
+          <Outlet />
+        </Container>
       </main>
     </>
   );

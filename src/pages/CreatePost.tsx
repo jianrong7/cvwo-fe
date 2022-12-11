@@ -1,48 +1,69 @@
-import React from "react";
-import { Box, Container, Button, Stack } from "@mui/material";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { FormContainer, TextFieldElement } from "react-hook-form-mui";
-import { useNavigate } from "react-router-dom";
-import { PostMutation } from "../api/PostsService";
-import { Post } from "../modules/posts/types";
-import { useAppSelector } from "../app/hooks";
-import { getUserId } from "../modules/users/userSlice";
+import React, { useEffect, useState } from "react";
+import { Box, Button } from "@mui/material";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type Inputs = {
-  title: string;
-  body?: string;
-};
+import { PostMutation } from "../api/PostsService";
+import FormInput from "../components/Form/FormInput";
+import TagsInput, { TagsState } from "../components/Form/TagsInput";
+
+const postSchema = z.object({
+  title: z.string().nonempty("Title is required"),
+  content: z.string(),
+  tags: z.array(z.string()).max(3, "Maximum of 3 tags allowed").optional(),
+});
+
+export type PostInput = z.TypeOf<typeof postSchema>;
 
 const CreatePost: React.FC = () => {
-  const navigate = useNavigate();
-  const userId = useAppSelector(getUserId);
-  const { data, mutate } = PostMutation();
-  const { handleSubmit } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const { title, body } = data;
-    const payload = {
-      title,
-      body,
-      userId,
-    };
-    navigate("/");
-    mutate(payload as Post);
+  const [tagsState, setTagsState] = useState<TagsState>({
+    inputError: "",
+    activeTags: [],
+    disableAdditionalTags: false,
+  });
+  const { mutate: createPost } = PostMutation();
+
+  const methods = useForm<PostInput>({
+    resolver: zodResolver(postSchema),
+  });
+  const { handleSubmit } = methods;
+
+  useEffect(() => {
+    if (tagsState.activeTags.length >= 3) {
+      setTagsState({ ...tagsState, disableAdditionalTags: true });
+    } else {
+      setTagsState({ ...tagsState, disableAdditionalTags: false });
+    }
+  }, [tagsState.activeTags]);
+
+  const onSubmitHandler: SubmitHandler<PostInput> = (values) => {
+    createPost({
+      title: values.title,
+      content: values.content,
+      tags: tagsState.activeTags,
+    });
   };
+
   return (
-    <Container maxWidth="xl">
-      <Box sx={{ flexGrow: 1, m: 2 }}>
-        <FormContainer
-          defaultValues={{ title: "", body: "" }}
-          onSuccess={onSubmit}
+    <Box>
+      <FormProvider {...methods}>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit(onSubmitHandler)}
+          sx={{ display: "flex", flexDirection: "column", gap: 2, marginY: 2 }}
         >
-          <Stack spacing={2}>
-            <TextFieldElement name="title" label="Title" required />
-            <TextFieldElement name="body" label="Body" multiline minRows={2} />
-            <Button type="submit">Submit</Button>
-          </Stack>
-        </FormContainer>
-      </Box>
-    </Container>
+          <FormInput name="title" required label="Title" autoFocus />
+          <FormInput name="content" label="Content" minRows={5} multiline />
+          <TagsInput tagsState={tagsState} setTagsState={setTagsState} />
+          <Button variant="text" type="submit">
+            Submit
+          </Button>
+        </Box>
+      </FormProvider>
+    </Box>
   );
 };
 

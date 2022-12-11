@@ -3,12 +3,12 @@ import type { RootState } from "../../app/store";
 import { Post } from "./types";
 
 interface PostState {
-  posts: Post[] | null;
+  postsData: Post[] | null;
   isFetchingPosts: boolean;
 }
 
 const initialState: PostState = {
-  posts: null,
+  postsData: null,
   isFetchingPosts: false,
 };
 
@@ -18,7 +18,7 @@ export const postsSlice = createSlice({
   initialState,
   reducers: {
     updatePosts: (state, action: PayloadAction<Post[]>) => {
-      state.posts = action.payload;
+      state.postsData = action.payload;
     },
     updateIsFetchingPosts: (state, action: PayloadAction<boolean>) => {
       state.isFetchingPosts = action.payload;

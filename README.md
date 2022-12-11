@@ -1,4 +1,9 @@
-# CVWO Assignment Sample React App
+# Feature ideas so I don't forget
+
+- Generate post with ChatGPT
+- Login should have a remember me function
+
+## CVWO Assignment Sample React App
 
 This sample React app is provided to help you experiment and practice web development fundamentals.
 It shows how certain functionality can be implemented.
@@ -48,24 +53,24 @@ This is the main file structure
 
 Main directories/files to note:
 
--   `src` usually includes all your source code. That is where most of your functional code will be.
--   `README.md` is a form of documentation about the project. It is what you are reading right now.
--   `package.json` contains important metadata, for example, the dependencies and available scripts in the project.
--   `.eslintrc.js` contains the configuration for ESLint. ESLint is a tool to help enforce code consistency.
--   `.prettierrc.js` contains the configuration for Prettier. Prettier is a tool to help format code.
+- `src` usually includes all your source code. That is where most of your functional code will be.
+- `README.md` is a form of documentation about the project. It is what you are reading right now.
+- `package.json` contains important metadata, for example, the dependencies and available scripts in the project.
+- `.eslintrc.js` contains the configuration for ESLint. ESLint is a tool to help enforce code consistency.
+- `.prettierrc.js` contains the configuration for Prettier. Prettier is a tool to help format code.
 
 Try changing some source code and see how the app changes.
 
 ## Additional Notes
 
--   This project uses [Typescript](https://www.typescriptlang.org/).
--   The linting and code formatting rules are specified in `.eslintrc.js` and `.prettierrc.js` respectively.
-    You may modify the rules.
--   The available scripts are in `package.json`.
-    Here are some scripts that you are likely to use more often:
-    -   `yarn start`
-    -   `yarn lint:fix`
-    -   `yarn format:fix`
+- This project uses [Typescript](https://www.typescriptlang.org/).
+- The linting and code formatting rules are specified in `.eslintrc.js` and `.prettierrc.js` respectively.
+  You may modify the rules.
+- The available scripts are in `package.json`.
+  Here are some scripts that you are likely to use more often:
+  - `yarn start`
+  - `yarn lint:fix`
+  - `yarn format:fix`
 
 ## Acknowledgements
 

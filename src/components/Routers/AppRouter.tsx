@@ -6,14 +6,10 @@ import Post from "../../pages/Post";
 import CreatePost from "../../pages/CreatePost";
 import BasicThreadView from "../../pages/BasicThreadView";
 import StyledThreadView from "../../pages/StyledThreadView";
-import { getCurrentUser } from "../../modules/users/userSlice";
-import { useAppSelector } from "../../app/hooks";
 import Layout from "../Layout";
 import PrivateRoute from "./PrivateRoute";
 
 const AppRouter = () => {
-  const curUser = useAppSelector(getCurrentUser);
-  console.log(curUser);
   return (
     <BrowserRouter>
       <Routes>

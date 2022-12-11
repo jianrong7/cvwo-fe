@@ -1,10 +1,11 @@
 export interface Post {
   id: number;
   title: string;
-  body: string;
+  content: string;
   userId: number;
   upvotes: number;
   downvotes: number;
+  tags: string[];
   // gorm.Model
   // Title string
   // Body string

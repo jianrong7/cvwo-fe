@@ -10,7 +10,6 @@ const Post: React.FC = () => {
   if (isError || isFetching) return null;
 
   const { Body, Title, Upvotes, Downvotes, UserId } = res?.data?.post;
-  console.log(Title);
   return (
     <Container
       sx={{

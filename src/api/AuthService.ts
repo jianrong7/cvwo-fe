@@ -73,11 +73,6 @@ export const SignupMutation = () => {
     }
   );
 };
-interface Data {
-  data: {
-    token: string;
-  };
-}
 
 export const RefreshTokenQuery = () => {
   return useQuery(

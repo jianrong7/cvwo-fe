@@ -12,9 +12,10 @@ import {
 import { format } from "date-fns";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { PostsQuery } from "../../api/PostsService";
+import Tags from "./Tags";
 
 const Posts: React.FC = () => {
-  const { data: res, isError } = PostsQuery();
+  const { data, isError } = PostsQuery();
 
   return (
     <Stack
@@ -27,9 +28,10 @@ const Posts: React.FC = () => {
       }}
     >
       {!isError &&
-        res?.data &&
-        res?.data?.posts.map((item: any) => {
-          const { ID, title, content, upvotes, CreatedAt, UpdatedAt } = item;
+        data &&
+        data?.posts.map((item: any) => {
+          const { ID, title, content, upvotes, tags, CreatedAt, UpdatedAt } =
+            item;
           const timestamp =
             UpdatedAt > CreatedAt
               ? format(new Date(UpdatedAt), "LLL dd, yyyy")
@@ -39,13 +41,16 @@ const Posts: React.FC = () => {
               <CardActionArea href={`/post/${ID}`}>
                 <CardHeader title={title} subheader={timestamp} />
                 <CardContent>{content}</CardContent>
-                <CardActions>
-                  <Button size="small">
-                    <ThumbUpOffAltIcon />
-                    <Typography>{upvotes}</Typography>
-                  </Button>
-                </CardActions>
               </CardActionArea>
+              <CardActions
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Button size="small">
+                  <ThumbUpOffAltIcon />
+                  <Typography>{upvotes}</Typography>
+                </Button>
+                <Tags tags={tags} />
+              </CardActions>
             </Card>
           );
         })}
