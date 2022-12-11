@@ -11,12 +11,14 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import { PostsQuery } from "../../api/PostsService";
 import Tags from "./Tags";
+import { Post } from "../../modules/posts/types";
 
-const Posts: React.FC = () => {
-  const { data, isError } = PostsQuery();
+interface Props {
+  posts: Post[];
+}
 
+const Posts: React.FC<Props> = ({ posts }) => {
   return (
     <Stack
       spacing={2}
@@ -27,9 +29,8 @@ const Posts: React.FC = () => {
         marginY: 4,
       }}
     >
-      {!isError &&
-        data &&
-        data?.posts.map((item: any) => {
+      {posts &&
+        posts.map((item: any) => {
           const { ID, title, content, upvotes, tags, CreatedAt, UpdatedAt } =
             item;
           const timestamp =
