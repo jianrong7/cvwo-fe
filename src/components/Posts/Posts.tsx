@@ -29,7 +29,7 @@ const Posts: React.FC = () => {
       {!isError &&
         res?.data &&
         res?.data?.posts.map((item: any) => {
-          const { ID, Title, Body, Upvotes, CreatedAt, UpdatedAt } = item;
+          const { ID, title, content, upvotes, CreatedAt, UpdatedAt } = item;
           const timestamp =
             UpdatedAt > CreatedAt
               ? format(new Date(UpdatedAt), "LLL dd, yyyy")
@@ -37,12 +37,12 @@ const Posts: React.FC = () => {
           return (
             <Card key={ID} sx={{ width: "100%" }}>
               <CardActionArea href={`/post/${ID}`}>
-                <CardHeader title={Title} subheader={timestamp} />
-                <CardContent>{Body}</CardContent>
+                <CardHeader title={title} subheader={timestamp} />
+                <CardContent>{content}</CardContent>
                 <CardActions>
                   <Button size="small">
                     <ThumbUpOffAltIcon />
-                    <Typography>{Upvotes}</Typography>
+                    <Typography>{upvotes}</Typography>
                   </Button>
                 </CardActions>
               </CardActionArea>

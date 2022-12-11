@@ -20,7 +20,8 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
-  useFindUser();
+  // need to reimplement the backend to persist user
+  // useFindUser();
 
   return (
     <div className="App">

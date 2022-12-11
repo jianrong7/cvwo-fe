@@ -67,6 +67,7 @@ const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
             required
             label="Username"
             variant="standard"
+            autoFocus
           />
           <FormInput
             name="password"

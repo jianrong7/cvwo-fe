@@ -13,13 +13,17 @@ import {
   updateAlertSeverity,
   updateSnackbarContent,
 } from "../modules/snackbar/snackbarSlice";
+import jwtDecode from "jwt-decode";
 
 const baseURL = "/users/";
 
 const handleLoginSuccess = (data: AxiosResponse<any, any>) => {
   const { data: res } = data;
+  const decoded: { exp: number; iat: number; sub: number } = jwtDecode(
+    res.token
+  );
   // set cookie
-  setCookie("Authorization", res.token, { expires: res.claims.exp });
+  setCookie("Authorization", res.token, { expires: decoded.exp });
 };
 
 export const LoginMutation = (snackbarContent: string) => {

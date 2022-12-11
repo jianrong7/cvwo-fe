@@ -5,6 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../Form/FormInput";
 import { SignupMutation } from "../../api/AuthService";
+import isStrongPassword from "validator/lib/isStrongPassword";
 
 const registerSchema = z
   .object({
@@ -19,7 +20,8 @@ const registerSchema = z
       .string()
       .nonempty("Password is required")
       .min(8, "Password must be more than 8 characters")
-      .max(32, "Password must be less than 32 characters"),
+      .max(32, "Password must be less than 32 characters")
+      .refine(isStrongPassword, { message: "Must be a strong password" }),
     passwordConfirm: z.string().nonempty("Please confirm your password"),
   })
   .refine((data) => data.password === data.passwordConfirm, {
@@ -75,6 +77,7 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
             required
             label="Username"
             variant="standard"
+            autoFocus
           />
           <FormInput
             name="password"
