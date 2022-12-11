@@ -1,11 +1,10 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import NavBar from "./components/NavBar";
 import AppRouter from "./components/Routers/AppRouter";
 
 import "./App.css";
-import { useFindUser } from "./utils/useFindUser";
+import usePersistLogin from "./utils/usePersistLogin";
 import SnackbarRoot from "./components/Snackbar/SnackbarRoot";
 
 const theme = createTheme({
@@ -21,13 +20,12 @@ const theme = createTheme({
 
 const App: React.FC = () => {
   // need to reimplement the backend to persist user
-  // useFindUser();
+  usePersistLogin();
 
   return (
     <div className="App">
       <SnackbarRoot />
       <ThemeProvider theme={theme}>
-        <NavBar />
         <AppRouter />
       </ThemeProvider>
     </div>

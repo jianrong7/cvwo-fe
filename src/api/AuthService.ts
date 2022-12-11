@@ -17,12 +17,11 @@ import jwtDecode from "jwt-decode";
 
 const baseURL = "/users/";
 
-const handleLoginSuccess = (data: AxiosResponse<any, any>) => {
+const setTokenInCookies = (data: AxiosResponse<any, any>) => {
   const { data: res } = data;
   const decoded: { exp: number; iat: number; sub: number } = jwtDecode(
     res.token
   );
-  // set cookie
   setCookie("Authorization", res.token, { expires: decoded.exp });
 };
 
@@ -44,7 +43,7 @@ export const LoginMutation = (snackbarContent: string) => {
       onMutate: () => dispatch(updateIsFetchingUser(true)),
       onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
       onSuccess: (data) => {
-        handleLoginSuccess(data);
+        setTokenInCookies(data);
         dispatch(updateCurrentUser(data.data));
 
         dispatch(updateSnackbarContent(snackbarContent));
@@ -74,9 +73,19 @@ export const SignupMutation = () => {
     }
   );
 };
+interface Data {
+  data: {
+    token: string;
+  };
+}
 
-export const ValidateQuery = () => {
-  return useQuery("validate-jwt", (payload) => {
-    return apiClient.get(`${baseURL}validate`, { withCredentials: true });
-  });
+export const RefreshTokenQuery = () => {
+  return useQuery(
+    "refresh-token",
+    () => apiClient.get(`${baseURL}refresh`, { withCredentials: true }),
+    {
+      refetchInterval: 1000 * 60 * 5,
+      refetchIntervalInBackground: true,
+    }
+  );
 };
