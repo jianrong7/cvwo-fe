@@ -27,6 +27,12 @@ export const snackbarSlice = createSlice({
     toggleIsSnackbarOpen: (state) => {
       state.isSnackbarOpen = !state.isSnackbarOpen;
     },
+    openSnackbar: (state) => {
+      state.isSnackbarOpen = true;
+    },
+    closeSnackbar: (state) => {
+      state.isSnackbarOpen = false;
+    },
     updateAlertSeverity: (state, action: PayloadAction<AlertColor>) => {
       state.alertSeverity = action.payload;
     },
@@ -42,6 +48,8 @@ export const snackbarSlice = createSlice({
 export const {
   updateSnackbarContent,
   toggleIsSnackbarOpen,
+  openSnackbar,
+  closeSnackbar,
   updateAlertSeverity,
 } = snackbarSlice.actions;
 

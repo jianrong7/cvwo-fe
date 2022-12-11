@@ -9,7 +9,7 @@ import type { AxiosResponse } from "axios";
 
 import { updateCurrentUser } from "../modules/users/userSlice";
 import {
-  toggleIsSnackbarOpen,
+  openSnackbar,
   updateAlertSeverity,
   updateSnackbarContent,
 } from "../modules/snackbar/snackbarSlice";
@@ -22,7 +22,7 @@ const handleLoginSuccess = (data: AxiosResponse<any, any>) => {
   setCookie("Authorization", res.token, { expires: res.claims.exp });
 };
 
-export const LoginMutation = () => {
+export const LoginMutation = (snackbarContent: string) => {
   const dispatch = useAppDispatch();
   return useMutation(
     (payload: LoginFormState) => {
@@ -35,7 +35,7 @@ export const LoginMutation = () => {
       onError: () => {
         dispatch(updateSnackbarContent("Login unsuccessful."));
         dispatch(updateAlertSeverity("error"));
-        dispatch(toggleIsSnackbarOpen());
+        dispatch(openSnackbar());
       },
       onMutate: () => dispatch(updateIsFetchingUser(true)),
       onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
@@ -43,16 +43,18 @@ export const LoginMutation = () => {
         handleLoginSuccess(data);
         dispatch(updateCurrentUser(data.data));
 
-        dispatch(updateSnackbarContent("Logged in successfully!"));
+        dispatch(updateSnackbarContent(snackbarContent));
         dispatch(updateAlertSeverity("success"));
-        dispatch(toggleIsSnackbarOpen());
+        dispatch(openSnackbar());
       },
     }
   );
 };
 
 export const SignupMutation = () => {
-  const dispatch = useAppDispatch();
+  const { mutate: loginMutate } = LoginMutation(
+    "Registered and logged in successfully!"
+  );
   return useMutation(
     (payload: LoginFormState) => {
       return apiClient.post(`${baseURL}signup`, {
@@ -61,12 +63,9 @@ export const SignupMutation = () => {
       });
     },
     {
-      onSuccess: (data) => {
-        dispatch(updateSnackbarContent("Signed up successfully!"));
-        dispatch(updateAlertSeverity("success"));
-        dispatch(toggleIsSnackbarOpen());
-        const { mutate: login } = LoginMutation();
-        login(data as any);
+      onSuccess: (_, variables) => {
+        // login after signing up automatically
+        loginMutate(variables);
       },
     }
   );

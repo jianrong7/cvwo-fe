@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../Form/FormInput";
-import { LoginMutation, SignupMutation } from "../../api/AuthService";
+import { SignupMutation } from "../../api/AuthService";
 
 const registerSchema = z
   .object({
@@ -34,8 +34,7 @@ interface Props {
 }
 
 const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
-  const { mutate: signupMutate, isSuccess } = SignupMutation();
-  const { mutate: loginMutate } = LoginMutation();
+  const { mutate: signupMutate } = SignupMutation();
 
   const methods = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -59,10 +58,6 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
     const { username, password } = values;
     handleModalClose();
     signupMutate({ username, password });
-    if (isSuccess) {
-      console.log("successfull");
-      loginMutate({ username, password });
-    }
   };
 
   return (

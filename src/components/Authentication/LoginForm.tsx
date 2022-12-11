@@ -28,7 +28,7 @@ interface Props {
 }
 
 const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
-  const { mutate: loginMutate } = LoginMutation();
+  const { mutate: loginMutate } = LoginMutation("Logged in successfully!");
 
   const methods = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),

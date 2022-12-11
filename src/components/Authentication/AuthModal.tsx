@@ -14,7 +14,7 @@ import {
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import CloseIcon from "@mui/icons-material/Close";
-// POSSIBLE FEATURE: Auto login after signup
+
 export interface LoginFormState {
   username: string;
   password: string;

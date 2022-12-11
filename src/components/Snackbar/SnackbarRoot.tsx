@@ -3,7 +3,7 @@ import { Snackbar, Alert } from "@mui/material";
 import {
   SnackbarState,
   getSnackbar,
-  toggleIsSnackbarOpen,
+  closeSnackbar,
 } from "../../modules/snackbar/snackbarSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
@@ -21,7 +21,7 @@ const SnackbarRoot: React.FC = () => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(toggleIsSnackbarOpen());
+    dispatch(closeSnackbar());
   };
   return (
     <Snackbar
