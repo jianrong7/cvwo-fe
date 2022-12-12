@@ -13,12 +13,28 @@ import { format } from "date-fns";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import Tags from "./Tags";
 import { Post } from "../../modules/posts/types";
+import {
+  RefetchOptions,
+  RefetchQueryFilters,
+  QueryObserverResult,
+} from "react-query";
+import { TagsState } from "../Form/TagsInput";
 
 interface Props {
   posts: Post[];
+  refetch: (
+    options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined
+  ) => Promise<QueryObserverResult<any, unknown>>;
+  tagsState: TagsState;
+  setTagsState: React.Dispatch<React.SetStateAction<TagsState>>;
 }
 
-const Posts: React.FC<Props> = ({ posts }) => {
+const Posts: React.FC<Props> = ({
+  posts,
+  refetch,
+  tagsState,
+  setTagsState,
+}) => {
   return (
     <Stack
       spacing={2}
@@ -40,7 +56,12 @@ const Posts: React.FC<Props> = ({ posts }) => {
           return (
             <Card key={ID} sx={{ width: "100%" }}>
               <CardActionArea href={`/post/${ID}`}>
-                <CardHeader title={title} subheader={timestamp} />
+                <CardHeader
+                  title={title}
+                  titleTypographyProps={{ fontWeight: 600 }}
+                  subheader={timestamp}
+                  subheaderTypographyProps={{ fontSize: 12 }}
+                />
                 <CardContent>{content}</CardContent>
               </CardActionArea>
               <CardActions
@@ -50,7 +71,12 @@ const Posts: React.FC<Props> = ({ posts }) => {
                   <ThumbUpOffAltIcon />
                   <Typography>{upvotes}</Typography>
                 </Button>
-                <Tags tags={tags} />
+                <Tags
+                  tags={tags}
+                  refetch={refetch}
+                  tagsState={tagsState}
+                  setTagsState={setTagsState}
+                />
               </CardActions>
             </Card>
           );

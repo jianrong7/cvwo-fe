@@ -45,6 +45,25 @@ const CreatePost: React.FC = () => {
     });
   };
 
+  const handleTagsChange: (
+    options: React.SyntheticEvent,
+    value: string[]
+  ) => void = (options, value) => {
+    if (value.length > 3) {
+      setTagsState({
+        ...tagsState,
+        inputError: "Too many tags. Please remove some before adding.",
+      });
+    } else {
+      setTagsState({
+        ...tagsState,
+        inputError: "",
+      });
+    }
+    setTagsState({ ...tagsState, activeTags: value });
+    handleSubmit(onSubmitHandler);
+  };
+
   return (
     <Box>
       <FormProvider {...methods}>
@@ -57,7 +76,7 @@ const CreatePost: React.FC = () => {
         >
           <FormInput name="title" required label="Title" autoFocus />
           <FormInput name="content" label="Content" minRows={5} multiline />
-          <TagsInput tagsState={tagsState} setTagsState={setTagsState} />
+          <TagsInput tagsState={tagsState} handleChange={handleTagsChange} />
           <Button variant="text" type="submit">
             Submit
           </Button>

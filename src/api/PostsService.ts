@@ -1,25 +1,30 @@
-import type { AxiosResponse } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
+  getQueryParams,
   updateIsFetchingPosts,
   updatePosts,
 } from "../modules/posts/postsSlice";
+import { PostQueryParams } from "../modules/posts/types";
 import { PostInput } from "../pages/CreatePost";
-
 import apiClient from "./http-common";
 
 const baseURL = "/posts/";
 
 export const PostsQuery = () => {
   const dispatch = useAppDispatch();
-  const fetchPosts = () => {
+  const queryParams: PostQueryParams = useAppSelector(getQueryParams);
+  const fetchPosts = async (context: any) => {
+    const { tags, order, sort } = context.queryKey[1];
     dispatch(updateIsFetchingPosts(true));
-    return apiClient.get(baseURL).then((res) => res.data);
+    const response = await apiClient.get(
+      `${baseURL}?tags=${tags}&sort=${sort}&order=${order}`
+    );
+    return response.data;
   };
 
-  return useQuery("getAllPosts", fetchPosts, {
+  return useQuery(["getAllPosts", queryParams], fetchPosts, {
     onSettled: () => dispatch(updateIsFetchingPosts(false)),
     onSuccess: (data) => dispatch(updatePosts(data.posts)),
   });

@@ -16,3 +16,9 @@ export interface Post {
   // Downvotes uint
   // Comments []Comment
 }
+
+export interface PostQueryParams {
+  tags: string;
+  sort: string;
+  order: string;
+}

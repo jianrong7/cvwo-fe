@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
-import { Post } from "./types";
+import { Post, PostQueryParams } from "./types";
 
 interface PostState {
   postsData: Post[] | null;
+  queryParams: PostQueryParams;
   isFetchingPosts: boolean;
 }
 
 const initialState: PostState = {
   postsData: null,
+  queryParams: { tags: "", order: "", sort: "" },
   isFetchingPosts: false,
 };
 
@@ -23,6 +25,15 @@ export const postsSlice = createSlice({
     updateIsFetchingPosts: (state, action: PayloadAction<boolean>) => {
       state.isFetchingPosts = action.payload;
     },
+    updateQueryParamsTags: (state, action: PayloadAction<string>) => {
+      state.queryParams = { ...state.queryParams, tags: action.payload };
+    },
+    updateQueryParamsSort: (state, action: PayloadAction<string>) => {
+      state.queryParams = { ...state.queryParams, sort: action.payload };
+    },
+    updateQueryParamsOrder: (state, action: PayloadAction<string>) => {
+      state.queryParams = { ...state.queryParams, order: action.payload };
+    },
     // updateCurrentUser: (state, action: PayloadAction<UserData>) => {
     //   state.currentUser = action.payload;
     // },
@@ -32,15 +43,21 @@ export const postsSlice = createSlice({
   },
 });
 
-export const { updatePosts, updateIsFetchingPosts } = postsSlice.actions;
+export const {
+  updatePosts,
+  updateIsFetchingPosts,
+  updateQueryParamsTags,
+  updateQueryParamsSort,
+  updateQueryParamsOrder,
+} = postsSlice.actions;
 
-// export const getCurrentUser = (state: RootState): UserData | null => {
-//   return state.users.currentUser;
-// };
+export const getQueryParams = (state: RootState): PostQueryParams => {
+  return state.posts.queryParams;
+};
 
-// export const getIsFetchingUser = (state: RootState): boolean => {
-//   return state.users.isFetchingUser;
-// };
+export const getQueryParamsTags = (state: RootState): string => {
+  return state.posts.queryParams.tags;
+};
 
 // export const getUserTier = (state: RootState): UserTier | undefined => {
 //   return state.users.currentUser?.tier as UserTier;

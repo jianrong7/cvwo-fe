@@ -10,35 +10,23 @@ export interface TagsState {
 }
 interface Props {
   tagsState: TagsState;
-  setTagsState: React.Dispatch<React.SetStateAction<TagsState>>;
+  handleChange: (options: any, value: any) => void;
 }
 
-const TagsInput: React.FC<Props> = ({ tagsState, setTagsState }) => {
-  const { inputError, disableAdditionalTags } = tagsState;
+const TagsInput: React.FC<Props> = ({ tagsState, handleChange }) => {
+  const { inputError, activeTags, disableAdditionalTags } = tagsState;
 
   return (
     <Autocomplete
       multiple
-      onChange={(_, value) => {
-        if (value.length > 3) {
-          setTagsState({
-            ...tagsState,
-            inputError: "Too many tags. Please remove some before adding.",
-          });
-        } else {
-          setTagsState({
-            ...tagsState,
-            inputError: "",
-          });
-        }
-        setTagsState({ ...tagsState, activeTags: value });
-      }}
+      onChange={handleChange}
       getOptionDisabled={() => disableAdditionalTags}
       id="tags"
       options={tags}
       getOptionLabel={(option) => option}
       filterSelectedOptions
       freeSolo
+      value={activeTags}
       renderTags={(value: readonly string[], getTagProps) =>
         value.map((option: string, index: number) => (
           <Chip variant="outlined" label={option} {...getTagProps({ index })} />
