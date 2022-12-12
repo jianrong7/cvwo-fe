@@ -5,6 +5,8 @@ import {
   getQueryParams,
   updateIsFetchingPosts,
   updatePosts,
+  updatePost,
+  updateIsFetchingPost,
 } from "../modules/posts/postsSlice";
 import { PostQueryParams } from "../modules/posts/types";
 import { PostInput } from "../pages/CreatePost";
@@ -32,14 +34,23 @@ export const PostsQuery = () => {
 
 export const PostQuery = (id: string) => {
   const dispatch = useAppDispatch();
-  const fetchPost = () => {
-    dispatch(updateIsFetchingPosts(true));
-    return apiClient.get(`${baseURL}${id}`);
+  // const fetchPost = async () => {
+  //   dispatch(updateIsFetchingPost(true));
+  //   const response = await apiClient.get(`${baseURL}${id}`);
+  //   return response.data;
+  // };
+
+  const fetchPost = async (id: string) => {
+    dispatch(updateIsFetchingPost(true));
+    const response = await apiClient.get(`/posts/${id}`);
+    return response.data;
   };
 
-  return useQuery("getOnePost", fetchPost, {
-    onSettled: () => dispatch(updateIsFetchingPosts(false)),
-    // onSuccess: (data: any) => dispatch(updatePosts(data?.data)),
+  return useQuery("getOnePost", () => fetchPost(id), {
+    onSettled: () => dispatch(updateIsFetchingPost(false)),
+    onSuccess: (data) => {
+      dispatch(updatePost(data.post));
+    },
   });
 };
 

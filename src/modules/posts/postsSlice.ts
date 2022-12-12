@@ -3,14 +3,18 @@ import type { RootState } from "../../app/store";
 import { Post, PostQueryParams } from "./types";
 
 interface PostState {
+  postData: Post | null;
   postsData: Post[] | null;
   queryParams: PostQueryParams;
+  isFetchingPost: boolean;
   isFetchingPosts: boolean;
 }
 
 const initialState: PostState = {
+  postData: null,
   postsData: null,
   queryParams: { tags: "", order: "", sort: "" },
+  isFetchingPost: false,
   isFetchingPosts: false,
 };
 
@@ -19,6 +23,12 @@ export const postsSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    updatePost: (state, action: PayloadAction<Post>) => {
+      state.postData = action.payload;
+    },
+    updateIsFetchingPost: (state, action: PayloadAction<boolean>) => {
+      state.isFetchingPost = action.payload;
+    },
     updatePosts: (state, action: PayloadAction<Post[]>) => {
       state.postsData = action.payload;
     },
@@ -44,6 +54,8 @@ export const postsSlice = createSlice({
 });
 
 export const {
+  updatePost,
+  updateIsFetchingPost,
   updatePosts,
   updateIsFetchingPosts,
   updateQueryParamsTags,
@@ -59,8 +71,8 @@ export const getQueryParamsTags = (state: RootState): string => {
   return state.posts.queryParams.tags;
 };
 
-// export const getUserTier = (state: RootState): UserTier | undefined => {
-//   return state.users.currentUser?.tier as UserTier;
-// };
+export const getCurPost = (state: RootState): Post | null => {
+  return state.posts.postData;
+};
 
 export default postsSlice.reducer;

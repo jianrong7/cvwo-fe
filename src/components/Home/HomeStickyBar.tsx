@@ -6,6 +6,7 @@ import {
   QueryObserverResult,
 } from "react-query";
 import SearchForm from "./SearchForm";
+import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import { TagsState } from "../Form/TagsInput";
@@ -54,7 +55,12 @@ const HomeStickyBar: React.FC<Props> = ({
           setTagsState={setTagsState}
         />
         {curUser && (
-          <Button href="/submit" color="success" variant="contained">
+          <Button
+            component={RouterLink}
+            to="/submit"
+            color="success"
+            variant="contained"
+          >
             Create
           </Button>
         )}

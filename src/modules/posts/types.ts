@@ -6,6 +6,8 @@ export interface Post {
   upvotes: number;
   downvotes: number;
   tags: string[];
+  CreatedAt: Date;
+  UpdatedAt: Date;
   // gorm.Model
   // Title string
   // Body string

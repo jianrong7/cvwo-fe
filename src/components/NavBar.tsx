@@ -12,6 +12,7 @@ import {
   MenuItem,
   Link,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { Menu as MenuIcon, ChatBubbleOutline } from "@mui/icons-material";
 import { removeCookie } from "typescript-cookie";
 
@@ -51,7 +52,8 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link
-            href="/"
+            component={RouterLink}
+            to="/"
             sx={{
               display: "flex",
               alignItems: "center",
@@ -116,7 +118,7 @@ function ResponsiveAppBar() {
               ))} */}
             </Menu>
           </Box>
-          <Link href="/">
+          <Link to="/" component={RouterLink}>
             <ChatBubbleOutline
               sx={{
                 display: { xs: "flex", md: "none" },

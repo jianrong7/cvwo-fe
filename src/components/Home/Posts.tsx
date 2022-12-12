@@ -10,6 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 import { format } from "date-fns";
+import { Link as RouterLink } from "react-router-dom";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import Tags from "./Tags";
 import { Post } from "../../modules/posts/types";
@@ -55,15 +56,20 @@ const Posts: React.FC<Props> = ({
               : format(new Date(CreatedAt), "LLL dd, yyyy");
           return (
             <Card key={ID} sx={{ width: "100%" }}>
-              <CardActionArea href={`/post/${ID}`}>
-                <CardHeader
-                  title={title}
-                  titleTypographyProps={{ fontWeight: 600 }}
-                  subheader={timestamp}
-                  subheaderTypographyProps={{ fontSize: 12 }}
-                />
-                <CardContent>{content}</CardContent>
-              </CardActionArea>
+              <RouterLink
+                to={`/post/${ID}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <CardActionArea>
+                  <CardHeader
+                    title={title}
+                    titleTypographyProps={{ fontWeight: 600 }}
+                    subheader={timestamp}
+                    subheaderTypographyProps={{ fontSize: 12 }}
+                  />
+                  <CardContent>{content}</CardContent>
+                </CardActionArea>
+              </RouterLink>
               <CardActions
                 sx={{ display: "flex", justifyContent: "space-between" }}
               >
