@@ -3,10 +3,21 @@ import { Box, Button } from "@mui/material";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEditor } from "@tiptap/react";
+import Placeholder from "@tiptap/extension-placeholder";
+import Highlight from "@tiptap/extension-highlight";
+import Typography from "@tiptap/extension-typography";
+import CodeBlock from "@tiptap/extension-code-block";
+import Youtube from "@tiptap/extension-youtube";
+import Underline from "@tiptap/extension-underline";
+import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
+import StarterKit from "@tiptap/starter-kit";
 
 import { PostMutation } from "../api/PostsService";
 import FormInput from "../components/Form/FormInput";
 import TagsInput, { TagsState } from "../components/Form/TagsInput";
+import RichTextEditor from "../components/Form/RichTextEditor";
 
 const postSchema = z.object({
   title: z.string().nonempty("Title is required"),
@@ -17,6 +28,20 @@ const postSchema = z.object({
 export type PostInput = z.TypeOf<typeof postSchema>;
 
 const CreatePost: React.FC = () => {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Highlight,
+      Typography,
+      CodeBlock,
+      Placeholder.configure({ placeholder: "Content" }),
+      Underline,
+      Youtube,
+      Link,
+      Image,
+    ],
+    // content: "<p>Hello World!</p>",
+  });
   const [tagsState, setTagsState] = useState<TagsState>({
     inputError: "",
     activeTags: [],
@@ -40,7 +65,7 @@ const CreatePost: React.FC = () => {
   const onSubmitHandler: SubmitHandler<PostInput> = (values) => {
     createPost({
       title: values.title,
-      content: values.content,
+      content: editor?.getHTML() as string,
       tags: tagsState.activeTags,
     });
   };
@@ -76,6 +101,7 @@ const CreatePost: React.FC = () => {
         >
           <FormInput name="title" required label="Title" autoFocus />
           <FormInput name="content" label="Content" minRows={5} multiline />
+          <RichTextEditor editor={editor} />
           <TagsInput tagsState={tagsState} handleChange={handleTagsChange} />
           <Button variant="text" type="submit">
             Submit
