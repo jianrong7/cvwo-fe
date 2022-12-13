@@ -1,7 +1,13 @@
 # Feature ideas so I don't forget
 
-- Generate post with ChatGPT
-- Login should have a remember me function
+- Comment list for each post
+  - Ability to delete post if post is by user
+- Be able to see posts/comments/upvotes/saved
+- Single user page with all posts/comments
+  - Offer customisation if that particular user is logged in
+- Generate post and comment with ChatGPT/OpenAI
+- Login should have a remember me checkbox
+- Search function for homepage
 
 ## CVWO Assignment Sample React App
 
