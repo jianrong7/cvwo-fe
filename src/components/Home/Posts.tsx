@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Card,
   Button,
@@ -12,6 +12,7 @@ import {
 import { format } from "date-fns";
 import { Link as RouterLink } from "react-router-dom";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import DOMPurify from "dompurify";
 import Tags from "./Tags";
 import { Post } from "../../modules/posts/types";
 import {
@@ -55,7 +56,7 @@ const Posts: React.FC<Props> = ({
               ? format(new Date(UpdatedAt), "LLL dd, yyyy")
               : format(new Date(CreatedAt), "LLL dd, yyyy");
           return (
-            <Card key={ID} sx={{ width: "100%" }}>
+            <Card key={ID} sx={{ width: "100%", textAlign: "left" }}>
               <RouterLink
                 to={`/post/${ID}`}
                 style={{ textDecoration: "none", color: "inherit" }}
@@ -67,7 +68,15 @@ const Posts: React.FC<Props> = ({
                     subheader={timestamp}
                     subheaderTypographyProps={{ fontSize: 12 }}
                   />
-                  <CardContent>{content}</CardContent>
+                  <CardContent
+                    children={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(content),
+                        }}
+                      />
+                    }
+                  ></CardContent>
                 </CardActionArea>
               </RouterLink>
               <CardActions

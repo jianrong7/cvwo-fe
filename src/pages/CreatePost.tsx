@@ -5,9 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEditor } from "@tiptap/react";
 import Placeholder from "@tiptap/extension-placeholder";
-import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
-import CodeBlock from "@tiptap/extension-code-block";
 import Youtube from "@tiptap/extension-youtube";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -19,10 +17,11 @@ import FormInput from "../components/Form/FormInput";
 import TagsInput, { TagsState } from "../components/Form/TagsInput";
 import RichTextEditor from "../components/Form/RichTextEditor";
 
+// allow local image upload feature
 const postSchema = z.object({
   title: z.string().nonempty("Title is required"),
-  content: z.string(),
-  tags: z.array(z.string()).max(3, "Maximum of 3 tags allowed").optional(),
+  // content: z.string(),
+  // tags: z.array(z.string()).max(3, "Maximum of 3 tags allowed").optional(),
 });
 
 export type PostInput = z.TypeOf<typeof postSchema>;
@@ -31,17 +30,15 @@ const CreatePost: React.FC = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Highlight,
       Typography,
-      CodeBlock,
       Placeholder.configure({ placeholder: "Content" }),
       Underline,
       Youtube,
       Link,
       Image,
     ],
-    // content: "<p>Hello World!</p>",
   });
+
   const [tagsState, setTagsState] = useState<TagsState>({
     inputError: "",
     activeTags: [],
@@ -63,11 +60,14 @@ const CreatePost: React.FC = () => {
   }, [tagsState.activeTags]);
 
   const onSubmitHandler: SubmitHandler<PostInput> = (values) => {
-    createPost({
+    console.log("submit");
+    const payload = {
       title: values.title,
       content: editor?.getHTML() as string,
       tags: tagsState.activeTags,
-    });
+    };
+    console.log(payload);
+    createPost(payload);
   };
 
   const handleTagsChange: (
@@ -100,7 +100,7 @@ const CreatePost: React.FC = () => {
           sx={{ display: "flex", flexDirection: "column", gap: 2, marginY: 2 }}
         >
           <FormInput name="title" required label="Title" autoFocus />
-          <FormInput name="content" label="Content" minRows={5} multiline />
+          {/* <FormInput name="content" label="Content" minRows={5} multiline /> */}
           <RichTextEditor editor={editor} />
           <TagsInput tagsState={tagsState} handleChange={handleTagsChange} />
           <Button variant="text" type="submit">

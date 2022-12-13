@@ -58,7 +58,7 @@ export const PostMutation = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation(
-    async (payload: PostInput) => {
+    async (payload: any) => {
       try {
         const { data: response } = await apiClient.post(baseURL, {
           title: payload.title,
@@ -72,6 +72,7 @@ export const PostMutation = () => {
     },
     {
       onSuccess: (data) => {
+        console.log(data);
         queryClient.invalidateQueries("getAllPosts");
         queryClient.invalidateQueries("getOnePost");
         navigate(`/post/${data.post.ID}`);

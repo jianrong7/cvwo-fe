@@ -1,5 +1,5 @@
 export interface UserData {
-  id: number;
+  ID: number;
   name: string;
   username: string;
   claims?: {

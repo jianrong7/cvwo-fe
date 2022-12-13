@@ -14,8 +14,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@tiptap/core": "^2.0.0-beta.207",
-    "@tiptap/extension-code-block": "^2.0.0-beta.207",
-    "@tiptap/extension-highlight": "^2.0.0-beta.207",
     "@tiptap/extension-image": "^2.0.0-beta.207",
     "@tiptap/extension-link": "^2.0.0-beta.207",
     "@tiptap/extension-placeholder": "^2.0.0-beta.207",
@@ -33,6 +31,7 @@
     "@types/react-router-dom": "^5.3.2",
     "axios": "^1.2.1",
     "date-fns": "^2.29.3",
+    "dompurify": "^2.4.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-react": "^7.27.1",
     "jwt-decode": "^3.1.2",
@@ -50,6 +49,7 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.40.0",
     "react-hook-form-mui": "^5.11.0",
+    "react-images-uploading": "^3.1.7",
     "react-query": "^3.39.2",
     "react-query-devtools": "^2.6.3",
     "react-redux": "^8.0.5",
@@ -91,6 +91,7 @@
     ]
   },
   "devDependencies": {
+    "@types/dompurify": "^2.4.0",
     "@types/validator": "^13.7.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",

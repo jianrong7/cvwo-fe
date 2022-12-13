@@ -1,31 +1,20 @@
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
-import Placeholder from "@tiptap/extension-placeholder";
-import Highlight from "@tiptap/extension-highlight";
-import Typography from "@tiptap/extension-typography";
-import CodeBlock from "@tiptap/extension-code-block";
-import Youtube from "@tiptap/extension-youtube";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
+import { EditorContent, Editor } from "@tiptap/react";
+import { Box } from "@mui/material";
 
-import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./MenuBar";
-
-import CodeBlockComponent from "./CodeBlockComponent";
 import "./index.css";
 
 interface Props {
   editor: Editor | null;
+  isComment?: boolean;
 }
 
-const Tiptap: React.FC<Props> = ({ editor }) => {
-  console.log(editor?.getHTML());
-  // if (!editor) return null;
+const Tiptap: React.FC<Props> = ({ editor, isComment }) => {
   return (
-    <>
-      <MenuBar editor={editor} />
+    <Box>
+      <MenuBar editor={editor} isComment={isComment} />
       <EditorContent editor={editor} />
-    </>
+    </Box>
   );
 };
 
