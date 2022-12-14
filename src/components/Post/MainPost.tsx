@@ -1,9 +1,21 @@
 import React from "react";
-import { Stack, Box, IconButton, Typography, Chip, Link } from "@mui/material";
+import {
+  Stack,
+  Box,
+  IconButton,
+  Typography,
+  Chip,
+  Link,
+  Tooltip,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import DOMPurify from "dompurify";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import {
+  ThumbUpOffAlt,
+  ThumbDownOffAlt,
+  Share,
+  ModeComment,
+} from "@mui/icons-material";
 
 import { getBiggestTimeInterval } from "../../utils/utils";
 import { UserData } from "../../modules/users/types";
@@ -12,9 +24,10 @@ import { Post } from "../../modules/posts/types";
 interface Props {
   post: Post;
   user: UserData;
+  commentsLength: number;
 }
 
-const MainPost: React.FC<Props> = ({ post, user }) => {
+const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
   const { title, content, upvotes, downvotes, tags, CreatedAt, UpdatedAt } =
     post;
 
@@ -24,20 +37,21 @@ const MainPost: React.FC<Props> = ({ post, user }) => {
       <Box>
         <Stack direction="column" alignItems="center" spacing={1}>
           <IconButton size="small" aria-label="upvoate">
-            <ThumbUpOffAltIcon />
+            <ThumbUpOffAlt />
           </IconButton>
           <Typography>{upvotes - downvotes}</Typography>
           <IconButton size="small" aria-label="upvoate">
-            <ThumbDownOffAltIcon />
+            <ThumbDownOffAlt />
           </IconButton>
         </Stack>
       </Box>
       <Stack spacing={1}>
         <Typography sx={{ fontSize: 12 }}>
-          Posted by{" "}
+          Posted by{""}
           <Link component={RouterLink} to={`/user/${ID}`}>
             {username}
-          </Link>{" "}
+          </Link>
+          {" · "}
           {getBiggestTimeInterval(CreatedAt)} ago
           {CreatedAt !== UpdatedAt &&
             ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
@@ -58,6 +72,27 @@ const MainPost: React.FC<Props> = ({ post, user }) => {
           }}
           sx={{ textAlign: "left" }}
         />
+        <Stack direction="row" spacing={4} alignItems="center">
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <ModeComment fontSize="small" />
+            <Typography>
+              {commentsLength === 1
+                ? `${commentsLength} comment`
+                : `${commentsLength} comments`}
+            </Typography>
+          </Stack>
+          <Tooltip title="Copy link">
+            <IconButton
+              size="small"
+              sx={{ width: "fit-content" }}
+              onClick={() =>
+                window.navigator.clipboard.writeText(window.location.href)
+              }
+            >
+              <Share />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       </Stack>
     </Stack>
   );

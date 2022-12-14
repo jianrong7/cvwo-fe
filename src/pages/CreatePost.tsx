@@ -56,17 +56,15 @@ const CreatePost: React.FC = () => {
       setTagsState({ ...tagsState, disableAdditionalTags: true });
     } else {
       setTagsState({ ...tagsState, disableAdditionalTags: false });
-    }
+    } // eslint-disable-next-line
   }, [tagsState.activeTags]);
 
   const onSubmitHandler: SubmitHandler<PostInput> = (values) => {
-    console.log("submit");
     const payload = {
       title: values.title,
       content: editor?.getHTML() as string,
       tags: tagsState.activeTags,
     };
-    console.log(payload);
     createPost(payload);
   };
 

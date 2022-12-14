@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import {
   Card,
   Button,
@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { Link as RouterLink } from "react-router-dom";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import { ThumbUpOffAlt } from "@mui/icons-material";
 import DOMPurify from "dompurify";
 import Tags from "./Tags";
 import { Post } from "../../modules/posts/types";
@@ -80,10 +80,12 @@ const Posts: React.FC<Props> = ({
                 </CardActionArea>
               </RouterLink>
               <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
               >
-                <Button size="small">
-                  <ThumbUpOffAltIcon />
+                <Button size="small" startIcon={<ThumbUpOffAlt />}>
                   <Typography>{upvotes}</Typography>
                 </Button>
                 <Tags

@@ -23,9 +23,14 @@ import React from "react";
 interface Props {
   editor: Editor | null;
   isComment?: boolean;
+  handleSubmitComment?: () => void;
 }
 
-const MenuBar: React.FC<Props> = ({ editor, isComment = false }) => {
+const MenuBar: React.FC<Props> = ({
+  editor,
+  isComment = false,
+  handleSubmitComment,
+}) => {
   if (!editor) return null;
   return (
     <Stack
@@ -234,58 +239,17 @@ const MenuBar: React.FC<Props> = ({ editor, isComment = false }) => {
         </Tooltip>
       </Stack>
 
-      {isComment && <Button variant="contained">Comment</Button>}
+      {isComment && (
+        <Button
+          variant="contained"
+          disabled={editor?.isEmpty}
+          onClick={handleSubmitComment}
+        >
+          Comment
+        </Button>
+      )}
     </Stack>
   );
 };
 
 export default MenuBar;
-
-{
-  /* <button
-        onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive("paragraph") ? "is-active" : ""}
-      >
-        paragraph
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
-      >
-        h1
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-      >
-        h2
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
-      >
-        h3
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-        className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
-      >
-        h4
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-        className={editor.isActive("heading", { level: 5 }) ? "is-active" : ""}
-      >
-        h5
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-        className={editor.isActive("heading", { level: 6 }) ? "is-active" : ""}
-      >
-        h6
-      </button> 
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
-      </button>
-      */
-}

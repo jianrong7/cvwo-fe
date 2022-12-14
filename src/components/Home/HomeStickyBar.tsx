@@ -10,6 +10,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import { TagsState } from "../Form/TagsInput";
+import BackToTop from "../BackToTop";
 
 interface Props {
   totalPosts: number;
@@ -64,6 +65,7 @@ const HomeStickyBar: React.FC<Props> = ({
             Create
           </Button>
         )}
+        <BackToTop />
       </Stack>
     </Box>
   );

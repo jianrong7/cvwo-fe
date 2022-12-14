@@ -7,12 +7,21 @@ import "./index.css";
 interface Props {
   editor: Editor | null;
   isComment?: boolean;
+  handleSubmitComment?: () => void;
 }
 
-const Tiptap: React.FC<Props> = ({ editor, isComment }) => {
+const Tiptap: React.FC<Props> = ({
+  editor,
+  isComment,
+  handleSubmitComment,
+}) => {
   return (
     <Box>
-      <MenuBar editor={editor} isComment={isComment} />
+      <MenuBar
+        editor={editor}
+        isComment={isComment}
+        handleSubmitComment={handleSubmitComment}
+      />
       <EditorContent editor={editor} />
     </Box>
   );
