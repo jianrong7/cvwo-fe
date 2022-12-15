@@ -1,5 +1,7 @@
+import { UserData } from "../users/types";
+
 export interface Post {
-  id: number;
+  ID: number;
   title: string;
   content: string;
   userId: number;
@@ -8,6 +10,7 @@ export interface Post {
   tags: string[];
   CreatedAt: Date;
   UpdatedAt: Date;
+  user: UserData;
   // gorm.Model
   // Title string
   // Body string

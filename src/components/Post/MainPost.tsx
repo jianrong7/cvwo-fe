@@ -15,11 +15,16 @@ import {
   ThumbDownOffAlt,
   Share,
   ModeComment,
+  Edit,
+  Delete,
 } from "@mui/icons-material";
 
 import { getBiggestTimeInterval } from "../../utils/utils";
 import { UserData } from "../../modules/users/types";
 import { Post } from "../../modules/posts/types";
+import { useAppSelector } from "../../app/hooks";
+import { getCurrentUser } from "../../modules/users/userSlice";
+import DeleteButton from "../DeleteButton";
 
 interface Props {
   post: Post;
@@ -28,8 +33,17 @@ interface Props {
 }
 
 const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
-  const { title, content, upvotes, downvotes, tags, CreatedAt, UpdatedAt } =
-    post;
+  const curUser = useAppSelector(getCurrentUser);
+  const {
+    title,
+    content,
+    upvotes,
+    downvotes,
+    tags,
+    CreatedAt,
+    UpdatedAt,
+    ID: postId,
+  } = post;
 
   const { username, ID } = user;
   return (
@@ -46,7 +60,7 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
         </Stack>
       </Box>
       <Stack spacing={1}>
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 12, textAlign: "left" }}>
           Posted by{""}
           <Link component={RouterLink} to={`/user/${ID}`}>
             {username}
@@ -62,7 +76,7 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
         {tags && (
           <Stack direction="row" spacing={2}>
             {tags.map((tag, i) => (
-              <Chip key={`${tag}_${i}`} label={tag} />
+              <Chip key={`${tag}_${i}`} label={tag} size="small" />
             ))}
           </Stack>
         )}
@@ -92,6 +106,22 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
               <Share />
             </IconButton>
           </Tooltip>
+          {curUser?.username === username && (
+            <>
+              <Tooltip title="Edit">
+                <IconButton
+                  size="small"
+                  sx={{ width: "fit-content" }}
+                  // onClick={() =>
+                  //   // window.navigator.clipboard.writeText(window.location.href)
+                  // }
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+              <DeleteButton id={postId} />
+            </>
+          )}
         </Stack>
       </Stack>
     </Stack>

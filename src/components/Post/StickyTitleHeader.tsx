@@ -38,7 +38,7 @@ const StickyTitleHeader: React.FC<Props> = ({ post }) => {
           {tags && (
             <Stack direction="row" spacing={2}>
               {tags.map((tag, i) => (
-                <Chip key={`${tag}_${i}`} label={tag} />
+                <Chip key={`${tag}_${i}`} label={tag} size="small" />
               ))}
             </Stack>
           )}

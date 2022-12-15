@@ -1,17 +1,36 @@
-import { Box, Link, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Link,
+  Stack,
+  Typography,
+  Chip,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useParams } from "react-router-dom";
+import { Edit, Delete } from "@mui/icons-material";
+import { useAppSelector } from "../../app/hooks";
 
 import type { Comment as CommentType } from "../../modules/comments/types";
+import { UserData } from "../../modules/users/types";
+import { getCurrentUser } from "../../modules/users/userSlice";
 import { getBiggestTimeInterval } from "../../utils/utils";
+import DeleteButton from "../DeleteButton";
+import { Post } from "../../modules/posts/types";
 
 interface Props {
   comment: CommentType;
+  post: Post;
 }
 
-const Comment: React.FC<Props> = ({ comment }) => {
-  console.log(comment);
-  const { user, CreatedAt, UpdatedAt } = comment;
+const Comment: React.FC<Props> = ({ comment, post }) => {
+  const params = useParams();
+  const curUser = useAppSelector(getCurrentUser);
+  const { user, CreatedAt, UpdatedAt, ID } = comment;
+
+  const { user: postUser, ID: postId } = post;
+
   return (
     <Box sx={{ paddingX: 2, borderLeft: "1px solid rgba(0,0,0,0.23)" }}>
       <Stack direction="column">
@@ -22,17 +41,50 @@ const Comment: React.FC<Props> = ({ comment }) => {
               {user.username}
             </Link>
             {" · "}
-            {getBiggestTimeInterval(CreatedAt)} ago
+            {getBiggestTimeInterval(CreatedAt) === ""
+              ? "0 seconds"
+              : getBiggestTimeInterval(CreatedAt)}{" "}
+            ago
             {CreatedAt !== UpdatedAt &&
               ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
+            {postUser?.username === user.username && (
+              <Chip
+                sx={{ marginLeft: 2 }}
+                label="OP"
+                variant="outlined"
+                color="primary"
+                size="small"
+              />
+            )}
           </Typography>
         </Stack>
 
         <Box sx={{ textAlign: "left" }}>
           <div dangerouslySetInnerHTML={{ __html: comment.content }} />
         </Box>
-
-        {/* <Stack direction="row"></Stack>  for ratings*/}
+        {/* for ratings */}
+        <Stack direction="row" spacing={2}>
+          {curUser?.username === user.username && (
+            <>
+              <Tooltip title="Edit">
+                <IconButton
+                  size="small"
+                  sx={{ width: "fit-content" }}
+                  // onClick={() =>
+                  //   // window.navigator.clipboard.writeText(window.location.href)
+                  // }
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+              <DeleteButton
+                id={ID}
+                isComment
+                postId={parseInt(params.id as string)}
+              />
+            </>
+          )}
+        </Stack>
       </Stack>
     </Box>
   );

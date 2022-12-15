@@ -77,10 +77,34 @@ export const PostMutation = () => {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
         queryClient.invalidateQueries("getAllPosts");
-        queryClient.invalidateQueries("getOnePost");
+        queryClient.invalidateQueries(["getOnePost", data.ID]);
         // navigate(`/post/${data.post.ID}`);
+      },
+    }
+  );
+};
+
+export const PostDeleteMutation = (postId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async () => {
+      try {
+        const { data: response } = await apiClient.delete(
+          `${baseURL}${postId}`,
+          {
+            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          }
+        );
+        return response.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("getAllPosts");
+        queryClient.invalidateQueries(["getOnePost", postId]);
       },
     }
   );

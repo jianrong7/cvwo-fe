@@ -81,7 +81,7 @@ const PostPage: React.FC = () => {
           handleSubmitComment={handleSubmitComment}
         />
       )}
-      <Comments comments={comments} />
+      <Comments comments={comments} post={postData?.post} />
     </Container>
   );
 };

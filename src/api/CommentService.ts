@@ -18,7 +18,32 @@ export const CommentMutation = (postId: string) => {
       }
     },
     {
-      onSuccess: (_) => queryClient.invalidateQueries(["getComments", postId]),
+      onSuccess: () => queryClient.invalidateQueries(["getComments", postId]),
+    }
+  );
+};
+
+export const CommentDeleteMutation = (commentId: number, postId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async () => {
+      try {
+        const { data: response } = await apiClient.delete(
+          `${baseURL}${commentId}`,
+          {
+            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          }
+        );
+        return response.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getOnePost", postId]);
+        queryClient.invalidateQueries(["getComments", postId.toString()]);
+      },
     }
   );
 };
