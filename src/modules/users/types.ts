@@ -7,3 +7,8 @@ export interface UserData {
     sub?: number;
   };
 }
+
+export interface UserLoginOutput {
+  token: string;
+  username: string;
+}

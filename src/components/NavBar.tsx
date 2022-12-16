@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
 
   const handleLogout = () => {
     handleCloseUserMenu();
-    removeCookie("Authorization");
+    removeCookie("Authorization", { path: "" });
     dispatch(removeCurrentUser());
   };
 

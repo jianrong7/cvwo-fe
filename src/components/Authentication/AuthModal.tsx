@@ -77,7 +77,7 @@ const AuthModal: React.FC<Props> = ({
             <RegisterForm handleModalClose={handleClose} />
           )}
         </DialogContent>
-        <Typography sx={{ padding: 3, marginTop: -4, fontSize: 14 }}>
+        <Typography sx={{ padding: 3, marginTop: -4, fontSize: 12 }}>
           {isLogin
             ? "No account? Create an account "
             : "Already have an account? Login "}
@@ -88,6 +88,9 @@ const AuthModal: React.FC<Props> = ({
             here
           </Link>
           !
+          <br />
+          {!isLogin &&
+            "You will be automatically logged in and remembered after registering."}
         </Typography>
       </Dialog>
     </Box>

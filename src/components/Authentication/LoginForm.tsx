@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, FormControlLabel, Checkbox } from "@mui/material";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../Form/FormInput";
 import { LoginMutation } from "../../api/AuthService";
+import { useAppDispatch } from "../../app/hooks";
+import { updateRememberMe } from "../../modules/users/userSlice";
 
 const loginSchema = z.object({
   username: z
@@ -28,6 +30,7 @@ interface Props {
 }
 
 const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
+  const dispatch = useAppDispatch();
   const { mutate: loginMutate } = LoginMutation("Logged in successfully!");
 
   const methods = useForm<LoginInput>({
@@ -50,6 +53,12 @@ const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
   const onSubmitHandler: SubmitHandler<LoginInput> = (values) => {
     handleModalClose();
     loginMutate(values);
+  };
+
+  const handleRememberMeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch(updateRememberMe(event.target.checked));
   };
 
   return (
@@ -75,6 +84,12 @@ const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
             label="Password"
             type="password"
             variant="standard"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox defaultChecked onChange={handleRememberMeChange} />
+            }
+            label="Remember me"
           />
           <Button variant="text" type="submit">
             Login

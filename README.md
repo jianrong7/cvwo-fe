@@ -1,17 +1,17 @@
 # Feature ideas so I don't forget
 
-1. Update/Delete for Posts/Comments
-2. Login should have a remember me checkbox
-3. Search function for homepage
-4. Fix the sorting system on homepage
-5. Sorting system for comments
-6. Ratings system/model
-7. User page -> Offers customisation to profile
-8. Generate post and comment with ChatGPT/OpenAI
-9. Image hosting for posts
-10. Comments can have replies too
-11. Saved posts/comments system for user
-12. Categorisation/Subcategorisation system of posts
+- [x] Update/Delete for Posts/Comments
+- [x] Login should have a remember me checkbox
+- [ ] Search function for homepage
+- [ ] Fix the sorting system on homepage
+- [ ] Sorting system for comments
+- [ ] Ratings system/model
+- [ ] User page -> Offers customisation to profile
+- [ ] Generate post and comment with ChatGPT/OpenAI
+- [ ] Image hosting for posts
+- [ ] Comments can have replies too
+- [ ] Saved posts/comments system for user
+- [ ] Categorisation/Subcategorisation system of posts
 
 - Comment list for each post
   - Ability to delete post if post is by user
