@@ -17,7 +17,7 @@ import { CommentMutation } from "../api/CommentService";
 import { useAppSelector } from "../app/hooks";
 import { getCurrentUser } from "../modules/users/userSlice";
 import Comments from "../components/Post/Comments";
-// disable comment box if user is not logged in
+
 const PostPage: React.FC = () => {
   const curUser = useAppSelector(getCurrentUser);
   const editor = useEditor({

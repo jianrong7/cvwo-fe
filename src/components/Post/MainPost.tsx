@@ -25,6 +25,7 @@ import { Post } from "../../modules/posts/types";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import DeleteButton from "../DeleteButton";
+import EditButton from "../EditButton";
 
 interface Props {
   post: Post;
@@ -108,17 +109,7 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
           </Tooltip>
           {curUser?.username === username && (
             <>
-              <Tooltip title="Edit">
-                <IconButton
-                  size="small"
-                  sx={{ width: "fit-content" }}
-                  // onClick={() =>
-                  //   // window.navigator.clipboard.writeText(window.location.href)
-                  // }
-                >
-                  <Edit />
-                </IconButton>
-              </Tooltip>
+              <EditButton originalContent={content} id={postId} />
               <DeleteButton id={postId} />
             </>
           )}

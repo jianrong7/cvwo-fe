@@ -18,6 +18,7 @@ import { getCurrentUser } from "../../modules/users/userSlice";
 import { getBiggestTimeInterval } from "../../utils/utils";
 import DeleteButton from "../DeleteButton";
 import { Post } from "../../modules/posts/types";
+import EditButton from "../EditButton";
 
 interface Props {
   comment: CommentType;
@@ -66,17 +67,11 @@ const Comment: React.FC<Props> = ({ comment, post }) => {
         <Stack direction="row" spacing={2}>
           {curUser?.username === user.username && (
             <>
-              <Tooltip title="Edit">
-                <IconButton
-                  size="small"
-                  sx={{ width: "fit-content" }}
-                  // onClick={() =>
-                  //   // window.navigator.clipboard.writeText(window.location.href)
-                  // }
-                >
-                  <Edit />
-                </IconButton>
-              </Tooltip>
+              <EditButton
+                originalContent={comment.content}
+                id={ID}
+                postId={postId}
+              />
               <DeleteButton
                 id={ID}
                 isComment

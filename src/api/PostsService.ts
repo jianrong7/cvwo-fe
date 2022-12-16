@@ -85,6 +85,33 @@ export const PostMutation = () => {
   );
 };
 
+export const PostEditMutation = (postId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (payload: any) => {
+      try {
+        const { data: response } = await apiClient.put(
+          `${baseURL}${postId}`,
+          {
+            content: payload.content,
+          },
+          {
+            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          }
+        );
+        return response.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getOnePost", postId.toString()]);
+      },
+    }
+  );
+};
+
 export const PostDeleteMutation = (postId: number) => {
   const queryClient = useQueryClient();
   return useMutation(
