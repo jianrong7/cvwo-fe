@@ -37,6 +37,7 @@ const EditButton: React.FC<Props> = ({
       <Tooltip title="Edit">
         <IconButton
           size="small"
+          color="primary"
           sx={{ width: "fit-content" }}
           onClick={openModal}
         >

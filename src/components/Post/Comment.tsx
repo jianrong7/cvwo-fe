@@ -71,6 +71,7 @@ const Comment: React.FC<Props> = ({ comment, post }) => {
                 originalContent={comment.content}
                 id={ID}
                 postId={postId}
+                isComment
               />
               <DeleteButton
                 id={ID}
