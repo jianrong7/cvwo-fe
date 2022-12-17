@@ -17,10 +17,10 @@ export const PostsQuery = () => {
   const dispatch = useAppDispatch();
   const queryParams: PostQueryParams = useAppSelector(getQueryParams);
   const fetchPosts = async (context: any) => {
-    const { tags, order, sort } = context.queryKey[1];
+    const { tags, order, sort, search } = context.queryKey[1];
     dispatch(updateIsFetchingPosts(true));
     const response = await apiClient.get(
-      `${baseURL}?tags=${tags}&sort=${sort}&order=${order}`
+      `${baseURL}?tags=${tags}&sort=${sort}&order=${order}&search=${search}`
     );
     return response.data;
   };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Autocomplete, TextField, Chip } from "@mui/material";
+import { Autocomplete, TextField, Chip, Typography } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
 import { getTags } from "../../modules/home/homeSlice";
 
@@ -15,7 +15,7 @@ interface Props {
   handleChange: (options: any, value: any) => void;
 }
 
-const TagsInput: React.FC<Props> = ({ tagsState, handleChange }) => {
+const SearchBar: React.FC<Props> = ({ tagsState, handleChange }) => {
   const tags = useAppSelector(getTags);
   const { inputError, activeTags, disableAdditionalTags } = tagsState;
 
@@ -30,11 +30,25 @@ const TagsInput: React.FC<Props> = ({ tagsState, handleChange }) => {
       filterSelectedOptions
       freeSolo
       value={activeTags}
-      renderTags={(value: readonly string[], getTagProps) =>
-        value.map((option: string, index: number) => (
-          <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-        ))
-      }
+      renderTags={(value: string[], getTagProps) => {
+        console.log(value);
+        const tagsArr = [...value].filter((x) => tags.includes(x));
+        const text = [...value].filter((x) => !tags.includes(x));
+        const merged = tagsArr.concat(text.join(""));
+        return merged.map((option: string, index: number) => {
+          if (tags.includes(option)) {
+            return (
+              <Chip
+                variant="outlined"
+                label={option}
+                color="primary"
+                {...getTagProps({ index })}
+              />
+            );
+          }
+          return <Typography key={index}>{option}</Typography>;
+        });
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -47,4 +61,4 @@ const TagsInput: React.FC<Props> = ({ tagsState, handleChange }) => {
   );
 };
 
-export default TagsInput;
+export default SearchBar;

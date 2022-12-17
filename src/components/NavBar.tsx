@@ -12,7 +12,7 @@ import {
   MenuItem,
   Link,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Menu as MenuIcon, ChatBubbleOutline } from "@mui/icons-material";
 import { removeCookie } from "typescript-cookie";
 
@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 function ResponsiveAppBar() {
   const user = useAppSelector(getCurrentUser);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -39,6 +40,7 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+    navigate(`/user/${user?.ID}`);
   };
 
   const handleLogout = () => {

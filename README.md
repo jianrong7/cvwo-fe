@@ -2,16 +2,17 @@
 
 - [x] Update/Delete for Posts/Comments
 - [x] Login should have a remember me checkbox
-- [ ] Search function for homepage
+- [x] Search function for homepage
+- [ ] Ratings system/model
 - [ ] Fix the sorting system on homepage
 - [ ] Sorting system for comments
-- [ ] Ratings system/model
 - [ ] User page -> Offers customisation to profile
 - [ ] Generate post and comment with ChatGPT/OpenAI
 - [ ] Image hosting for posts
 - [ ] Comments can have replies too
 - [ ] Saved posts/comments system for user
 - [ ] Categorisation/Subcategorisation system of posts
+- [ ] Pagination
 
 - Comment list for each post
   - Ability to delete post if post is by user

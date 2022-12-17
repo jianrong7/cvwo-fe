@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   RefetchOptions,
@@ -8,9 +8,18 @@ import {
   QueryObserverResult,
 } from "react-query";
 import * as z from "zod";
-import { useAppDispatch } from "../../app/hooks";
-import { updateQueryParamsTags } from "../../modules/posts/postsSlice";
-import TagsInput, { TagsState } from "../Form/TagsInput";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  getTags,
+  updateSearchTags,
+  updateSearchText,
+} from "../../modules/home/homeSlice";
+import {
+  updateQueryParamsSearch,
+  updateQueryParamsTags,
+} from "../../modules/posts/postsSlice";
+import { TagsState } from "../Form/TagsInput";
+import SearchBar from "./SearchBar";
 
 const searchSchema = z.object({
   tags: z.array(z.string()).max(3, "Maximum of 3 tags allowed").optional(),
@@ -27,6 +36,8 @@ interface Props {
 }
 
 const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
+  const tags = useAppSelector(getTags);
+
   const dispatch = useAppDispatch();
 
   const methods = useForm<SearchInput>({
@@ -45,7 +56,14 @@ const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
     options: React.SyntheticEvent,
     value: string[]
   ) => void = (_, value) => {
-    if (value.length > 3) {
+    const searchTags: string[] = [];
+    const searchText: string[] = [];
+    value.forEach((val) =>
+      tags.includes(val) ? searchTags.push(val) : searchText.push(val)
+    );
+    dispatch(updateSearchTags(searchTags));
+    dispatch(updateSearchText(searchText));
+    if (searchTags.length > 3) {
       setTagsState({
         ...tagsState,
         inputError: "Too many tags. Please remove some before adding.",
@@ -57,7 +75,8 @@ const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
       });
     }
     setTagsState({ ...tagsState, activeTags: value });
-    dispatch(updateQueryParamsTags(value.join()));
+    dispatch(updateQueryParamsTags(searchTags.join()));
+    dispatch(updateQueryParamsSearch(searchText.join("")));
     refetch();
   };
 
@@ -76,7 +95,7 @@ const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
           maxWidth: "sm",
         }}
       >
-        <TagsInput tagsState={tagsState} handleChange={handleTagsChange} />
+        <SearchBar tagsState={tagsState} handleChange={handleTagsChange} />
       </Box>
     </FormProvider>
   );

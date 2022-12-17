@@ -13,7 +13,7 @@ interface PostState {
 const initialState: PostState = {
   postData: null,
   postsData: null,
-  queryParams: { tags: "", order: "", sort: "" },
+  queryParams: { tags: "", order: "", sort: "", search: "" },
   isFetchingPost: false,
   isFetchingPosts: false,
 };
@@ -44,6 +44,9 @@ export const postsSlice = createSlice({
     updateQueryParamsOrder: (state, action: PayloadAction<string>) => {
       state.queryParams = { ...state.queryParams, order: action.payload };
     },
+    updateQueryParamsSearch: (state, action: PayloadAction<string>) => {
+      state.queryParams = { ...state.queryParams, search: action.payload };
+    },
     // updateCurrentUser: (state, action: PayloadAction<UserData>) => {
     //   state.currentUser = action.payload;
     // },
@@ -61,6 +64,7 @@ export const {
   updateQueryParamsTags,
   updateQueryParamsSort,
   updateQueryParamsOrder,
+  updateQueryParamsSearch,
 } = postsSlice.actions;
 
 export const getQueryParams = (state: RootState): PostQueryParams => {

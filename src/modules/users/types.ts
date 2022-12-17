@@ -11,4 +11,5 @@ export interface UserData {
 export interface UserLoginOutput {
   token: string;
   username: string;
+  ID: string;
 }

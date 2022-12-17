@@ -8,15 +8,11 @@ import {
   CardActionArea,
   Typography,
   Stack,
-  Tooltip,
   Box,
-  IconButton,
-  Chip,
   Link,
 } from "@mui/material";
-import { format } from "date-fns";
 import { Link as RouterLink } from "react-router-dom";
-import { ThumbUpOffAlt, Delete } from "@mui/icons-material";
+import { ThumbUpOffAlt } from "@mui/icons-material";
 import DOMPurify from "dompurify";
 import Tags from "./Tags";
 import { Post } from "../../modules/posts/types";
@@ -59,7 +55,6 @@ const Posts: React.FC<Props> = ({
     >
       {posts &&
         posts.map((item: any) => {
-          console.log("item:", item);
           const {
             ID,
             title,
@@ -70,10 +65,7 @@ const Posts: React.FC<Props> = ({
             UpdatedAt,
             user,
           } = item;
-          const timestamp =
-            UpdatedAt > CreatedAt
-              ? format(new Date(UpdatedAt), "LLL dd, yyyy")
-              : format(new Date(CreatedAt), "LLL dd, yyyy");
+
           return (
             <Card key={ID} sx={{ width: "100%", textAlign: "left" }}>
               <RouterLink

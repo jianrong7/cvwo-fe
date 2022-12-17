@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import postsReducer from "../modules/posts/postsSlice";
 import userReducer from "../modules/users/userSlice";
 import snackbarReducer from "../modules/snackbar/snackbarSlice";
+import homeReducer from "../modules/home/homeSlice";
 
 export const store = configureStore({
   reducer: {
     users: userReducer,
     posts: postsReducer,
     snackbar: snackbarReducer,
+    home: homeReducer,
   },
 });
 

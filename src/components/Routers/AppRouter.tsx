@@ -4,10 +4,9 @@ import NoMatch from "../../pages/NoMatch";
 import Home from "../../pages/Home";
 import Post from "../../pages/Post";
 import CreatePost from "../../pages/CreatePost";
-import BasicThreadView from "../../pages/BasicThreadView";
-import StyledThreadView from "../../pages/StyledThreadView";
 import Layout from "../Layout";
 import PrivateRoute from "./PrivateRoute";
+import User from "../../pages/User";
 
 const AppRouter = () => {
   return (
@@ -15,16 +14,16 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
-          <Route path="thread/1" element={<BasicThreadView />} />
-          <Route path="thread/1/styled" element={<StyledThreadView />} />
+          {/* <Route path="thread/1" element={<BasicThreadView />} />
+          <Route path="thread/1/styled" element={<StyledThreadView />} /> */}
           <Route path="post/:id" element={<Post />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/user/:id" element={<User />} />
 
           <Route
             path="/submit"
             element={<PrivateRoute component={<CreatePost />} />}
           />
-
+          <Route path="/" element={<Home />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
