@@ -26,25 +26,25 @@ import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
+import { Rating } from "../../modules/ratings/types";
 
 interface Props {
   post: Post;
   user: UserData;
   commentsLength: number;
+  upvotes: Rating[];
+  downvotes: Rating[];
 }
 
-const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
+const MainPost: React.FC<Props> = ({
+  post,
+  user,
+  commentsLength,
+  upvotes,
+  downvotes,
+}) => {
   const curUser = useAppSelector(getCurrentUser);
-  const {
-    title,
-    content,
-    upvotes,
-    downvotes,
-    tags,
-    CreatedAt,
-    UpdatedAt,
-    ID: postId,
-  } = post;
+  const { title, content, tags, CreatedAt, UpdatedAt, ID: postId } = post;
 
   const { username, ID } = user;
   return (
@@ -54,7 +54,7 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
           <IconButton size="small" aria-label="upvoate">
             <ThumbUpOffAlt />
           </IconButton>
-          <Typography>{upvotes - downvotes}</Typography>
+          <Typography>{upvotes.length - downvotes.length}</Typography>
           <IconButton size="small" aria-label="upvoate">
             <ThumbDownOffAlt />
           </IconButton>

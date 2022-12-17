@@ -26,6 +26,7 @@ import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import { getBiggestTimeInterval } from "../../utils/utils";
 import DeleteButton from "../DeleteButton";
+import { RatingMutation } from "../../api/RatingService";
 
 interface Props {
   posts: Post[];
@@ -43,6 +44,7 @@ const Posts: React.FC<Props> = ({
   setTagsState,
 }) => {
   const curUser = useAppSelector(getCurrentUser);
+  const { mutate } = RatingMutation();
   return (
     <Stack
       spacing={2}
@@ -59,13 +61,19 @@ const Posts: React.FC<Props> = ({
             ID,
             title,
             content,
-            upvotes,
+            // upvotes,
             tags,
             CreatedAt,
             UpdatedAt,
             user,
+            ratings,
           } = item;
-
+          console.log(item);
+          const upvotes = ratings.reduce(
+            (acc: number, cur: { value: number }) =>
+              cur.value === 1 ? acc + cur.value : acc,
+            0
+          );
           return (
             <Card key={ID} sx={{ width: "100%", textAlign: "left" }}>
               <RouterLink
@@ -108,7 +116,13 @@ const Posts: React.FC<Props> = ({
                 }}
               >
                 <Box>
-                  <Button size="small" startIcon={<ThumbUpOffAlt />}>
+                  <Button
+                    size="small"
+                    startIcon={<ThumbUpOffAlt />}
+                    onClick={() =>
+                      mutate({ value: 1, entryID: ID, entryType: "post" })
+                    }
+                  >
                     <Typography>{upvotes}</Typography>
                   </Button>
                   {curUser?.username === user.username && (

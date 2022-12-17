@@ -3,12 +3,16 @@ import React from "react";
 import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
 import { Post } from "../../modules/posts/types";
 import BackToTop from "../BackToTop";
+import { Rating } from "../../modules/ratings/types";
 
 interface Props {
   post: Post;
+  upvotes: Rating[];
+  downvotes: Rating[];
 }
-const StickyTitleHeader: React.FC<Props> = ({ post }) => {
-  const { title, upvotes, downvotes, tags } = post;
+const StickyTitleHeader: React.FC<Props> = ({ post, upvotes, downvotes }) => {
+  const { title, tags } = post;
+
   return (
     <Box
       sx={{
@@ -24,11 +28,11 @@ const StickyTitleHeader: React.FC<Props> = ({ post }) => {
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center" spacing={4}>
           <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton size="small" aria-label="upvoate">
+            <IconButton size="small" aria-label="upvote">
               <ThumbUpOffAlt />
             </IconButton>
-            <Typography>{upvotes - downvotes}</Typography>
-            <IconButton size="small" aria-label="upvoate">
+            <Typography>{upvotes.length - downvotes.length}</Typography>
+            <IconButton size="small" aria-label="downvote">
               <ThumbDownOffAlt />
             </IconButton>
           </Stack>

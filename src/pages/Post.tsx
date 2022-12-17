@@ -68,11 +68,17 @@ const PostPage: React.FC = () => {
         gap: 4,
       }}
     >
-      <StickyTitleHeader post={postData?.post} />
+      <StickyTitleHeader
+        post={postData?.post}
+        upvotes={postData?.upvotes}
+        downvotes={postData?.downvotes}
+      />
       <MainPost
         post={postData?.post}
         user={postData?.post?.user}
         commentsLength={comments.length}
+        upvotes={postData?.upvotes}
+        downvotes={postData?.downvotes}
       />
       {curUser && (
         <RichTextEditor
