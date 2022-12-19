@@ -1,11 +1,18 @@
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "typescript-cookie";
+import { useAppDispatch } from "../app/hooks";
+import {
+  openSnackbar,
+  updateAlertSeverity,
+  updateSnackbarContent,
+} from "../modules/snackbar/snackbarSlice";
 import apiClient from "./http-common";
 
 const baseURL = "/comments/";
 
 export const CommentMutation = (postId: string) => {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation(
     async (payload: any) => {
       try {
@@ -18,13 +25,25 @@ export const CommentMutation = (postId: string) => {
       }
     },
     {
-      onSuccess: () => queryClient.invalidateQueries(["getComments", postId]),
+      onError: () => {
+        dispatch(updateSnackbarContent("Comment creation unsuccessful."));
+        dispatch(updateAlertSeverity("error"));
+        dispatch(openSnackbar());
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getComments", postId]);
+
+        dispatch(updateSnackbarContent("Successfully created comment."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
+      },
     }
   );
 };
 
 export const CommentEditMutation = (commentId: number, postId: number) => {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation(
     async (payload: any) => {
       try {
@@ -41,8 +60,17 @@ export const CommentEditMutation = (commentId: number, postId: number) => {
       }
     },
     {
+      onError: () => {
+        dispatch(updateSnackbarContent("Edit comment unsuccessful."));
+        dispatch(updateAlertSeverity("error"));
+        dispatch(openSnackbar());
+      },
       onSuccess: () => {
         queryClient.invalidateQueries(["getComments", postId.toString()]);
+
+        dispatch(updateSnackbarContent("Successfully edited comment."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
       },
     }
   );
@@ -50,6 +78,7 @@ export const CommentEditMutation = (commentId: number, postId: number) => {
 
 export const CommentDeleteMutation = (commentId: number, postId: number) => {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation(
     async () => {
       try {
@@ -65,9 +94,17 @@ export const CommentDeleteMutation = (commentId: number, postId: number) => {
       }
     },
     {
+      onError: () => {
+        dispatch(updateSnackbarContent("Comment deletion unsuccessful."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
+      },
       onSuccess: () => {
         queryClient.invalidateQueries(["getOnePost", postId]);
         queryClient.invalidateQueries(["getComments", postId.toString()]);
+        dispatch(updateSnackbarContent("Successfully deleted comment."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
       },
     }
   );

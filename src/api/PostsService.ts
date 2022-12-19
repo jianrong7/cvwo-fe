@@ -9,6 +9,11 @@ import {
   updateIsFetchingPost,
 } from "../modules/posts/postsSlice";
 import { PostQueryParams } from "../modules/posts/types";
+import {
+  updateSnackbarContent,
+  updateAlertSeverity,
+  openSnackbar,
+} from "../modules/snackbar/snackbarSlice";
 import apiClient from "./http-common";
 
 const baseURL = "/posts/";
@@ -17,10 +22,10 @@ export const PostsQuery = () => {
   const dispatch = useAppDispatch();
   const queryParams: PostQueryParams = useAppSelector(getQueryParams);
   const fetchPosts = async (context: any) => {
-    const { tags, order, sort, search } = context.queryKey[1];
+    const { tags, sort, search } = context.queryKey[1];
     dispatch(updateIsFetchingPosts(true));
     const response = await apiClient.get(
-      `${baseURL}?tags=${tags}&sort=${sort}&order=${order}&search=${search}`
+      `${baseURL}?tags=${tags}&sort=${sort}&search=${search}`
     );
     return response.data;
   };
@@ -64,6 +69,7 @@ export const CommentsFromPostQuery = (postId: string) => {
 export const PostMutation = () => {
   // const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation(
     async (payload: any) => {
       try {
@@ -76,10 +82,19 @@ export const PostMutation = () => {
       }
     },
     {
+      onError: () => {
+        dispatch(updateSnackbarContent("Post creation unsuccessful."));
+        dispatch(updateAlertSeverity("error"));
+        dispatch(openSnackbar());
+      },
       onSuccess: (data) => {
         queryClient.invalidateQueries("getAllPosts");
         queryClient.invalidateQueries(["getOnePost", data.ID]);
         // navigate(`/post/${data.post.ID}`);
+
+        dispatch(updateSnackbarContent("Successfully created post."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
       },
     }
   );
@@ -87,6 +102,7 @@ export const PostMutation = () => {
 
 export const PostEditMutation = (postId: number) => {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation(
     async (payload: any) => {
       try {
@@ -105,8 +121,16 @@ export const PostEditMutation = (postId: number) => {
       }
     },
     {
+      onError: () => {
+        dispatch(updateSnackbarContent("Edit post unsuccessful."));
+        dispatch(updateAlertSeverity("error"));
+        dispatch(openSnackbar());
+      },
       onSuccess: () => {
         queryClient.invalidateQueries(["getOnePost", postId.toString()]);
+        dispatch(updateSnackbarContent("Successfully edited post."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
       },
     }
   );
@@ -114,6 +138,7 @@ export const PostEditMutation = (postId: number) => {
 
 export const PostDeleteMutation = (postId: number) => {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation(
     async () => {
       try {
@@ -129,9 +154,17 @@ export const PostDeleteMutation = (postId: number) => {
       }
     },
     {
+      onError: () => {
+        dispatch(updateSnackbarContent("Post deletion unsuccessful."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
+      },
       onSuccess: () => {
         queryClient.invalidateQueries("getAllPosts");
         queryClient.invalidateQueries(["getOnePost", postId]);
+        dispatch(updateSnackbarContent("Successfully deleted post."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
       },
     }
   );
