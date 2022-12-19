@@ -3,8 +3,8 @@
 - [x] Update/Delete for Posts/Comments
 - [x] Login should have a remember me checkbox
 - [x] Search function for homepage
-- [ ] Ratings system/model
-- [ ] Fix the sorting system on homepage
+- [x] Ratings system/model
+- [x] Fix the sorting system on homepage
 - [ ] Sorting system for comments
 - [ ] User page -> Offers customisation to profile
 - [ ] Generate post and comment with ChatGPT/OpenAI

@@ -12,10 +12,12 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import StarterKit from "@tiptap/starter-kit";
 
-import { PostMutation } from "../api/PostsService";
+import { PostAiMutation, PostMutation } from "../api/PostsService";
 import FormInput from "../components/Form/FormInput";
 import TagsInput, { TagsState } from "../components/Form/TagsInput";
 import RichTextEditor from "../components/Form/RichTextEditor";
+import { useAppSelector } from "../app/hooks";
+import { getAiPost } from "../modules/posts/postsSlice";
 
 // allow local image upload feature
 const postSchema = z.object({
@@ -27,6 +29,8 @@ const postSchema = z.object({
 export type PostInput = z.TypeOf<typeof postSchema>;
 
 const CreatePost: React.FC = () => {
+  const aiData = useAppSelector(getAiPost);
+  const { mutate: fetchAi } = PostAiMutation();
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -49,7 +53,14 @@ const CreatePost: React.FC = () => {
   const methods = useForm<PostInput>({
     resolver: zodResolver(postSchema),
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+
+  useEffect(() => {
+    console.log(aiData);
+    if (aiData) {
+      editor?.commands.setContent(`<p>${aiData}</p>`);
+    }
+  }, [aiData]);
 
   useEffect(() => {
     if (tagsState.activeTags.length >= 3) {
@@ -98,8 +109,11 @@ const CreatePost: React.FC = () => {
           sx={{ display: "flex", flexDirection: "column", gap: 2, marginY: 2 }}
         >
           <FormInput name="title" required label="Title" autoFocus />
-          {/* <FormInput name="content" label="Content" minRows={5} multiline /> */}
-          <RichTextEditor editor={editor} />
+          <RichTextEditor
+            editor={editor}
+            title={watch("title")}
+            mutate={fetchAi}
+          />
           <TagsInput tagsState={tagsState} handleChange={handleTagsChange} />
           <Button variant="text" type="submit">
             Submit

@@ -59,7 +59,6 @@ const PostPage: React.FC = () => {
     return <CircularProgress />;
 
   const { comments } = commentsData;
-  console.log("postData", postData);
 
   return (
     <Container

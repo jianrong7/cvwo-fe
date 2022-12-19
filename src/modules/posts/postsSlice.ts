@@ -8,6 +8,8 @@ interface PostState {
   queryParams: PostQueryParams;
   isFetchingPost: boolean;
   isFetchingPosts: boolean;
+  aiPost: string;
+  isFetchingAiPost: boolean;
 }
 
 const initialState: PostState = {
@@ -16,6 +18,8 @@ const initialState: PostState = {
   queryParams: { tags: "", order: "", sort: "", search: "" },
   isFetchingPost: false,
   isFetchingPosts: false,
+  aiPost: "",
+  isFetchingAiPost: false,
 };
 
 export const postsSlice = createSlice({
@@ -47,9 +51,12 @@ export const postsSlice = createSlice({
     updateQueryParamsSearch: (state, action: PayloadAction<string>) => {
       state.queryParams = { ...state.queryParams, search: action.payload };
     },
-    // updateCurrentUser: (state, action: PayloadAction<UserData>) => {
-    //   state.currentUser = action.payload;
-    // },
+    updateAiPost: (state, action: PayloadAction<string>) => {
+      state.aiPost = action.payload;
+    },
+    updateIsFetchingAiPost: (state, action: PayloadAction<boolean>) => {
+      state.isFetchingAiPost = action.payload;
+    },
     // removeCurrentUser: (state) => {
     //   state.currentUser = null;
     // },
@@ -65,6 +72,8 @@ export const {
   updateQueryParamsSort,
   updateQueryParamsOrder,
   updateQueryParamsSearch,
+  updateAiPost,
+  updateIsFetchingAiPost,
 } = postsSlice.actions;
 
 export const getQueryParams = (state: RootState): PostQueryParams => {
@@ -77,6 +86,14 @@ export const getQueryParamsTags = (state: RootState): string => {
 
 export const getCurPost = (state: RootState): Post | null => {
   return state.posts.postData;
+};
+
+export const getAiPost = (state: RootState): string => {
+  return state.posts.aiPost;
+};
+
+export const getIsFetchingAiPost = (state: RootState): boolean => {
+  return state.posts.isFetchingAiPost;
 };
 
 export default postsSlice.reducer;

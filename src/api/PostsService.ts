@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { getCookie } from "typescript-cookie";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
@@ -7,6 +8,8 @@ import {
   updatePosts,
   updatePost,
   updateIsFetchingPost,
+  updateAiPost,
+  updateIsFetchingAiPost,
 } from "../modules/posts/postsSlice";
 import { Post, PostQueryParams } from "../modules/posts/types";
 import {
@@ -84,16 +87,16 @@ export const CommentsFromPostQuery = (postId: string) => {
 
 // very iffy mutation that works intermittently
 export const PostMutation = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
     async (payload: any) => {
       try {
-        const { data: response } = await apiClient.post(baseURL, payload, {
+        const { data } = await apiClient.post(baseURL, payload, {
           headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
         });
-        return response.data;
+        return data;
       } catch (err) {
         throw err;
       }
@@ -106,8 +109,8 @@ export const PostMutation = () => {
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries("getAllPosts");
-        queryClient.invalidateQueries(["getOnePost", data.ID]);
-        // navigate(`/post/${data.post.ID}`);
+        queryClient.invalidateQueries(["getOnePost", data.post.ID]);
+        navigate(`/post/${data.post.ID}`);
 
         dispatch(updateSnackbarContent("Successfully created post."));
         dispatch(updateAlertSeverity("success"));
@@ -184,5 +187,53 @@ export const PostDeleteMutation = (postId: number) => {
         dispatch(openSnackbar());
       },
     }
+  );
+};
+
+export const PostAiMutation = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  return useMutation(
+    async (payload: any) => {
+      try {
+        const { data: response } = await apiClient.post(
+          `${baseURL}ai`,
+          payload,
+          {
+            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          }
+        );
+        return response.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      onMutate: () => {
+        dispatch(updateIsFetchingAiPost(true));
+      },
+      onSettled: () => {
+        dispatch(updateIsFetchingAiPost(false));
+      },
+      onSuccess: (data: string) => {
+        dispatch(updateAiPost(data));
+      },
+    }
+    // {
+    //   onError: () => {
+    //     dispatch(updateSnackbarContent("Post creation unsuccessful."));
+    //     dispatch(updateAlertSeverity("error"));
+    //     dispatch(openSnackbar());
+    //   },
+    //   onSuccess: (data) => {
+    //     queryClient.invalidateQueries("getAllPosts");
+    //     queryClient.invalidateQueries(["getOnePost", data.ID]);
+    //     // navigate(`/post/${data.post.ID}`);
+
+    //     dispatch(updateSnackbarContent("Successfully created post."));
+    //     dispatch(updateAlertSeverity("success"));
+    //     dispatch(openSnackbar());
+    //   },
+    // }
   );
 };

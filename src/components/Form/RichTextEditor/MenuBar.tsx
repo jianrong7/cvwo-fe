@@ -1,4 +1,5 @@
 import { Tooltip, IconButton, Stack, Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { Editor } from "@tiptap/react";
 import {
   FormatBold,
@@ -19,18 +20,26 @@ import {
   YouTube,
 } from "@mui/icons-material";
 import React from "react";
+import { UseMutateFunction } from "react-query";
+import { useAppSelector } from "../../../app/hooks";
+import { getIsFetchingAiPost } from "../../../modules/posts/postsSlice";
 
 interface Props {
   editor: Editor | null;
   isComment?: boolean;
   handleSubmitComment?: () => void;
+  title?: string;
+  mutate?: UseMutateFunction<any, unknown, any, unknown>;
 }
 
 const MenuBar: React.FC<Props> = ({
   editor,
   isComment = false,
   handleSubmitComment,
+  title,
+  mutate,
 }) => {
+  const isFetchingAiPost = useAppSelector(getIsFetchingAiPost);
   if (!editor) return null;
   return (
     <Stack
@@ -247,6 +256,23 @@ const MenuBar: React.FC<Props> = ({
         >
           Comment
         </Button>
+      )}
+      {!isComment && mutate && (
+        <LoadingButton
+          variant="contained"
+          disabled={!title}
+          loading={isFetchingAiPost}
+          loadingIndicator="Fetching..."
+          onClick={() => {
+            const payload = {
+              maxTokens: 100,
+              prompt: title,
+            };
+            mutate(payload);
+          }}
+        >
+          Create content from title
+        </LoadingButton>
       )}
     </Stack>
   );

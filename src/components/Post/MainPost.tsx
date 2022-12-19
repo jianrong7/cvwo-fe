@@ -76,7 +76,10 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
             {username}
           </Link>
           {" · "}
-          {getBiggestTimeInterval(CreatedAt)} ago
+          {getBiggestTimeInterval(CreatedAt)
+            ? getBiggestTimeInterval(CreatedAt)
+            : "0 seconds"}{" "}
+          ago
           {CreatedAt !== UpdatedAt &&
             ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
         </Typography>
