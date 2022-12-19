@@ -4,14 +4,14 @@ import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
 import { Post } from "../../modules/posts/types";
 import BackToTop from "../BackToTop";
 import { Rating } from "../../modules/ratings/types";
+import { RatingMutation } from "../../api/RatingService";
 
 interface Props {
   post: Post;
-  upvotes: Rating[];
-  downvotes: Rating[];
 }
-const StickyTitleHeader: React.FC<Props> = ({ post, upvotes, downvotes }) => {
-  const { title, tags } = post;
+const StickyTitleHeader: React.FC<Props> = ({ post }) => {
+  const { title, tags, ID, upvotes, downvotes } = post;
+  const { mutate } = RatingMutation(ID.toString());
 
   return (
     <Box
@@ -28,11 +28,23 @@ const StickyTitleHeader: React.FC<Props> = ({ post, upvotes, downvotes }) => {
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center" spacing={4}>
           <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton size="small" aria-label="upvote">
+            <IconButton
+              size="small"
+              aria-label="upvote"
+              onClick={() =>
+                mutate({ value: 1, entryID: ID, entryType: "post" })
+              }
+            >
               <ThumbUpOffAlt />
             </IconButton>
             <Typography>{upvotes.length - downvotes.length}</Typography>
-            <IconButton size="small" aria-label="downvote">
+            <IconButton
+              size="small"
+              aria-label="downvote"
+              onClick={() =>
+                mutate({ value: -1, entryID: ID, entryType: "post" })
+              }
+            >
               <ThumbDownOffAlt />
             </IconButton>
           </Stack>

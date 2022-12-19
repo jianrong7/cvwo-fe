@@ -23,25 +23,25 @@ interface Props {
 const FilterButton: React.FC<Props> = ({ refetch, query }) => {
   const dispatch = useAppDispatch();
 
-  const [isAscending, setIsAscending] = useState<boolean>(false);
+  // const [isAscending, setIsAscending] = useState<boolean>(false);
 
   return (
     <Button
       onClick={() => {
-        setIsAscending((state) => !state);
+        // setIsAscending((state) => !state);
         dispatch(updateQueryParamsSort(query));
-        dispatch(updateQueryParamsOrder(isAscending ? "asc" : "desc"));
+        // dispatch(updateQueryParamsOrder(isAscending ? "asc" : "desc"));
         refetch();
       }}
-      startIcon={
-        isAscending ? (
-          <KeyboardDoubleArrowDownIcon />
-        ) : (
-          <KeyboardDoubleArrowUpIcon />
-        )
-      }
+      // startIcon={
+      //   isAscending ? (
+      //     <KeyboardDoubleArrowDownIcon />
+      //   ) : (
+      //     <KeyboardDoubleArrowUpIcon />
+      //   )
+      // }
     >
-      by {query}
+      by {query === "created_at" ? "time" : query}
     </Button>
   );
 };

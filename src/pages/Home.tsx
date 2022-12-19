@@ -21,7 +21,6 @@ const Home: React.FC = () => {
     disableAdditionalTags: false,
   });
   const { data, isSuccess, isFetching, isLoading, refetch } = PostsQuery();
-
   return (
     <Container
       sx={{
@@ -31,7 +30,7 @@ const Home: React.FC = () => {
       }}
     >
       <HomeStickyBar
-        totalPosts={data?.posts?.length}
+        totalPosts={data?.length}
         refetch={refetch}
         tagsState={tagsState}
         setTagsState={setTagsState}
@@ -46,18 +45,18 @@ const Home: React.FC = () => {
           maxWidth: "sm",
         }}
       >
-        <Typography>{data?.posts?.length} POSTS</Typography>
+        <Typography>{data?.length} POSTS</Typography>
         <Box>
           <FilterButton refetch={refetch} query="upvotes" />
           <FilterButton refetch={refetch} query="downvotes" />
-          <FilterButton refetch={refetch} query="time" />
+          <FilterButton refetch={refetch} query="created_at" />
         </Box>
       </Stack>
 
       {(isLoading || isFetching) && <CircularProgress />}
       {isSuccess && (
         <Posts
-          posts={data.posts}
+          posts={data}
           refetch={refetch}
           tagsState={tagsState}
           setTagsState={setTagsState}

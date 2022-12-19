@@ -9,7 +9,12 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { Edit, Delete } from "@mui/icons-material";
+import {
+  Edit,
+  Delete,
+  ThumbUpOffAlt,
+  ThumbDownOffAlt,
+} from "@mui/icons-material";
 import { useAppSelector } from "../../app/hooks";
 
 import type { Comment as CommentType } from "../../modules/comments/types";
@@ -19,6 +24,7 @@ import { getBiggestTimeInterval } from "../../utils/utils";
 import DeleteButton from "../DeleteButton";
 import { Post } from "../../modules/posts/types";
 import EditButton from "../EditButton";
+import { RatingMutation } from "../../api/RatingService";
 
 interface Props {
   comment: CommentType;
@@ -28,13 +34,15 @@ interface Props {
 const Comment: React.FC<Props> = ({ comment, post }) => {
   const params = useParams();
   const curUser = useAppSelector(getCurrentUser);
-  const { user, CreatedAt, UpdatedAt, ID } = comment;
+  const { user, CreatedAt, UpdatedAt, ID, upvotes, downvotes } = comment;
+  console.log(comment);
 
   const { user: postUser, ID: postId } = post;
+  const { mutate } = RatingMutation(postId.toString());
 
   return (
     <Box sx={{ paddingX: 2, borderLeft: "1px solid rgba(0,0,0,0.23)" }}>
-      <Stack direction="column">
+      <Stack direction="column" spacing={1}>
         <Stack direction="row">
           <Typography sx={{ fontSize: 12 }}>
             Posted by{" "}
@@ -63,10 +71,28 @@ const Comment: React.FC<Props> = ({ comment, post }) => {
         <Box sx={{ textAlign: "left" }}>
           <div dangerouslySetInnerHTML={{ __html: comment.content }} />
         </Box>
-        {/* for ratings */}
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={1} alignItems="center">
           {curUser?.username === user.username && (
             <>
+              <IconButton
+                size="small"
+                aria-label="upvote"
+                onClick={() =>
+                  mutate({ value: 1, entryID: ID, entryType: "comment" })
+                }
+              >
+                <ThumbUpOffAlt />
+              </IconButton>
+              <Typography>{upvotes.length - downvotes.length}</Typography>
+              <IconButton
+                size="small"
+                aria-label="downvote"
+                onClick={() =>
+                  mutate({ value: -1, entryID: ID, entryType: "comment" })
+                }
+              >
+                <ThumbDownOffAlt />
+              </IconButton>
               <EditButton
                 originalContent={comment.content}
                 id={ID}

@@ -1,3 +1,4 @@
+import { Rating } from "../ratings/types";
 import { UserData } from "../users/types";
 
 export interface Post {
@@ -5,8 +6,8 @@ export interface Post {
   title: string;
   content: string;
   userId: number;
-  upvotes: number;
-  downvotes: number;
+  upvotes: Rating[];
+  downvotes: Rating[];
   tags: string[];
   CreatedAt: Date;
   UpdatedAt: Date;

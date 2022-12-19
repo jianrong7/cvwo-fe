@@ -59,6 +59,7 @@ const PostPage: React.FC = () => {
     return <CircularProgress />;
 
   const { comments } = commentsData;
+  console.log("postData", postData);
 
   return (
     <Container
@@ -68,17 +69,11 @@ const PostPage: React.FC = () => {
         gap: 4,
       }}
     >
-      <StickyTitleHeader
-        post={postData?.post}
-        upvotes={postData?.upvotes}
-        downvotes={postData?.downvotes}
-      />
+      <StickyTitleHeader post={postData?.post} />
       <MainPost
         post={postData?.post}
         user={postData?.post?.user}
         commentsLength={comments.length}
-        upvotes={postData?.upvotes}
-        downvotes={postData?.downvotes}
       />
       {curUser && (
         <RichTextEditor

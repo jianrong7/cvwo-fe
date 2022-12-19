@@ -1,3 +1,4 @@
+import { Rating } from "../ratings/types";
 import { UserData } from "../users/types";
 
 export interface Comment {
@@ -17,4 +18,6 @@ export interface Comment {
   postId: number;
   userId: number;
   user: UserData;
+  upvotes: Rating[];
+  downvotes: Rating[];
 }

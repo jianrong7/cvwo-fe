@@ -15,47 +15,56 @@ import {
   ThumbDownOffAlt,
   Share,
   ModeComment,
-  Edit,
-  Delete,
 } from "@mui/icons-material";
 
 import { getBiggestTimeInterval } from "../../utils/utils";
 import { UserData } from "../../modules/users/types";
 import { Post } from "../../modules/posts/types";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
 import { Rating } from "../../modules/ratings/types";
+import { RatingMutation } from "../../api/RatingService";
+import {
+  updateSnackbarContent,
+  updateAlertSeverity,
+  openSnackbar,
+} from "../../modules/snackbar/snackbarSlice";
 
 interface Props {
   post: Post;
   user: UserData;
   commentsLength: number;
-  upvotes: Rating[];
-  downvotes: Rating[];
 }
 
-const MainPost: React.FC<Props> = ({
-  post,
-  user,
-  commentsLength,
-  upvotes,
-  downvotes,
-}) => {
+const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
+  const dispatch = useAppDispatch();
   const curUser = useAppSelector(getCurrentUser);
-  const { title, content, tags, CreatedAt, UpdatedAt, ID: postId } = post;
+  const { title, content, tags, CreatedAt, UpdatedAt, ID, upvotes, downvotes } =
+    post;
 
-  const { username, ID } = user;
+  const { username, ID: userId } = user;
+  const { mutate } = RatingMutation(ID.toString());
   return (
     <Stack direction="row" spacing={2}>
       <Box>
         <Stack direction="column" alignItems="center" spacing={1}>
-          <IconButton size="small" aria-label="upvoate">
+          <IconButton
+            size="small"
+            aria-label="upvote"
+            onClick={() => mutate({ value: 1, entryID: ID, entryType: "post" })}
+          >
             <ThumbUpOffAlt />
           </IconButton>
           <Typography>{upvotes.length - downvotes.length}</Typography>
-          <IconButton size="small" aria-label="upvoate">
+          <IconButton
+            size="small"
+            aria-label="downvote"
+            onClick={() =>
+              mutate({ value: -1, entryID: ID, entryType: "post" })
+            }
+          >
             <ThumbDownOffAlt />
           </IconButton>
         </Stack>
@@ -63,7 +72,7 @@ const MainPost: React.FC<Props> = ({
       <Stack spacing={1}>
         <Typography sx={{ fontSize: 12, textAlign: "left" }}>
           Posted by{""}
-          <Link component={RouterLink} to={`/user/${ID}`}>
+          <Link component={RouterLink} to={`/user/${userId}`}>
             {username}
           </Link>
           {" · "}
@@ -100,17 +109,20 @@ const MainPost: React.FC<Props> = ({
             <IconButton
               size="small"
               sx={{ width: "fit-content" }}
-              onClick={() =>
-                window.navigator.clipboard.writeText(window.location.href)
-              }
+              onClick={() => {
+                window.navigator.clipboard.writeText(window.location.href);
+                dispatch(updateSnackbarContent("Link copied"));
+                dispatch(updateAlertSeverity("success"));
+                dispatch(openSnackbar());
+              }}
             >
               <Share />
             </IconButton>
           </Tooltip>
           {curUser?.username === username && (
             <>
-              <EditButton originalContent={content} id={postId} />
-              <DeleteButton id={postId} />
+              <EditButton originalContent={content} id={ID} />
+              <DeleteButton id={ID} />
             </>
           )}
         </Stack>

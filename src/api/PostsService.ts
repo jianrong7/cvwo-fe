@@ -8,7 +8,7 @@ import {
   updatePost,
   updateIsFetchingPost,
 } from "../modules/posts/postsSlice";
-import { PostQueryParams } from "../modules/posts/types";
+import { Post, PostQueryParams } from "../modules/posts/types";
 import {
   updateSnackbarContent,
   updateAlertSeverity,
@@ -25,9 +25,26 @@ export const PostsQuery = () => {
     const { tags, sort, search } = context.queryKey[1];
     dispatch(updateIsFetchingPosts(true));
     const response = await apiClient.get(
-      `${baseURL}?tags=${tags}&sort=${sort}&search=${search}`
+      `${baseURL}?tags=${tags}&search=${search}`
     );
-    return response.data;
+    const { posts } = response.data;
+    if (sort === "upvotes") {
+      const res = posts.sort((a: Post, b: Post) => {
+        const ratingA = a.upvotes.length - a.downvotes.length;
+        const ratingB = b.upvotes.length - b.downvotes.length;
+        return ratingA > ratingB ? 1 : -1;
+      });
+      return res;
+    } else if (sort === "downvotes") {
+      const res = posts.sort((a: Post, b: Post) => {
+        const ratingA = a.upvotes.length - a.downvotes.length;
+        const ratingB = b.upvotes.length - b.downvotes.length;
+        return ratingA > ratingB ? -1 : 1;
+      });
+      return res;
+    } else {
+      return posts;
+    }
   };
 
   return useQuery(["getAllPosts", queryParams], fetchPosts, {
