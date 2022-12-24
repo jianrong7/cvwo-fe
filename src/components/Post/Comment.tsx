@@ -1,20 +1,7 @@
-import {
-  Box,
-  Link,
-  Stack,
-  Typography,
-  Chip,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
+import { Box, Link, Stack, Typography, Chip, IconButton } from "@mui/material";
 import React from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import {
-  Edit,
-  Delete,
-  ThumbUpOffAlt,
-  ThumbDownOffAlt,
-} from "@mui/icons-material";
+import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
 import { useAppSelector } from "../../app/hooks";
 
 import type { Comment as CommentType } from "../../modules/comments/types";
@@ -35,7 +22,6 @@ const Comment: React.FC<Props> = ({ comment, post }) => {
   const params = useParams();
   const curUser = useAppSelector(getCurrentUser);
   const { user, CreatedAt, UpdatedAt, ID, upvotes, downvotes } = comment;
-  console.log(comment);
 
   const { user: postUser, ID: postId } = post;
   const { mutate } = RatingMutation(postId.toString());
@@ -72,7 +58,7 @@ const Comment: React.FC<Props> = ({ comment, post }) => {
           <div dangerouslySetInnerHTML={{ __html: comment.content }} />
         </Box>
         <Stack direction="row" spacing={1} alignItems="center">
-          {curUser?.username === user.username && (
+          {curUser && (
             <>
               <IconButton
                 size="small"
@@ -93,6 +79,10 @@ const Comment: React.FC<Props> = ({ comment, post }) => {
               >
                 <ThumbDownOffAlt />
               </IconButton>
+            </>
+          )}
+          {curUser?.username === user.username && (
+            <>
               <EditButton
                 originalContent={comment.content}
                 id={ID}

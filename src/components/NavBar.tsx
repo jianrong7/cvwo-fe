@@ -12,35 +12,27 @@ import {
   MenuItem,
   Link,
 } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Menu as MenuIcon, ChatBubbleOutline } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { ChatBubbleOutline } from "@mui/icons-material";
 import { removeCookie } from "typescript-cookie";
 
 import Authentication from "./Authentication/Authentication";
 import { getCurrentUser, removeCurrentUser } from "../modules/users/userSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { resetQueryParamsState } from "../modules/posts/postsSlice";
 
 function ResponsiveAppBar() {
   const user = useAppSelector(getCurrentUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    navigate(`/user/${user?.ID}`);
   };
 
   const handleLogout = () => {
@@ -49,13 +41,17 @@ function ResponsiveAppBar() {
     dispatch(removeCurrentUser());
   };
 
+  const goToUserPage = () => {
+    navigate(`/user/${user?.ID}`);
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link
-            component={RouterLink}
-            to="/"
+            href="/"
+            onClick={() => dispatch(resetQueryParamsState)}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -65,7 +61,7 @@ function ResponsiveAppBar() {
           >
             <ChatBubbleOutline
               sx={{
-                display: { xs: "none", md: "flex" },
+                display: "flex",
                 mr: 1,
                 color: "white",
               }}
@@ -75,7 +71,7 @@ function ResponsiveAppBar() {
               noWrap
               sx={{
                 mr: 2,
-                display: { xs: "none", md: "flex" },
+                display: { xs: "none", sm: "flex" },
                 fontWeight: 700,
                 color: "white",
                 textDecoration: "none",
@@ -84,52 +80,7 @@ function ResponsiveAppBar() {
               Gossip with Go
             </Typography>
           </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {/* {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))} */}
-            </Menu>
-          </Box>
-          <Link to="/" component={RouterLink}>
-            <ChatBubbleOutline
-              sx={{
-                display: { xs: "flex", md: "none" },
-                mr: 1,
-                color: "white",
-              }}
-            />
-          </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
+          <Box sx={{ flexGrow: 1, display: "flex" }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
             {user ? (
@@ -158,7 +109,12 @@ function ResponsiveAppBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      goToUserPage();
+                    }}
+                  >
                     <Typography textAlign="center">{user?.username}</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>

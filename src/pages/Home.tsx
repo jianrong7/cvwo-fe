@@ -1,25 +1,14 @@
-import React, { useState } from "react";
-import {
-  Container,
-  CircularProgress,
-  Box,
-  Button,
-  Stack,
-  Typography,
-} from "@mui/material";
+import React from "react";
+import { Container, CircularProgress, Stack, Typography } from "@mui/material";
 import Posts from "../components/Home/Posts";
 import { PostsQuery } from "../api/PostsService";
 import HomeStickyBar from "../components/Home/HomeStickyBar";
-import FilterButton from "../components/FilterButton";
-import { TagsState } from "../components/Form/TagsInput";
+import Filters from "../components/Home/Filters";
+import useSyncReduxSearchParams from "../utils/useSyncReduxSearchParams";
 
 const Home: React.FC = () => {
-  // possible to refactor this into Redux
-  const [tagsState, setTagsState] = useState<TagsState>({
-    inputError: "",
-    activeTags: [],
-    disableAdditionalTags: false,
-  });
+  useSyncReduxSearchParams();
+
   const { data, isSuccess, isFetching, isLoading, refetch } = PostsQuery();
   return (
     <Container
@@ -29,39 +18,24 @@ const Home: React.FC = () => {
         alignItems: "center",
       }}
     >
-      <HomeStickyBar
-        totalPosts={data?.length}
-        refetch={refetch}
-        tagsState={tagsState}
-        setTagsState={setTagsState}
-      />
+      <HomeStickyBar refetch={refetch} />
 
       <Stack
-        direction="row"
         alignItems="center"
         justifyContent="space-between"
         sx={{
           width: "100%",
           maxWidth: "sm",
+          flexDirection: { xs: "column", sm: "row" },
+          gap: { xs: 2, sm: 0 },
         }}
       >
         <Typography>{data?.length} POSTS</Typography>
-        <Box>
-          <FilterButton refetch={refetch} query="upvotes" />
-          <FilterButton refetch={refetch} query="downvotes" />
-          <FilterButton refetch={refetch} query="created_at" />
-        </Box>
+        <Filters refetch={refetch} />
       </Stack>
 
       {(isLoading || isFetching) && <CircularProgress />}
-      {isSuccess && (
-        <Posts
-          posts={data}
-          refetch={refetch}
-          tagsState={tagsState}
-          setTagsState={setTagsState}
-        />
-      )}
+      {isSuccess && <Posts posts={data} refetch={refetch} />}
     </Container>
   );
 };

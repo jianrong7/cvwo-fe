@@ -5,12 +5,12 @@
 - [x] Search function for homepage
 - [x] Ratings system/model
 - [x] Fix the sorting system on homepage
+- [x] URL Search Params
+- [x] Generate post with ChatGPT/OpenAI
 - [ ] Sorting system for comments
 - [ ] User page -> Offers customisation to profile
-- [ ] Generate post and comment with ChatGPT/OpenAI
 - [ ] Image hosting for posts
 - [ ] Comments can have replies too
-- [ ] Saved posts/comments system for user
 - [ ] Categorisation/Subcategorisation system of posts
 - [ ] Pagination
 

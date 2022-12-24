@@ -18,7 +18,6 @@ import {
   updateQueryParamsSearch,
   updateQueryParamsTags,
 } from "../../modules/posts/postsSlice";
-import { TagsState } from "../Form/TagsInput";
 import SearchBar from "./SearchBar";
 
 const searchSchema = z.object({
@@ -31,11 +30,9 @@ interface Props {
   refetch: (
     options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;
-  tagsState: TagsState;
-  setTagsState: React.Dispatch<React.SetStateAction<TagsState>>;
 }
 
-const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
+const SearchForm: React.FC<Props> = ({ refetch }) => {
   const tags = useAppSelector(getTags);
 
   const dispatch = useAppDispatch();
@@ -43,14 +40,6 @@ const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
   const methods = useForm<SearchInput>({
     resolver: zodResolver(searchSchema),
   });
-
-  useEffect(() => {
-    if (tagsState.activeTags.length >= 3) {
-      setTagsState({ ...tagsState, disableAdditionalTags: true });
-    } else {
-      setTagsState({ ...tagsState, disableAdditionalTags: false });
-    }
-  }, [tagsState.activeTags]);
 
   const handleTagsChange: (
     options: React.SyntheticEvent,
@@ -63,18 +52,7 @@ const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
     );
     dispatch(updateSearchTags(searchTags));
     dispatch(updateSearchText(searchText));
-    if (searchTags.length > 3) {
-      setTagsState({
-        ...tagsState,
-        inputError: "Too many tags. Please remove some before adding.",
-      });
-    } else {
-      setTagsState({
-        ...tagsState,
-        inputError: "",
-      });
-    }
-    setTagsState({ ...tagsState, activeTags: value });
+
     dispatch(updateQueryParamsTags(searchTags.join()));
     dispatch(updateQueryParamsSearch(searchText.join("")));
     refetch();
@@ -95,7 +73,7 @@ const SearchForm: React.FC<Props> = ({ refetch, tagsState, setTagsState }) => {
           maxWidth: "sm",
         }}
       >
-        <SearchBar tagsState={tagsState} handleChange={handleTagsChange} />
+        <SearchBar handleChange={handleTagsChange} />
       </Box>
     </FormProvider>
   );

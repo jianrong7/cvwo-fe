@@ -17,8 +17,8 @@ const AppRouter = () => {
           {/* <Route path="thread/1" element={<BasicThreadView />} />
           <Route path="thread/1/styled" element={<StyledThreadView />} /> */}
           <Route path="post/:id" element={<Post />} />
-          <Route path="/user/:id" element={<User />} />
 
+          <Route path="/user/:id" element={<User />} />
           <Route
             path="/submit"
             element={<PrivateRoute component={<CreatePost />} />}

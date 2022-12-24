@@ -56,7 +56,6 @@ const CreatePost: React.FC = () => {
   const { handleSubmit, watch } = methods;
 
   useEffect(() => {
-    console.log(aiData);
     if (aiData) {
       editor?.commands.setContent(`<p>${aiData}</p>`);
     }

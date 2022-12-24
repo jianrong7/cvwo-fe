@@ -9,23 +9,15 @@ import SearchForm from "./SearchForm";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
-import { TagsState } from "../Form/TagsInput";
 import BackToTop from "../BackToTop";
 
 interface Props {
-  totalPosts: number;
   refetch: (
     options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;
-  tagsState: TagsState;
-  setTagsState: React.Dispatch<React.SetStateAction<TagsState>>;
 }
 
-const HomeStickyBar: React.FC<Props> = ({
-  refetch,
-  tagsState,
-  setTagsState,
-}) => {
+const HomeStickyBar: React.FC<Props> = ({ refetch }) => {
   const curUser = useAppSelector(getCurrentUser);
   return (
     <Box
@@ -50,11 +42,7 @@ const HomeStickyBar: React.FC<Props> = ({
           maxWidth: "sm",
         }}
       >
-        <SearchForm
-          refetch={refetch}
-          tagsState={tagsState}
-          setTagsState={setTagsState}
-        />
+        <SearchForm refetch={refetch} />
         {curUser && (
           <Button
             component={RouterLink}

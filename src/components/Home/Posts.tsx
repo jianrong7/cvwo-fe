@@ -14,17 +14,9 @@ interface Props {
   refetch: (
     options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;
-  tagsState: TagsState;
-  setTagsState: React.Dispatch<React.SetStateAction<TagsState>>;
 }
 
-const Posts: React.FC<Props> = ({
-  posts,
-  refetch,
-  tagsState,
-  setTagsState,
-}) => {
-  console.log("posts:", posts);
+const Posts: React.FC<Props> = ({ posts, refetch }) => {
   return (
     <Stack
       spacing={2}
@@ -37,13 +29,7 @@ const Posts: React.FC<Props> = ({
     >
       {posts &&
         posts.map((item: PostType, index: number) => (
-          <Post
-            key={index}
-            post={item}
-            refetch={refetch}
-            tagsState={tagsState}
-            setTagsState={setTagsState}
-          />
+          <Post key={index} post={item} refetch={refetch} />
         ))}
     </Stack>
   );

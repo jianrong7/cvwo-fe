@@ -71,7 +71,7 @@ const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
       </Box>
       <Stack spacing={1}>
         <Typography sx={{ fontSize: 12, textAlign: "left" }}>
-          Posted by{""}
+          Posted by{" "}
           <Link component={RouterLink} to={`/user/${userId}`}>
             {username}
           </Link>

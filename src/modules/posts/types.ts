@@ -26,6 +26,5 @@ export interface Post {
 export interface PostQueryParams {
   tags: string;
   sort: string;
-  order: string;
   search: string;
 }

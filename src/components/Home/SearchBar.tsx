@@ -2,36 +2,27 @@ import React from "react";
 import { Autocomplete, TextField, Chip, Typography } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
 import { getTags } from "../../modules/home/homeSlice";
+import { getQueryParamsTags } from "../../modules/posts/postsSlice";
 
-// const tags = ["gossip", "golang", "nus", "react", "typescript", "cvwo"];
-
-export interface TagsState {
-  inputError: string;
-  activeTags: string[];
-  disableAdditionalTags: boolean;
-}
 interface Props {
-  tagsState: TagsState;
   handleChange: (options: any, value: any) => void;
 }
 
-const SearchBar: React.FC<Props> = ({ tagsState, handleChange }) => {
+const SearchBar: React.FC<Props> = ({ handleChange }) => {
   const tags = useAppSelector(getTags);
-  const { inputError, activeTags, disableAdditionalTags } = tagsState;
+  const tagsArr = useAppSelector(getQueryParamsTags).split(",");
 
   return (
     <Autocomplete
       multiple
       onChange={handleChange}
-      getOptionDisabled={() => disableAdditionalTags}
       id="tags"
       options={tags}
       getOptionLabel={(option) => option}
       filterSelectedOptions
       freeSolo
-      value={activeTags}
+      value={tagsArr}
       renderTags={(value: string[], getTagProps) => {
-        console.log(value);
         const tagsArr = [...value].filter((x) => tags.includes(x));
         const text = [...value].filter((x) => !tags.includes(x));
         const merged = tagsArr.concat(text.join(""));
@@ -53,8 +44,8 @@ const SearchBar: React.FC<Props> = ({ tagsState, handleChange }) => {
         <TextField
           {...params}
           label="Tags"
-          error={!!inputError}
-          helperText={inputError ? inputError : ""}
+          // error={!!inputError}
+          // helperText={inputError ? inputError : ""}
         />
       )}
     />

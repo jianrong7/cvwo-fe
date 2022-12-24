@@ -11,7 +11,7 @@ import {
   Box,
   Link,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Navigate, useNavigate } from "react-router-dom";
 import { ThumbUpOffAlt } from "@mui/icons-material";
 import DOMPurify from "dompurify";
 import Tags from "./Tags";
@@ -33,11 +33,9 @@ interface Props {
   refetch: (
     options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;
-  tagsState: TagsState;
-  setTagsState: React.Dispatch<React.SetStateAction<TagsState>>;
 }
 
-const Post: React.FC<Props> = ({ post, refetch, tagsState, setTagsState }) => {
+const Post: React.FC<Props> = ({ post, refetch }) => {
   const {
     ID,
     title,
@@ -54,28 +52,29 @@ const Post: React.FC<Props> = ({ post, refetch, tagsState, setTagsState }) => {
 
   return (
     <Card key={ID} sx={{ width: "100%", textAlign: "left" }}>
-      <RouterLink
-        to={`/post/${ID}`}
-        style={{ textDecoration: "none", color: "inherit" }}
-      >
-        <CardActionArea>
-          <CardHeader
-            title={title}
-            titleTypographyProps={{ fontWeight: 600 }}
-            subheader={
-              <Typography sx={{ fontSize: 12 }}>
-                Posted by{" "}
-                <Link component={RouterLink} to={`/user/${user.ID}`}>
-                  {user.username}
-                </Link>
-                {" · "}
-                {getBiggestTimeInterval(CreatedAt)} ago
-                {CreatedAt !== UpdatedAt &&
-                  ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
-              </Typography>
-            }
-            subheaderTypographyProps={{ fontSize: 12 }}
-          />
+      <CardHeader
+        sx={{ cursor: "default" }}
+        title={title}
+        titleTypographyProps={{ fontWeight: 600 }}
+        subheader={
+          <Typography component="p" sx={{ fontSize: 12, zIndex: 10 }}>
+            Posted by{" "}
+            <Link component={RouterLink} to={`/user/${user.ID}`}>
+              {user.username}
+            </Link>
+            {" · "}
+            {getBiggestTimeInterval(CreatedAt)} ago
+            {CreatedAt !== UpdatedAt &&
+              ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
+          </Typography>
+        }
+        subheaderTypographyProps={{ fontSize: 12 }}
+      />
+      <CardActionArea>
+        <RouterLink
+          to={`/post/${ID}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <CardContent
             children={
               <div
@@ -85,8 +84,9 @@ const Post: React.FC<Props> = ({ post, refetch, tagsState, setTagsState }) => {
               />
             }
           ></CardContent>
-        </CardActionArea>
-      </RouterLink>
+        </RouterLink>
+      </CardActionArea>
+
       <CardActions
         sx={{
           display: "flex",
@@ -103,12 +103,7 @@ const Post: React.FC<Props> = ({ post, refetch, tagsState, setTagsState }) => {
           </Button>
           {curUser?.username === user.username && <DeleteButton id={ID} />}
         </Box>
-        <Tags
-          tags={tags}
-          refetch={refetch}
-          tagsState={tagsState}
-          setTagsState={setTagsState}
-        />
+        <Tags tags={tags} refetch={refetch} />
       </CardActions>
     </Card>
   );

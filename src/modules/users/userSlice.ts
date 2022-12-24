@@ -6,12 +6,14 @@ interface UserState {
   currentUser: UserLoginOutput | null;
   rememberMe: boolean;
   isFetchingUser: boolean;
+  viewType: string;
 }
 
 const initialState: UserState = {
   currentUser: null,
   rememberMe: true,
   isFetchingUser: false,
+  viewType: "posts",
 };
 
 export const usersSlice = createSlice({
@@ -37,6 +39,9 @@ export const usersSlice = createSlice({
     updateRememberMe: (state, action: PayloadAction<boolean>) => {
       state.rememberMe = action.payload;
     },
+    updateViewType: (state, action: PayloadAction<string>) => {
+      state.viewType = action.payload;
+    },
   },
 });
 
@@ -47,6 +52,7 @@ export const {
   updateRememberMeToTrue,
   updateRememberMeToFalse,
   updateRememberMe,
+  updateViewType,
 } = usersSlice.actions;
 
 export const getCurrentUser = (state: RootState): UserLoginOutput | null => {
@@ -57,9 +63,9 @@ export const getRememberMe = (state: RootState): boolean | null => {
   return state.users.rememberMe;
 };
 
-// export const getIsFetchingUser = (state: RootState): boolean => {
-//   return state.users.isFetchingUser;
-// };
+export const getViewType = (state: RootState): string => {
+  return state.users.viewType;
+};
 
 // export const getUserId = (state: RootState): number | undefined => {
 //   return state.users.currentUser?.claims?.sub as number;
