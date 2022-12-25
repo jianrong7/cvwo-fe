@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, CircularProgress } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { CommentsFromPostQuery, PostQuery } from "../api/PostsService";
 import StickyTitleHeader from "../components/Post/StickyTitleHeader";
 import MainPost from "../components/Post/MainPost";
@@ -17,8 +17,11 @@ import { CommentMutation } from "../api/CommentService";
 import { useAppSelector } from "../app/hooks";
 import { getCurrentUser } from "../modules/users/userSlice";
 import Comments from "../components/Post/Comments";
+import useSyncReduxCommentsParams from "../utils/useSyncReduxCommentsParams";
 
 const PostPage: React.FC = () => {
+  useSyncReduxCommentsParams();
+
   const curUser = useAppSelector(getCurrentUser);
   const editor = useEditor({
     extensions: [

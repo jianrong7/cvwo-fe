@@ -19,13 +19,8 @@ import {
 } from "@mui/icons-material";
 
 import { getBiggestTimeInterval } from "../../utils/utils";
-import { UserData } from "../../modules/users/types";
-import { Post } from "../../modules/posts/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
-import DeleteButton from "../DeleteButton";
-import EditButton from "../EditButton";
-import { Rating } from "../../modules/ratings/types";
 import { RatingMutation } from "../../api/RatingService";
 import {
   updateSnackbarContent,
@@ -33,6 +28,8 @@ import {
   openSnackbar,
 } from "../../modules/snackbar/snackbarSlice";
 import { getComments, getPost } from "../../modules/post/postSlice";
+import DeleteButton from "../shared/DeleteButton/DeleteButton";
+import EditButton from "../shared/EditButton/EditButton";
 
 const MainPost: React.FC = () => {
   const dispatch = useAppDispatch();

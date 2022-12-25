@@ -7,6 +7,7 @@ interface PostState {
   isFetchingPost: boolean;
   comments: Comment[] | null;
   isFetchingComments: boolean;
+  commentsQueryParams: { sort: string };
 }
 
 const initialState: PostState = {
@@ -14,6 +15,7 @@ const initialState: PostState = {
   isFetchingPost: false,
   comments: null,
   isFetchingComments: false,
+  commentsQueryParams: { sort: "created_at" },
 };
 
 export const postSlice = createSlice({
@@ -33,6 +35,12 @@ export const postSlice = createSlice({
     updateIsFetchingComments: (state, action: PayloadAction<boolean>) => {
       state.isFetchingComments = action.payload;
     },
+    updateCommentsQueryParams: (state, action: PayloadAction<string>) => {
+      state.commentsQueryParams = { sort: action.payload };
+    },
+    resetQueryParamsState: (state) => {
+      state.commentsQueryParams = { sort: "created_at" };
+    },
   },
 });
 
@@ -41,6 +49,8 @@ export const {
   updateIsFetchingPost,
   updateComments,
   updateIsFetchingComments,
+  updateCommentsQueryParams,
+  resetQueryParamsState,
 } = postSlice.actions;
 
 export const getPost = (state: RootState): Post | null => {
@@ -49,6 +59,10 @@ export const getPost = (state: RootState): Post | null => {
 
 export const getComments = (state: RootState): Comment[] | null => {
   return state.post.comments;
+};
+
+export const getCommentsQueryParams = (state: RootState): { sort: string } => {
+  return state.post.commentsQueryParams;
 };
 
 export default postSlice.reducer;

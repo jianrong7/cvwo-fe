@@ -9,7 +9,7 @@ import SearchForm from "./SearchForm";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
-import BackToTop from "../BackToTop";
+import BackToTop from "../shared/BackToTop";
 
 interface Props {
   refetch: (

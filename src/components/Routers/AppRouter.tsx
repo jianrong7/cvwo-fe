@@ -4,7 +4,7 @@ import NoMatch from "../../pages/NoMatch";
 import Home from "../../pages/Home";
 import Post from "../../pages/Post";
 import CreatePost from "../../pages/CreatePost";
-import Layout from "../Layout";
+import Layout from "./Layout";
 import PrivateRoute from "./PrivateRoute";
 import User from "../../pages/User";
 

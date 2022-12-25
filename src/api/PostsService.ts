@@ -2,7 +2,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "typescript-cookie";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { Comment } from "../modules/comments/types";
 import {
+  getCommentsQueryParams,
   updateComments,
   updateIsFetchingComments,
   updateIsFetchingPost,
@@ -31,26 +33,30 @@ export const PostsQuery = () => {
   const fetchPosts = async (context: any) => {
     const { tags, sort, search } = context.queryKey[1];
     dispatch(updateIsFetchingPosts(true));
-    const response = await apiClient.get(
-      `${baseURL}?tags=${tags}&search=${search}`
-    );
-    const { posts } = response.data;
-    if (sort === "upvotes") {
-      const res = posts.sort((a: Post, b: Post) => {
-        const ratingA = a.upvotes.length - a.downvotes.length;
-        const ratingB = b.upvotes.length - b.downvotes.length;
-        return ratingA > ratingB ? 1 : -1;
-      });
-      return res;
-    } else if (sort === "downvotes") {
-      const res = posts.sort((a: Post, b: Post) => {
-        const ratingA = a.upvotes.length - a.downvotes.length;
-        const ratingB = b.upvotes.length - b.downvotes.length;
-        return ratingA > ratingB ? -1 : 1;
-      });
-      return res;
-    } else {
-      return posts;
+    try {
+      const { data } = await apiClient.get(
+        `${baseURL}?tags=${tags}&search=${search}`
+      );
+      const { posts } = data;
+      if (sort === "upvotes") {
+        const res = posts.sort((a: Post, b: Post) => {
+          const ratingA = a.upvotes.length - a.downvotes.length;
+          const ratingB = b.upvotes.length - b.downvotes.length;
+          return ratingA > ratingB ? 1 : -1;
+        });
+        return res;
+      } else if (sort === "downvotes") {
+        const res = posts.sort((a: Post, b: Post) => {
+          const ratingA = a.upvotes.length - a.downvotes.length;
+          const ratingB = b.upvotes.length - b.downvotes.length;
+          return ratingA > ratingB ? -1 : 1;
+        });
+        return res;
+      } else {
+        return posts;
+      }
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -83,20 +89,39 @@ export const PostQuery = (id: string) => {
 
 export const CommentsFromPostQuery = (postId: string) => {
   const dispatch = useAppDispatch();
+  const { sort } = useAppSelector(getCommentsQueryParams);
   const fetchComments = async () => {
     dispatch(updateIsFetchingComments(true));
     try {
-      const response = await apiClient.get(`${baseURL}comments/${postId}`);
-      return response.data;
+      const { data } = await apiClient.get(`${baseURL}comments/${postId}`);
+
+      const { comments } = data;
+
+      if (sort === "upvotes") {
+        const res = comments.sort((a: Comment, b: Comment) => {
+          const ratingA = a.upvotes.length - a.downvotes.length;
+          const ratingB = b.upvotes.length - b.downvotes.length;
+          return ratingA > ratingB ? -1 : 1;
+        });
+        return res;
+      } else if (sort === "downvotes") {
+        const res = comments.sort((a: Comment, b: Comment) => {
+          const ratingA = a.upvotes.length - a.downvotes.length;
+          const ratingB = b.upvotes.length - b.downvotes.length;
+          return ratingA > ratingB ? 1 : -1;
+        });
+        return res;
+      } else {
+        return comments;
+      }
     } catch (err) {
       throw err;
     }
   };
-  return useQuery(["getComments", postId], fetchComments, {
+  return useQuery(["getComments", sort], fetchComments, {
     onSettled: () => dispatch(updateIsFetchingComments(false)),
     onSuccess: (data) => {
-      console.log(data);
-      dispatch(updateComments(data.comments));
+      dispatch(updateComments(data));
     },
   });
 };
@@ -224,6 +249,11 @@ export const PostAiMutation = () => {
       }
     },
     {
+      onError: () => {
+        dispatch(updateSnackbarContent("Content generation unsuccessful."));
+        dispatch(updateAlertSeverity("error"));
+        dispatch(openSnackbar());
+      },
       onMutate: () => {
         dispatch(updateIsFetchingAiPost(true));
       },
@@ -232,23 +262,10 @@ export const PostAiMutation = () => {
       },
       onSuccess: (data: string) => {
         dispatch(updateAiPost(data));
+        dispatch(updateSnackbarContent("Successfully generated content."));
+        dispatch(updateAlertSeverity("success"));
+        dispatch(openSnackbar());
       },
     }
-    // {
-    //   onError: () => {
-    //     dispatch(updateSnackbarContent("Post creation unsuccessful."));
-    //     dispatch(updateAlertSeverity("error"));
-    //     dispatch(openSnackbar());
-    //   },
-    //   onSuccess: (data) => {
-    //     queryClient.invalidateQueries("getAllPosts");
-    //     queryClient.invalidateQueries(["getOnePost", data.ID]);
-    //     // navigate(`/post/${data.post.ID}`);
-
-    //     dispatch(updateSnackbarContent("Successfully created post."));
-    //     dispatch(updateAlertSeverity("success"));
-    //     dispatch(openSnackbar());
-    //   },
-    // }
   );
 };

@@ -1,24 +1,17 @@
 import React from "react";
 import { Button } from "@mui/material";
-import {
-  RefetchOptions,
-  RefetchQueryFilters,
-  QueryObserverResult,
-} from "react-query";
-import { useAppDispatch } from "../app/hooks";
-import { updateQueryParamsSort } from "../modules/posts/postsSlice";
+import { useAppDispatch } from "../../../app/hooks";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 interface Props {
-  refetch: (
-    options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined
-  ) => Promise<QueryObserverResult<any, unknown>>;
   query: string;
+  dispatchAction: ActionCreatorWithPayload<string, any>;
   curActive: boolean;
 }
 
 const FilterButton: React.FC<Props> = ({
-  refetch,
   query,
+  dispatchAction,
   curActive = false,
 }) => {
   const dispatch = useAppDispatch();
@@ -26,8 +19,8 @@ const FilterButton: React.FC<Props> = ({
   return (
     <Button
       onClick={() => {
-        dispatch(updateQueryParamsSort(query));
-        refetch();
+        dispatch(dispatchAction(query));
+        // refetch();
       }}
       variant={curActive ? "outlined" : "text"}
       sx={{ fontWeight: curActive ? 600 : 400 }}

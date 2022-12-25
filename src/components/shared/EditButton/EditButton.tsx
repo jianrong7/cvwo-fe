@@ -1,9 +1,8 @@
 import { Edit } from "@mui/icons-material";
 import { Tooltip, IconButton } from "@mui/material";
 import React, { useState } from "react";
-import { CommentEditMutation } from "../api/CommentService";
-import { PostEditMutation } from "../api/PostsService";
-import DeleteModal from "./DeleteModal";
+import { CommentEditMutation } from "../../../api/CommentService";
+import { PostEditMutation } from "../../../api/PostsService";
 import EditModal from "./EditModal";
 
 interface Props {

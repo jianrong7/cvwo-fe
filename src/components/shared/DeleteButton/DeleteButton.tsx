@@ -1,8 +1,8 @@
 import { Delete } from "@mui/icons-material";
 import { Tooltip, IconButton } from "@mui/material";
 import React, { useState } from "react";
-import { CommentDeleteMutation } from "../api/CommentService";
-import { PostDeleteMutation } from "../api/PostsService";
+import { CommentDeleteMutation } from "../../../api/CommentService";
+import { PostDeleteMutation } from "../../../api/PostsService";
 import DeleteModal from "./DeleteModal";
 
 interface Props {

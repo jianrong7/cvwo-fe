@@ -15,11 +15,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ChatBubbleOutline } from "@mui/icons-material";
 import { removeCookie } from "typescript-cookie";
-
-import Authentication from "./Authentication/Authentication";
-import { getCurrentUser, removeCurrentUser } from "../modules/users/userSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { resetQueryParamsState } from "../modules/posts/postsSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { resetQueryParamsState } from "../../modules/posts/postsSlice";
+import {
+  getCurrentUser,
+  removeCurrentUser,
+} from "../../modules/users/userSlice";
+import Authentication from "../Authentication/Authentication";
 
 function ResponsiveAppBar() {
   const user = useAppSelector(getCurrentUser);

@@ -3,11 +3,17 @@ import { Container, CircularProgress, Stack, Typography } from "@mui/material";
 import Posts from "../components/Home/Posts";
 import { PostsQuery } from "../api/PostsService";
 import HomeStickyBar from "../components/Home/HomeStickyBar";
-import Filters from "../components/Home/Filters";
+import Filters from "../components/shared/Filters/Filters";
 import useSyncReduxSearchParams from "../utils/useSyncReduxSearchParams";
+import { useAppSelector } from "../app/hooks";
+import {
+  getQueryParams,
+  updateQueryParamsSort,
+} from "../modules/posts/postsSlice";
 
 const Home: React.FC = () => {
   useSyncReduxSearchParams();
+  const { sort } = useAppSelector(getQueryParams);
 
   const { data, isSuccess, isFetching, isLoading, refetch } = PostsQuery();
   return (
@@ -31,7 +37,7 @@ const Home: React.FC = () => {
         }}
       >
         <Typography>{data?.length} POSTS</Typography>
-        <Filters refetch={refetch} />
+        <Filters sort={sort} dispatchAction={updateQueryParamsSort} />
       </Stack>
 
       {(isLoading || isFetching) && <CircularProgress />}

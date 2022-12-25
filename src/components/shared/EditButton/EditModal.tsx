@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { UseMutateFunction } from "react-query";
-import RichTextEditor from "./Form/RichTextEditor";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
@@ -22,6 +21,7 @@ import Typography from "@tiptap/extension-typography";
 import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import RichTextEditor from "../../Form/RichTextEditor";
 
 interface EditInput {
   content: string;

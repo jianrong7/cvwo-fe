@@ -13,14 +13,12 @@ import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
 import { useAppSelector } from "../../app/hooks";
 
 import type { Comment as CommentType } from "../../modules/comments/types";
-import { UserData } from "../../modules/users/types";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import { getBiggestTimeInterval } from "../../utils/utils";
-import DeleteButton from "../DeleteButton";
-import { Post } from "../../modules/posts/types";
-import EditButton from "../EditButton";
 import { RatingMutation } from "../../api/RatingService";
 import { getPost } from "../../modules/post/postSlice";
+import DeleteButton from "../shared/DeleteButton/DeleteButton";
+import EditButton from "../shared/EditButton/EditButton";
 
 interface Props {
   comment: CommentType;

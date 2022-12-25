@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
-import BackToTop from "../BackToTop";
+import BackToTop from "../shared/BackToTop";
 import { RatingMutation } from "../../api/RatingService";
 import { useAppSelector } from "../../app/hooks";
 import { getPost } from "../../modules/post/postSlice";

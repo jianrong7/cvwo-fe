@@ -25,7 +25,7 @@ import { TagsState } from "../Form/TagsInput";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import { getBiggestTimeInterval } from "../../utils/utils";
-import DeleteButton from "../DeleteButton";
+import DeleteButton from "../shared/DeleteButton/DeleteButton";
 import { RatingMutation } from "../../api/RatingService";
 
 interface Props {
