@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "typescript-cookie";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
+  updateComments,
+  updateIsFetchingComments,
+  updateIsFetchingPost,
+  updatePost,
+} from "../modules/post/postSlice";
+import {
   getQueryParams,
   updateIsFetchingPosts,
   updatePosts,
-  updatePost,
-  updateIsFetchingPost,
   updateAiPost,
   updateIsFetchingAiPost,
 } from "../modules/posts/postsSlice";
@@ -59,13 +63,17 @@ export const PostsQuery = () => {
 export const PostQuery = (id: string) => {
   const dispatch = useAppDispatch();
 
-  const fetchPost = async (id: string) => {
+  const fetchPost = async () => {
     dispatch(updateIsFetchingPost(true));
-    const response = await apiClient.get(`/posts/${id}`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`/posts/${id}`);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
   };
 
-  return useQuery(["getOnePost", id], () => fetchPost(id), {
+  return useQuery(["getOnePost", id], fetchPost, {
     onSettled: () => dispatch(updateIsFetchingPost(false)),
     onSuccess: (data) => {
       dispatch(updatePost(data.post));
@@ -74,7 +82,9 @@ export const PostQuery = (id: string) => {
 };
 
 export const CommentsFromPostQuery = (postId: string) => {
+  const dispatch = useAppDispatch();
   const fetchComments = async () => {
+    dispatch(updateIsFetchingComments(true));
     try {
       const response = await apiClient.get(`${baseURL}comments/${postId}`);
       return response.data;
@@ -82,10 +92,15 @@ export const CommentsFromPostQuery = (postId: string) => {
       throw err;
     }
   };
-  return useQuery(["getComments", postId], fetchComments);
+  return useQuery(["getComments", postId], fetchComments, {
+    onSettled: () => dispatch(updateIsFetchingComments(false)),
+    onSuccess: (data) => {
+      console.log(data);
+      dispatch(updateComments(data.comments));
+    },
+  });
 };
 
-// very iffy mutation that works intermittently
 export const PostMutation = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();

@@ -3,6 +3,7 @@ import postsReducer from "../modules/posts/postsSlice";
 import userReducer from "../modules/users/userSlice";
 import snackbarReducer from "../modules/snackbar/snackbarSlice";
 import homeReducer from "../modules/home/homeSlice";
+import postReducer from "../modules/post/postSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     posts: postsReducer,
     snackbar: snackbarReducer,
     home: homeReducer,
+    post: postReducer,
   },
 });
 

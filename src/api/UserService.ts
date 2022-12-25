@@ -1,8 +1,5 @@
-import { QueryFunctionContext, useQuery } from "react-query";
-import { useAppSelector } from "../app/hooks";
+import { useQuery } from "react-query";
 import { PayloadState } from "../components/user/MainContent";
-import { getCurPost } from "../modules/posts/postsSlice";
-import { Post } from "../modules/posts/types";
 
 import apiClient from "./http-common";
 

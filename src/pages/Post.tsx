@@ -33,17 +33,11 @@ const PostPage: React.FC = () => {
   });
 
   const params = useParams();
-  // depepndent queries. UserQuery depends on PostQuery finishing for userId.
-  const {
-    data: postData,
-    isLoading: postLoading,
-    isFetching: postFetching,
-  } = PostQuery(params.id ? params.id : "");
-  const {
-    data: commentsData,
-    isLoading: commentsLoading,
-    isFetching: commentsFetching,
-  } = CommentsFromPostQuery(params.id ? params.id : "");
+  const { isLoading: postLoading, isFetching: postFetching } = PostQuery(
+    params.id ? params.id : ""
+  );
+  const { isLoading: commentsLoading, isFetching: commentsFetching } =
+    CommentsFromPostQuery(params.id ? params.id : "");
 
   const { mutate: addComment } = CommentMutation(params.id ? params.id : "");
 
@@ -58,8 +52,6 @@ const PostPage: React.FC = () => {
   if (postLoading || commentsLoading || postFetching || commentsFetching)
     return <CircularProgress />;
 
-  const { comments } = commentsData;
-
   return (
     <Container
       sx={{
@@ -68,12 +60,8 @@ const PostPage: React.FC = () => {
         gap: 4,
       }}
     >
-      <StickyTitleHeader post={postData?.post} />
-      <MainPost
-        post={postData?.post}
-        user={postData?.post?.user}
-        commentsLength={comments.length}
-      />
+      <StickyTitleHeader />
+      <MainPost />
       {curUser && (
         <RichTextEditor
           editor={editor}
@@ -81,7 +69,7 @@ const PostPage: React.FC = () => {
           handleSubmitComment={handleSubmitComment}
         />
       )}
-      <Comments comments={comments} post={postData?.post} />
+      <Comments />
     </Container>
   );
 };

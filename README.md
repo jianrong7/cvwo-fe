@@ -11,7 +11,6 @@
 - [ ] User page -> Offers customisation to profile
 - [ ] Image hosting for posts
 - [ ] Comments can have replies too
-- [ ] Categorisation/Subcategorisation system of posts
 - [ ] Pagination
 
 ## CVWO Assignment Sample React App

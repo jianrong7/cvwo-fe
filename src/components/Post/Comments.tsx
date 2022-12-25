@@ -1,18 +1,14 @@
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 import { PostsQuery } from "../../api/PostsService";
-import type { Comment as CommentType } from "../../modules/comments/types";
+import { useAppSelector } from "../../app/hooks";
+import { getComments } from "../../modules/post/postSlice";
 import { Post } from "../../modules/posts/types";
-import FilterButton from "../FilterButton";
 import Filters from "../Home/Filters";
 import Comment from "./Comment";
 
-interface Props {
-  comments: CommentType[];
-  post: Post;
-}
-
-const Comments: React.FC<Props> = ({ comments, post }) => {
+const Comments: React.FC = () => {
+  const comments = useAppSelector(getComments);
   const { data, isSuccess, isFetching, isLoading, refetch } = PostsQuery();
   return (
     <>
@@ -22,8 +18,8 @@ const Comments: React.FC<Props> = ({ comments, post }) => {
       </Stack>
 
       <Stack direction="column" spacing={4}>
-        {comments?.map((comment) => (
-          <Comment key={comment.ID} comment={comment} post={post} />
+        {comments?.map((comment: any) => (
+          <Comment key={comment.ID} comment={comment} />
         ))}
       </Stack>
     </>

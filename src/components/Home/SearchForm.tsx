@@ -9,11 +9,7 @@ import {
 } from "react-query";
 import * as z from "zod";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  getTags,
-  updateSearchTags,
-  updateSearchText,
-} from "../../modules/home/homeSlice";
+import { getTags } from "../../modules/home/homeSlice";
 import {
   updateQueryParamsSearch,
   updateQueryParamsTags,
@@ -50,9 +46,6 @@ const SearchForm: React.FC<Props> = ({ refetch }) => {
     value.forEach((val) =>
       tags.includes(val) ? searchTags.push(val) : searchText.push(val)
     );
-    dispatch(updateSearchTags(searchTags));
-    dispatch(updateSearchText(searchText));
-
     dispatch(updateQueryParamsTags(searchTags.join()));
     dispatch(updateQueryParamsSearch(searchText.join("")));
     refetch();

@@ -1,15 +1,21 @@
-import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
-import { Post } from "../../modules/posts/types";
 import BackToTop from "../BackToTop";
-import { Rating } from "../../modules/ratings/types";
 import { RatingMutation } from "../../api/RatingService";
+import { useAppSelector } from "../../app/hooks";
+import { getPost } from "../../modules/post/postSlice";
 
-interface Props {
-  post: Post;
-}
-const StickyTitleHeader: React.FC<Props> = ({ post }) => {
+const StickyTitleHeader: React.FC = () => {
+  const post = useAppSelector(getPost);
+  if (!post) return <CircularProgress />;
   const { title, tags, ID, upvotes, downvotes } = post;
   const { mutate } = RatingMutation(ID.toString());
 

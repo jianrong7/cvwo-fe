@@ -7,6 +7,7 @@ import {
   Chip,
   Link,
   Tooltip,
+  CircularProgress,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import DOMPurify from "dompurify";
@@ -31,20 +32,20 @@ import {
   updateAlertSeverity,
   openSnackbar,
 } from "../../modules/snackbar/snackbarSlice";
+import { getComments, getPost } from "../../modules/post/postSlice";
 
-interface Props {
-  post: Post;
-  user: UserData;
-  commentsLength: number;
-}
-
-const MainPost: React.FC<Props> = ({ post, user, commentsLength }) => {
+const MainPost: React.FC = () => {
   const dispatch = useAppDispatch();
+  const comments = useAppSelector(getComments);
+  const commentsLength = comments ? comments.length : 0;
   const curUser = useAppSelector(getCurrentUser);
+  const post = useAppSelector(getPost);
+
+  if (!post) return <CircularProgress />;
   const { title, content, tags, CreatedAt, UpdatedAt, ID, upvotes, downvotes } =
     post;
 
-  const { username, ID: userId } = user;
+  const { username, ID: userId } = post.user;
   const { mutate } = RatingMutation(ID.toString());
   return (
     <Stack direction="row" spacing={2}>

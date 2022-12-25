@@ -1,4 +1,12 @@
-import { Box, Link, Stack, Typography, Chip, IconButton } from "@mui/material";
+import {
+  Box,
+  Link,
+  Stack,
+  Typography,
+  Chip,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import React from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
@@ -12,17 +20,20 @@ import DeleteButton from "../DeleteButton";
 import { Post } from "../../modules/posts/types";
 import EditButton from "../EditButton";
 import { RatingMutation } from "../../api/RatingService";
+import { getPost } from "../../modules/post/postSlice";
 
 interface Props {
   comment: CommentType;
-  post: Post;
 }
 
-const Comment: React.FC<Props> = ({ comment, post }) => {
+const Comment: React.FC<Props> = ({ comment }) => {
   const params = useParams();
   const curUser = useAppSelector(getCurrentUser);
-  const { user, CreatedAt, UpdatedAt, ID, upvotes, downvotes } = comment;
+  const post = useAppSelector(getPost);
 
+  if (!post) return <CircularProgress />;
+
+  const { user, CreatedAt, UpdatedAt, ID, upvotes, downvotes } = comment;
   const { user: postUser, ID: postId } = post;
   const { mutate } = RatingMutation(postId.toString());
 
