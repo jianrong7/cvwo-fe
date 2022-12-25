@@ -1,13 +1,19 @@
-import { Box, Avatar, Typography } from "@mui/material";
+import { Card, Avatar, Typography, CircularProgress, Box } from "@mui/material";
+import { format } from "date-fns";
 import React from "react";
+import { useAppSelector } from "../../app/hooks";
+import { getCurrentUser, getUserData } from "../../modules/users/userSlice";
+import ImageUploadModal from "./ImageUploadModal";
 
-interface Props {
-  username: string;
-}
+const SideBar: React.FC = () => {
+  const userData = useAppSelector(getUserData);
+  const curUser = useAppSelector(getCurrentUser);
 
-const SideBar: React.FC<Props> = ({ username }) => {
+  if (!userData) return <CircularProgress />;
+
+  const { username, CreatedAt } = userData;
   return (
-    <Box
+    <Card
       sx={{
         position: "sticky",
         top: 20,
@@ -19,18 +25,23 @@ const SideBar: React.FC<Props> = ({ username }) => {
         flexDirection: "column",
         gap: 2,
         paddingY: 2,
-        border: "1px solid",
-        borderColor: "#0288d1",
-        borderRadius: 2,
       }}
     >
       <Avatar
         alt={username}
-        src="/static/images/avatar/2.jpg"
+        src={
+          curUser?.profilePicture
+            ? `https://cvwo-user-profiles.s3.ap-southeast-1.amazonaws.com/${curUser?.profilePicture}`
+            : "/static/images/avatar/2.jpg"
+        }
         sx={{ height: 52, width: 52 }}
       />
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>{username}</Typography>
-    </Box>
+      {curUser?.username === username && <ImageUploadModal />}
+      <Typography>
+        Cake day: {format(new Date(CreatedAt), "dd MMM, yyyy")}
+      </Typography>
+    </Card>
   );
 };
 

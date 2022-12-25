@@ -1,5 +1,5 @@
 import { Rating } from "../ratings/types";
-import { UserData } from "../users/types";
+import { UserModel } from "../users/types";
 
 export interface Post {
   ID: number;
@@ -11,7 +11,7 @@ export interface Post {
   tags: string[];
   CreatedAt: Date;
   UpdatedAt: Date;
-  user: UserData;
+  user: UserModel;
   // gorm.Model
   // Title string
   // Body string

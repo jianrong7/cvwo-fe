@@ -1,5 +1,5 @@
 import { Rating } from "../ratings/types";
-import { UserData } from "../users/types";
+import { UserModel } from "../users/types";
 
 export interface Comment {
   // type Comment struct {
@@ -17,7 +17,7 @@ export interface Comment {
   content: string;
   postId: number;
   userId: number;
-  user: UserData;
+  user: UserModel;
   upvotes: Rating[];
   downvotes: Rating[];
 }

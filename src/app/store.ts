@@ -7,7 +7,7 @@ import postReducer from "../modules/post/postSlice";
 
 export const store = configureStore({
   reducer: {
-    users: userReducer,
+    user: userReducer,
     posts: postsReducer,
     snackbar: snackbarReducer,
     home: homeReducer,

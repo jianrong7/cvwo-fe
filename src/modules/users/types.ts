@@ -2,20 +2,11 @@ import { Comment } from "../comments/types";
 import { Post } from "../posts/types";
 import { Rating } from "../ratings/types";
 
-export interface UserData {
-  ID: number;
-  name: string;
-  username: string;
-  claims?: {
-    exp?: number;
-    sub?: number;
-  };
-}
-
 export interface UserLoginOutput {
-  token: string;
-  username: string;
-  ID: string;
+  token?: string;
+  username?: string;
+  ID?: string;
+  profilePicture?: string;
 }
 
 export interface UserModel {
@@ -27,4 +18,5 @@ export interface UserModel {
   posts: Post[];
   comments: Comment[];
   ratings: Rating[];
+  profilePicture: string;
 }

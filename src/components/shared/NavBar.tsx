@@ -91,7 +91,11 @@ function ResponsiveAppBar() {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt={user?.username}
-                      src="/static/images/avatar/2.jpg"
+                      src={
+                        user?.profilePicture
+                          ? `https://cvwo-user-profiles.s3.ap-southeast-1.amazonaws.com/${user?.profilePicture}`
+                          : "/static/images/avatar/2.jpg"
+                      }
                     />
                   </IconButton>
                 </Tooltip>

@@ -30,6 +30,7 @@ import {
 import { getComments, getPost } from "../../modules/post/postSlice";
 import DeleteButton from "../shared/DeleteButton/DeleteButton";
 import EditButton from "../shared/EditButton/EditButton";
+import PostSubheader from "../Home/PostSubheader";
 
 const MainPost: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -68,19 +69,11 @@ const MainPost: React.FC = () => {
         </Stack>
       </Box>
       <Stack spacing={1}>
-        <Typography sx={{ fontSize: 12, textAlign: "left" }}>
-          Posted by{" "}
-          <Link component={RouterLink} to={`/user/${userId}`}>
-            {username}
-          </Link>
-          {" · "}
-          {getBiggestTimeInterval(CreatedAt)
-            ? getBiggestTimeInterval(CreatedAt)
-            : "0 seconds"}{" "}
-          ago
-          {CreatedAt !== UpdatedAt &&
-            ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
-        </Typography>
+        <PostSubheader
+          user={post.user}
+          postCreatedAt={CreatedAt}
+          postUpdatedAt={UpdatedAt}
+        />
         <Typography component="h1" sx={{ fontSize: 22, textAlign: "left" }}>
           {title}
         </Typography>

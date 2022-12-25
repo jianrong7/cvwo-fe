@@ -19,6 +19,7 @@ import { RatingMutation } from "../../api/RatingService";
 import { getPost } from "../../modules/post/postSlice";
 import DeleteButton from "../shared/DeleteButton/DeleteButton";
 import EditButton from "../shared/EditButton/EditButton";
+import PostSubheader from "../Home/PostSubheader";
 
 interface Props {
   comment: CommentType;
@@ -38,29 +39,21 @@ const Comment: React.FC<Props> = ({ comment }) => {
   return (
     <Box sx={{ paddingX: 2, borderLeft: "1px solid rgba(0,0,0,0.23)" }}>
       <Stack direction="column" spacing={1}>
-        <Stack direction="row">
-          <Typography sx={{ fontSize: 12 }}>
-            Posted by{" "}
-            <Link component={RouterLink} to={`/user/${user.ID}`}>
-              {user.username}
-            </Link>
-            {" · "}
-            {getBiggestTimeInterval(CreatedAt) === ""
-              ? "0 seconds"
-              : getBiggestTimeInterval(CreatedAt)}{" "}
-            ago
-            {CreatedAt !== UpdatedAt &&
-              ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
-            {postUser?.username === user.username && (
-              <Chip
-                sx={{ marginLeft: 2 }}
-                label="OP"
-                variant="outlined"
-                color="primary"
-                size="small"
-              />
-            )}
-          </Typography>
+        <Stack direction="row" alignItems="center">
+          <PostSubheader
+            user={user}
+            postCreatedAt={CreatedAt}
+            postUpdatedAt={UpdatedAt}
+          />
+          {postUser?.username === user.username && (
+            <Chip
+              sx={{ marginLeft: 2 }}
+              label="OP"
+              variant="outlined"
+              color="primary"
+              size="small"
+            />
+          )}
         </Stack>
 
         <Box sx={{ textAlign: "left" }}>

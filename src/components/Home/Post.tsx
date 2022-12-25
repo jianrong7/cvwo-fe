@@ -7,11 +7,9 @@ import {
   CardActions,
   CardActionArea,
   Typography,
-  Stack,
   Box,
-  Link,
 } from "@mui/material";
-import { Link as RouterLink, Navigate, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { ThumbUpOffAlt } from "@mui/icons-material";
 import DOMPurify from "dompurify";
 import Tags from "./Tags";
@@ -21,12 +19,11 @@ import {
   RefetchQueryFilters,
   QueryObserverResult,
 } from "react-query";
-import { TagsState } from "../Form/TagsInput";
 import { useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
-import { getBiggestTimeInterval } from "../../utils/utils";
 import DeleteButton from "../shared/DeleteButton/DeleteButton";
 import { RatingMutation } from "../../api/RatingService";
+import PostSubheader from "./PostSubheader";
 
 interface Props {
   post: PostType;
@@ -43,13 +40,12 @@ const Post: React.FC<Props> = ({ post, refetch }) => {
     upvotes,
     downvotes,
     tags,
+    user,
     CreatedAt,
     UpdatedAt,
-    user,
   } = post;
   const curUser = useAppSelector(getCurrentUser);
   const { mutate } = RatingMutation(ID.toString());
-
   return (
     <Card key={ID} sx={{ width: "100%", textAlign: "left" }}>
       <CardHeader
@@ -57,16 +53,11 @@ const Post: React.FC<Props> = ({ post, refetch }) => {
         title={title}
         titleTypographyProps={{ fontWeight: 600 }}
         subheader={
-          <Typography component="p" sx={{ fontSize: 12, zIndex: 10 }}>
-            Posted by{" "}
-            <Link component={RouterLink} to={`/user/${user.ID}`}>
-              {user.username}
-            </Link>
-            {" · "}
-            {getBiggestTimeInterval(CreatedAt)} ago
-            {CreatedAt !== UpdatedAt &&
-              ` · Edited ${getBiggestTimeInterval(UpdatedAt)} ago`}
-          </Typography>
+          <PostSubheader
+            user={user}
+            postCreatedAt={CreatedAt}
+            postUpdatedAt={UpdatedAt}
+          />
         }
         subheaderTypographyProps={{ fontSize: 12 }}
       />

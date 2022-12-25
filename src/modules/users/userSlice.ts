@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
-import { UserLoginOutput } from "./types";
+import { UserModel, UserLoginOutput } from "./types";
 
 interface UserState {
   currentUser: UserLoginOutput | null;
   rememberMe: boolean;
   isFetchingUser: boolean;
   viewType: string;
+  userData: UserModel | null;
 }
 
 const initialState: UserState = {
@@ -14,10 +15,11 @@ const initialState: UserState = {
   rememberMe: true,
   isFetchingUser: false,
   viewType: "posts",
+  userData: null,
 };
 
 export const usersSlice = createSlice({
-  name: "users",
+  name: "user",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -42,6 +44,9 @@ export const usersSlice = createSlice({
     updateViewType: (state, action: PayloadAction<string>) => {
       state.viewType = action.payload;
     },
+    updateUserData: (state, action: PayloadAction<UserModel>) => {
+      state.userData = action.payload;
+    },
   },
 });
 
@@ -53,22 +58,23 @@ export const {
   updateRememberMeToFalse,
   updateRememberMe,
   updateViewType,
+  updateUserData,
 } = usersSlice.actions;
 
 export const getCurrentUser = (state: RootState): UserLoginOutput | null => {
-  return state.users.currentUser;
+  return state.user.currentUser;
 };
 
 export const getRememberMe = (state: RootState): boolean | null => {
-  return state.users.rememberMe;
+  return state.user.rememberMe;
 };
 
 export const getViewType = (state: RootState): string => {
-  return state.users.viewType;
+  return state.user.viewType;
 };
 
-// export const getUserId = (state: RootState): number | undefined => {
-//   return state.users.currentUser?.claims?.sub as number;
-// };
+export const getUserData = (state: RootState): UserModel | null => {
+  return state.user.userData;
+};
 
 export default usersSlice.reducer;

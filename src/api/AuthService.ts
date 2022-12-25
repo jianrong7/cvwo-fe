@@ -26,7 +26,7 @@ const setTokenInCookies = (
   rememberMe: boolean | null
 ) => {
   const decoded: { exp: number; iat: number; sub: number } = jwtDecode(
-    data.token
+    data?.token as string
   );
   setCookie("Authorization", data.token, {
     path: "",
@@ -102,6 +102,9 @@ export const RefreshTokenQuery = () => {
     {
       // refetchInterval: 1000 * 60 * 5,
       // refetchIntervalInBackground: true,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
     }
   );
 };

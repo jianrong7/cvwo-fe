@@ -48,15 +48,6 @@ const SecondaryNav: React.FC = () => {
         >
           Downvoted
         </Button>
-        <Button
-          color="info"
-          variant="outlined"
-          onClick={() => {
-            dispatch(updateViewType("saved"));
-          }}
-        >
-          Saved
-        </Button>
       </Stack>
     </Container>
   );

@@ -1,10 +1,10 @@
-import { UserData } from "../users/types";
+import { UserModel } from "../users/types";
 
 export interface Rating {
   ID: number;
   value: number;
   userId: number;
-  user: UserData;
+  user: UserModel;
   entryId: number;
   entryType: "post" | "comment";
 }
