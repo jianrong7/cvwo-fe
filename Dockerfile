@@ -10,7 +10,7 @@ RUN yarn
 
 # add app
 COPY . ./
-RUN yarn build
+RUN yarn build-prod
 
 FROM amazon/aws-cli
 
