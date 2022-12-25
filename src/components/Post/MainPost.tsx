@@ -5,11 +5,9 @@ import {
   IconButton,
   Typography,
   Chip,
-  Link,
   Tooltip,
   CircularProgress,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
 import DOMPurify from "dompurify";
 import {
   ThumbUpOffAlt,
@@ -18,7 +16,6 @@ import {
   ModeComment,
 } from "@mui/icons-material";
 
-import { getBiggestTimeInterval } from "../../utils/utils";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getCurrentUser } from "../../modules/users/userSlice";
 import { RatingMutation } from "../../api/RatingService";
@@ -43,7 +40,7 @@ const MainPost: React.FC = () => {
   const { title, content, tags, CreatedAt, UpdatedAt, ID, upvotes, downvotes } =
     post;
 
-  const { username, ID: userId } = post.user;
+  const { username } = post.user;
   const { mutate } = RatingMutation(ID.toString());
   return (
     <Stack direction="row" spacing={2}>

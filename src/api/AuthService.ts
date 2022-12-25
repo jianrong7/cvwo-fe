@@ -8,7 +8,6 @@ import {
   updateIsFetchingUser,
 } from "../modules/users/userSlice";
 import { setCookie } from "typescript-cookie";
-import type { AxiosResponse } from "axios";
 
 import { updateCurrentUser } from "../modules/users/userSlice";
 import {

@@ -1,4 +1,4 @@
-import { Card, Avatar, Typography, CircularProgress, Box } from "@mui/material";
+import { Card, Avatar, Typography, CircularProgress } from "@mui/material";
 import { format } from "date-fns";
 import React from "react";
 import { useAppSelector } from "../../app/hooks";

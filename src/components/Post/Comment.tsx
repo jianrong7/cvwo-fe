@@ -1,6 +1,5 @@
 import {
   Box,
-  Link,
   Stack,
   Typography,
   Chip,
@@ -8,13 +7,12 @@ import {
   CircularProgress,
 } from "@mui/material";
 import React from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ThumbUpOffAlt, ThumbDownOffAlt } from "@mui/icons-material";
 import { useAppSelector } from "../../app/hooks";
 
 import type { Comment as CommentType } from "../../modules/comments/types";
 import { getCurrentUser } from "../../modules/users/userSlice";
-import { getBiggestTimeInterval } from "../../utils/utils";
 import { RatingMutation } from "../../api/RatingService";
 import { getPost } from "../../modules/post/postSlice";
 import DeleteButton from "../shared/DeleteButton/DeleteButton";

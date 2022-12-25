@@ -6,9 +6,8 @@ import ImageUploading, {
 import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { FileUpload } from "@mui/icons-material";
 import { useAppSelector } from "../../app/hooks";
-import { getCurrentUser, getUserData } from "../../modules/users/userSlice";
-import { UpdateUser, UserUploadPicture } from "../../api/UserService";
-import { UserLoginOutput } from "../../modules/users/types";
+import { getUserData } from "../../modules/users/userSlice";
+import { UserUploadPicture } from "../../api/UserService";
 
 const ImageUploadModal: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
