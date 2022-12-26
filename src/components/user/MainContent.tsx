@@ -2,11 +2,8 @@ import { Box, CircularProgress, Typography, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { UserRatedQuery } from "../../api/UserService";
 import { useAppSelector } from "../../app/hooks";
-import { Comment } from "../../modules/comments/types";
-import { Post } from "../../modules/posts/types";
-import { Rating } from "../../modules/ratings/types";
 import { UserModel } from "../../modules/users/types";
-import { getUserData, getViewType } from "../../modules/users/userSlice";
+import { getViewType } from "../../modules/users/userSlice";
 import { extractUpvotesDownvotesPostsCommentsFromRatings } from "../../utils/utils";
 import UserComments from "./UserComments";
 import UserPosts from "./UserPosts";
@@ -53,6 +50,7 @@ const MainContent: React.FC<Props> = ({ data }) => {
         userId: ID,
       });
     }
+    // eslint-disable-next-line
   }, [viewType]);
 
   if (isLoading || isFetching) return <CircularProgress />;

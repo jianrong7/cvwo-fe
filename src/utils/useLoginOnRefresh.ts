@@ -24,6 +24,7 @@ const useLoginOnRefresh = () => {
         });
       }
     }
+    // eslint-disable-next-line
   }, []);
 };
 

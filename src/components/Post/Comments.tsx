@@ -1,6 +1,5 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
-import { CommentsFromPostQuery, PostsQuery } from "../../api/PostsService";
 import { useAppSelector } from "../../app/hooks";
 import {
   getComments,
@@ -8,7 +7,6 @@ import {
   getPost,
   updateCommentsQueryParams,
 } from "../../modules/post/postSlice";
-import { Post } from "../../modules/posts/types";
 import Filters from "../shared/Filters/Filters";
 import Comment from "./Comment";
 

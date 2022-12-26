@@ -10,7 +10,6 @@ import {
   updateQueryParamsTags,
 } from "../../modules/posts/postsSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { TagsState } from "../Form/TagsInput";
 
 interface Props {
   tags: string[] | undefined;
@@ -23,9 +22,6 @@ const Tags: React.FC<Props> = ({ tags, refetch }) => {
   const curTags = useAppSelector(getQueryParamsTags);
 
   const handleClick = (tag: string) => {
-    // const newActiveTags = tagsState.activeTags.map((x) => x);
-    // newActiveTags.push(tag);
-    // setTagsState({ ...tagsState, activeTags: newActiveTags });
     if (curTags) {
       dispatch(updateQueryParamsTags(curTags.concat(",", tag)));
     } else {

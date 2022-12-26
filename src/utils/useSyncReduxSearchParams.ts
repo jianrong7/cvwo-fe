@@ -27,6 +27,7 @@ const useSyncReduxSearchParams = () => {
     if (searchSort) {
       dispatch(updateQueryParamsSort(searchSort));
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const useSyncReduxSearchParams = () => {
       search,
       sort,
     });
+    // eslint-disable-next-line
   }, [tags, search, sort]);
 };
 

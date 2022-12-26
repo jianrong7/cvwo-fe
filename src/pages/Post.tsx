@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, CircularProgress } from "@mui/material";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CommentsFromPostQuery, PostQuery } from "../api/PostsService";
 import StickyTitleHeader from "../components/Post/StickyTitleHeader";
 import MainPost from "../components/Post/MainPost";

@@ -17,12 +17,14 @@ const useSyncReduxCommentsParams = () => {
     if (searchSort) {
       dispatch(updateCommentsQueryParams(searchSort));
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     setSearchParams({
       sort,
     });
+    // eslint-disable-next-line
   }, [sort]);
 };
 

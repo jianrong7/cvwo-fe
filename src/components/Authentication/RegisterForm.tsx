@@ -45,8 +45,7 @@ const RegisterForm: React.FC<Props> = ({ handleModalClose }) => {
   const {
     reset,
     handleSubmit,
-    register,
-    formState: { isSubmitSuccessful, errors },
+    formState: { isSubmitSuccessful },
   } = methods;
 
   useEffect(() => {

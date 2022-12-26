@@ -6,7 +6,6 @@ import {
   RefetchQueryFilters,
   QueryObserverResult,
 } from "react-query";
-import { TagsState } from "../Form/TagsInput";
 import Post from "./Post";
 
 interface Props {

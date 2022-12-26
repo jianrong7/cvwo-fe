@@ -59,6 +59,7 @@ const CreatePost: React.FC = () => {
     if (aiData) {
       editor?.commands.setContent(`<p>${aiData}</p>`);
     }
+    // eslint-disable-next-line
   }, [aiData]);
 
   useEffect(() => {

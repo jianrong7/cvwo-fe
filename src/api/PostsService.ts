@@ -242,7 +242,6 @@ export const PostDeleteMutation = (postId: number) => {
 };
 
 export const PostAiMutation = () => {
-  const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
     async (payload: any) => {

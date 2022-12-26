@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Container, Stack } from "@mui/material";
-import { useAppDispatch } from "../../app/hooks";
-import { updateViewType } from "../../modules/users/userSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getViewType, updateViewType } from "../../modules/users/userSlice";
 
 const SecondaryNav: React.FC = () => {
+  const viewType = useAppSelector(getViewType);
   const dispatch = useAppDispatch();
 
   return (
@@ -14,7 +15,7 @@ const SecondaryNav: React.FC = () => {
       <Stack direction="row" spacing={2}>
         <Button
           color="info"
-          variant="outlined"
+          variant={viewType === "posts" ? "contained" : "outlined"}
           onClick={() => {
             dispatch(updateViewType("posts"));
           }}
@@ -23,7 +24,7 @@ const SecondaryNav: React.FC = () => {
         </Button>
         <Button
           color="info"
-          variant="outlined"
+          variant={viewType === "comments" ? "contained" : "outlined"}
           onClick={() => {
             dispatch(updateViewType("comments"));
           }}
@@ -32,7 +33,7 @@ const SecondaryNav: React.FC = () => {
         </Button>
         <Button
           color="info"
-          variant="outlined"
+          variant={viewType === "upvoted" ? "contained" : "outlined"}
           onClick={() => {
             dispatch(updateViewType("upvoted"));
           }}
@@ -41,7 +42,7 @@ const SecondaryNav: React.FC = () => {
         </Button>
         <Button
           color="info"
-          variant="outlined"
+          variant={viewType === "downvoted" ? "contained" : "outlined"}
           onClick={() => {
             dispatch(updateViewType("downvoted"));
           }}

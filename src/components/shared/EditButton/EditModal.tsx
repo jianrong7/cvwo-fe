@@ -3,10 +3,8 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Typography as TypographyMUI,
-  Box,
   Stack,
   IconButton,
   DialogActions,
@@ -22,10 +20,6 @@ import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import RichTextEditor from "../../Form/RichTextEditor";
-
-interface EditInput {
-  content: string;
-}
 
 interface Props {
   open: boolean;

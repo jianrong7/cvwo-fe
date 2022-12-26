@@ -40,7 +40,7 @@ const LoginForm: React.FC<Props> = ({ handleModalClose }) => {
   const {
     reset,
     handleSubmit,
-    formState: { isSubmitSuccessful, errors },
+    formState: { isSubmitSuccessful },
   } = methods;
 
   useEffect(() => {

@@ -6,7 +6,6 @@ import {
   CardContent,
   CardActionArea,
   Typography,
-  Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import DOMPurify from "dompurify";

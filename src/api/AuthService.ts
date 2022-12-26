@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 
 import apiClient from "./http-common";
 import type { LoginFormState } from "../components/Authentication/AuthModal";
@@ -97,7 +97,6 @@ export const RefreshTokenMutation = () => {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
         window.localStorage.setItem("accessToken", data.token);
         dispatch(updateCurrentUser(data));
       },
