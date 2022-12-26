@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "react-query";
-import { getCookie } from "typescript-cookie";
 import { useAppDispatch } from "../app/hooks";
 import {
   openSnackbar,
@@ -17,7 +16,11 @@ export const CommentMutation = (postId: string) => {
     async (payload: any) => {
       try {
         const { data: response } = await apiClient.post(baseURL, payload, {
-          headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
+          },
         });
         return response.data;
       } catch (err) {
@@ -51,7 +54,11 @@ export const CommentEditMutation = (commentId: number, postId: number) => {
           `${baseURL}${commentId}`,
           { content: payload.content },
           {
-            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
           }
         );
         return response.data;
@@ -85,7 +92,11 @@ export const CommentDeleteMutation = (commentId: number, postId: number) => {
         const { data: response } = await apiClient.delete(
           `${baseURL}${commentId}`,
           {
-            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
           }
         );
         return response.data;

@@ -7,7 +7,6 @@ import {
   getRememberMe,
   updateIsFetchingUser,
 } from "../modules/users/userSlice";
-import { setCookie } from "typescript-cookie";
 
 import { updateCurrentUser } from "../modules/users/userSlice";
 import {
@@ -15,23 +14,8 @@ import {
   updateAlertSeverity,
   updateSnackbarContent,
 } from "../modules/snackbar/snackbarSlice";
-import jwtDecode from "jwt-decode";
-import { UserLoginOutput } from "../modules/users/types";
 
 const baseURL = "/users/";
-
-const setTokenInCookies = (
-  data: UserLoginOutput,
-  rememberMe: boolean | null
-) => {
-  const decoded: { exp: number; iat: number; sub: number } = jwtDecode(
-    data?.token as string
-  );
-  setCookie("Authorization", data.token, {
-    path: "",
-    expires: rememberMe ? decoded.exp : 0,
-  });
-};
 
 export const LoginMutation = (snackbarContent: string) => {
   const rememberMe = useAppSelector(getRememberMe);
@@ -57,7 +41,7 @@ export const LoginMutation = (snackbarContent: string) => {
       onMutate: () => dispatch(updateIsFetchingUser(true)),
       onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
       onSuccess: (data) => {
-        setTokenInCookies(data, rememberMe);
+        if (rememberMe) window.localStorage.setItem("accessToken", data.token);
         dispatch(updateCurrentUser(data));
 
         dispatch(updateSnackbarContent(snackbarContent));
@@ -94,16 +78,29 @@ export const SignupMutation = () => {
   );
 };
 
-export const RefreshTokenQuery = () => {
-  return useQuery(
-    "refresh-token",
-    () => apiClient.get(`${baseURL}refresh`, { withCredentials: true }),
+export const RefreshTokenMutation = () => {
+  const dispatch = useAppDispatch();
+  return useMutation(
+    async (payload: any) => {
+      try {
+        const { data } = await apiClient.post(
+          `${baseURL}refresh`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${payload.accessToken}` },
+          }
+        );
+        return data;
+      } catch (err) {
+        throw err;
+      }
+    },
     {
-      // refetchInterval: 1000 * 60 * 5,
-      // refetchIntervalInBackground: true,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        console.log(data);
+        window.localStorage.setItem("accessToken", data.token);
+        dispatch(updateCurrentUser(data));
+      },
     }
   );
 };

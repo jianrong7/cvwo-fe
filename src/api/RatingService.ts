@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "react-query";
-import { getCookie } from "typescript-cookie";
 import apiClient from "./http-common";
 
 const baseURL = "/ratings/";
@@ -10,7 +9,11 @@ export const RatingMutation = (postId: string) => {
     async (payload: any) => {
       try {
         const { data: response } = await apiClient.put(baseURL, payload, {
-          headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
+          },
         });
         return response.data;
       } catch (err) {

@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "react-query";
-import { getCookie } from "typescript-cookie";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { PayloadState } from "../components/user/MainContent";
 import { UserModel } from "../modules/users/types";
@@ -60,7 +59,9 @@ export const UserUploadPicture = (userId: string) => {
       try {
         const { data } = await apiClient.post(`${baseURL}${userId}`, payload, {
           headers: {
-            Authorization: `Bearer ${getCookie("Authorization")}`,
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
             "Content-Type": "multipart/form-data",
           },
         });
@@ -91,7 +92,9 @@ export const UpdateUser = (userId: string) => {
       try {
         const { data } = await apiClient.put(`${baseURL}${userId}`, payload, {
           headers: {
-            Authorization: `Bearer ${getCookie("Authorization")}`,
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
           },
         });
         return data;

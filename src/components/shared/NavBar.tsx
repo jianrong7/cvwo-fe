@@ -12,11 +12,9 @@ import {
   MenuItem,
   Link,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { ChatBubbleOutline } from "@mui/icons-material";
-import { removeCookie } from "typescript-cookie";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { resetQueryParamsState } from "../../modules/posts/postsSlice";
 import {
   getCurrentUser,
   removeCurrentUser,
@@ -39,7 +37,7 @@ function ResponsiveAppBar() {
 
   const handleLogout = () => {
     handleCloseUserMenu();
-    removeCookie("Authorization", { path: "" });
+    window.localStorage.removeItem("accessToken");
     dispatch(removeCurrentUser());
   };
 
@@ -52,8 +50,8 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link
-            href="/"
-            onClick={() => dispatch(resetQueryParamsState)}
+            component={RouterLink}
+            to="/"
             sx={{
               display: "flex",
               alignItems: "center",

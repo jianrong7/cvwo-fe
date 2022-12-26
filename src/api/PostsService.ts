@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "typescript-cookie";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { Comment } from "../modules/comments/types";
 import {
@@ -134,7 +133,11 @@ export const PostMutation = () => {
     async (payload: any) => {
       try {
         const { data } = await apiClient.post(baseURL, payload, {
-          headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
+          },
         });
         return data;
       } catch (err) {
@@ -172,7 +175,11 @@ export const PostEditMutation = (postId: number) => {
             content: payload.content,
           },
           {
-            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
           }
         );
         return response.data;
@@ -205,7 +212,11 @@ export const PostDeleteMutation = (postId: number) => {
         const { data: response } = await apiClient.delete(
           `${baseURL}${postId}`,
           {
-            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
           }
         );
         return response.data;
@@ -240,7 +251,11 @@ export const PostAiMutation = () => {
           `${baseURL}ai`,
           payload,
           {
-            headers: { Authorization: `Bearer ${getCookie("Authorization")}` },
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
           }
         );
         return response.data;

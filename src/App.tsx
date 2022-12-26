@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import AppRouter from "./components/Routers/AppRouter";
 
 import "./App.css";
-import usePersistLogin from "./utils/usePersistLogin";
 import SnackbarRoot from "./components/Snackbar/SnackbarRoot";
+import useLoginOnRefresh from "./utils/useLoginOnRefresh";
 
 const theme = createTheme({
   palette: {
@@ -19,8 +19,7 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
-  // need to reimplement the backend to persist user
-  usePersistLogin();
+  useLoginOnRefresh();
 
   return (
     <div className="App">
