@@ -8,6 +8,7 @@ interface PostState {
   isFetchingPosts: boolean;
   aiPost: string;
   isFetchingAiPost: boolean;
+  searchBar: string[];
 }
 
 const initialState: PostState = {
@@ -16,6 +17,7 @@ const initialState: PostState = {
   isFetchingPosts: false,
   aiPost: "",
   isFetchingAiPost: false,
+  searchBar: [],
 };
 
 export const postsSlice = createSlice({
@@ -47,6 +49,9 @@ export const postsSlice = createSlice({
     updateIsFetchingAiPost: (state, action: PayloadAction<boolean>) => {
       state.isFetchingAiPost = action.payload;
     },
+    updateSearchBar: (state, action: PayloadAction<string[]>) => {
+      state.searchBar = action.payload;
+    },
   },
 });
 
@@ -59,6 +64,7 @@ export const {
   resetQueryParamsState,
   updateAiPost,
   updateIsFetchingAiPost,
+  updateSearchBar,
 } = postsSlice.actions;
 
 export const getQueryParams = (state: RootState): PostQueryParams => {
@@ -75,6 +81,10 @@ export const getAiPost = (state: RootState): string => {
 
 export const getIsFetchingAiPost = (state: RootState): boolean => {
   return state.posts.isFetchingAiPost;
+};
+
+export const getSearchBarState = (state: RootState): string[] => {
+  return state.posts.searchBar;
 };
 
 export default postsSlice.reducer;

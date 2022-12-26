@@ -41,14 +41,14 @@ export const PostsQuery = () => {
         const res = posts.sort((a: Post, b: Post) => {
           const ratingA = a.upvotes.length - a.downvotes.length;
           const ratingB = b.upvotes.length - b.downvotes.length;
-          return ratingA > ratingB ? 1 : -1;
+          return ratingA > ratingB ? -1 : 1;
         });
         return res;
       } else if (sort === "downvotes") {
         const res = posts.sort((a: Post, b: Post) => {
           const ratingA = a.upvotes.length - a.downvotes.length;
           const ratingB = b.upvotes.length - b.downvotes.length;
-          return ratingA > ratingB ? -1 : 1;
+          return ratingA > ratingB ? 1 : -1;
         });
         return res;
       } else {
@@ -117,7 +117,7 @@ export const CommentsFromPostQuery = (postId: string) => {
       throw err;
     }
   };
-  return useQuery(["getComments", sort], fetchComments, {
+  return useQuery(["getComments", postId, sort], fetchComments, {
     onSettled: () => dispatch(updateIsFetchingComments(false)),
     onSuccess: (data) => {
       dispatch(updateComments(data));
@@ -204,6 +204,7 @@ export const PostEditMutation = (postId: number) => {
 };
 
 export const PostDeleteMutation = (postId: number) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
@@ -236,6 +237,7 @@ export const PostDeleteMutation = (postId: number) => {
         dispatch(updateSnackbarContent("Successfully deleted post."));
         dispatch(updateAlertSeverity("success"));
         dispatch(openSnackbar());
+        navigate("/");
       },
     }
   );

@@ -48,7 +48,6 @@ export const UserRatedQuery = (payload: PayloadState) => {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
-    // onSuccess: (data) => console.log("onsuccess", data),
   });
 };
 
@@ -72,8 +71,6 @@ export const UserUploadPicture = (userId: string) => {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
-
         mutate({
           imageName: data?.imageName,
           userId: parseInt(userId),

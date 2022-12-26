@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { getCommentsQueryParams } from "../modules/post/postSlice";
 import {
   openSnackbar,
   updateAlertSeverity,
@@ -10,6 +11,7 @@ import apiClient from "./http-common";
 const baseURL = "/comments/";
 
 export const CommentMutation = (postId: string) => {
+  const { sort } = useAppSelector(getCommentsQueryParams);
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
@@ -34,7 +36,7 @@ export const CommentMutation = (postId: string) => {
         dispatch(openSnackbar());
       },
       onSuccess: () => {
-        queryClient.invalidateQueries(["getComments", postId]);
+        queryClient.invalidateQueries(["getComments", postId, sort]);
 
         dispatch(updateSnackbarContent("Successfully created comment."));
         dispatch(updateAlertSeverity("success"));
@@ -45,6 +47,7 @@ export const CommentMutation = (postId: string) => {
 };
 
 export const CommentEditMutation = (commentId: number, postId: number) => {
+  const { sort } = useAppSelector(getCommentsQueryParams);
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
@@ -73,7 +76,7 @@ export const CommentEditMutation = (commentId: number, postId: number) => {
         dispatch(openSnackbar());
       },
       onSuccess: () => {
-        queryClient.invalidateQueries(["getComments", postId.toString()]);
+        queryClient.invalidateQueries(["getComments", postId.toString(), sort]);
 
         dispatch(updateSnackbarContent("Successfully edited comment."));
         dispatch(updateAlertSeverity("success"));
@@ -84,6 +87,7 @@ export const CommentEditMutation = (commentId: number, postId: number) => {
 };
 
 export const CommentDeleteMutation = (commentId: number, postId: number) => {
+  const { sort } = useAppSelector(getCommentsQueryParams);
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
@@ -112,7 +116,7 @@ export const CommentDeleteMutation = (commentId: number, postId: number) => {
       },
       onSuccess: () => {
         queryClient.invalidateQueries(["getOnePost", postId]);
-        queryClient.invalidateQueries(["getComments", postId.toString()]);
+        queryClient.invalidateQueries(["getComments", postId.toString(), sort]);
         dispatch(updateSnackbarContent("Successfully deleted comment."));
         dispatch(updateAlertSeverity("success"));
         dispatch(openSnackbar());

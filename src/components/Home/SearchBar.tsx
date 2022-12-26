@@ -2,7 +2,7 @@ import React from "react";
 import { Autocomplete, TextField, Chip, Typography } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
 import { getTags } from "../../modules/home/homeSlice";
-import { getQueryParamsTags } from "../../modules/posts/postsSlice";
+import { getSearchBarState } from "../../modules/posts/postsSlice";
 
 interface Props {
   handleChange: (options: any, value: any) => void;
@@ -10,7 +10,7 @@ interface Props {
 
 const SearchBar: React.FC<Props> = ({ handleChange }) => {
   const tags = useAppSelector(getTags);
-  const tagsArr = useAppSelector(getQueryParamsTags).split(",");
+  const searchBar = useAppSelector(getSearchBarState);
 
   return (
     <Autocomplete
@@ -21,33 +21,22 @@ const SearchBar: React.FC<Props> = ({ handleChange }) => {
       getOptionLabel={(option) => option}
       filterSelectedOptions
       freeSolo
-      value={tagsArr}
-      renderTags={(value: string[], getTagProps) => {
-        const tagsArr = [...value].filter((x) => tags.includes(x));
-        const text = [...value].filter((x) => !tags.includes(x));
-        const merged = tagsArr.concat(text.join(""));
-        return merged.map((option: string, index: number) => {
-          if (tags.includes(option)) {
-            return (
-              <Chip
-                variant="outlined"
-                label={option}
-                color="primary"
-                {...getTagProps({ index })}
-              />
-            );
-          }
-          return <Typography key={index}>{option}</Typography>;
-        });
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Tags"
-          // error={!!inputError}
-          // helperText={inputError ? inputError : ""}
-        />
-      )}
+      value={searchBar}
+      renderTags={(value: string[], getTagProps) =>
+        value.map((option: string, index: number) =>
+          tags.includes(option) ? (
+            <Chip
+              variant="outlined"
+              label={option}
+              color="primary"
+              {...getTagProps({ index })}
+            />
+          ) : (
+            <Typography key={index}>{option}</Typography>
+          )
+        )
+      }
+      renderInput={(params) => <TextField {...params} label="Tags" />}
     />
   );
 };

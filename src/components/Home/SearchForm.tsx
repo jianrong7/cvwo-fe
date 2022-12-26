@@ -13,6 +13,7 @@ import { getTags } from "../../modules/home/homeSlice";
 import {
   updateQueryParamsSearch,
   updateQueryParamsTags,
+  updateSearchBar,
 } from "../../modules/posts/postsSlice";
 import SearchBar from "./SearchBar";
 
@@ -46,6 +47,8 @@ const SearchForm: React.FC<Props> = ({ refetch }) => {
     value.forEach((val) =>
       tags.includes(val) ? searchTags.push(val) : searchText.push(val)
     );
+    dispatch(updateSearchBar(searchTags.concat(searchText)));
+
     dispatch(updateQueryParamsTags(searchTags.join()));
     dispatch(updateQueryParamsSearch(searchText.join("")));
     refetch();
