@@ -8,6 +8,7 @@ import {
   CardActionArea,
   Typography,
   Box,
+  Tooltip,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { ThumbUpOffAlt } from "@mui/icons-material";
@@ -85,13 +86,17 @@ const Post: React.FC<Props> = ({ post, refetch }) => {
         }}
       >
         <Box>
-          <Button
-            size="small"
-            startIcon={<ThumbUpOffAlt />}
-            onClick={() => mutate({ value: 1, entryID: ID, entryType: "post" })}
-          >
-            <Typography>{upvotes.length - downvotes.length}</Typography>
-          </Button>
+          <Tooltip title="Upvote">
+            <Button
+              size="small"
+              startIcon={<ThumbUpOffAlt />}
+              onClick={() =>
+                mutate({ value: 1, entryID: ID, entryType: "post" })
+              }
+            >
+              <Typography>{upvotes.length - downvotes.length}</Typography>
+            </Button>
+          </Tooltip>
           {curUser?.username === user.username && <DeleteButton id={ID} />}
         </Box>
         <Tags tags={tags} refetch={refetch} />

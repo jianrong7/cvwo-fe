@@ -5,6 +5,7 @@ import {
   Chip,
   IconButton,
   CircularProgress,
+  Tooltip,
 } from "@mui/material";
 import React from "react";
 import { useParams } from "react-router-dom";
@@ -60,25 +61,29 @@ const Comment: React.FC<Props> = ({ comment }) => {
         <Stack direction="row" spacing={1} alignItems="center">
           {curUser && (
             <>
-              <IconButton
-                size="small"
-                aria-label="upvote"
-                onClick={() =>
-                  mutate({ value: 1, entryID: ID, entryType: "comment" })
-                }
-              >
-                <ThumbUpOffAlt />
-              </IconButton>
+              <Tooltip title="Upvote">
+                <IconButton
+                  size="small"
+                  aria-label="upvote"
+                  onClick={() =>
+                    mutate({ value: 1, entryID: ID, entryType: "comment" })
+                  }
+                >
+                  <ThumbUpOffAlt />
+                </IconButton>
+              </Tooltip>
               <Typography>{upvotes.length - downvotes.length}</Typography>
-              <IconButton
-                size="small"
-                aria-label="downvote"
-                onClick={() =>
-                  mutate({ value: -1, entryID: ID, entryType: "comment" })
-                }
-              >
-                <ThumbDownOffAlt />
-              </IconButton>
+              <Tooltip title="Downvote">
+                <IconButton
+                  size="small"
+                  aria-label="downvote"
+                  onClick={() =>
+                    mutate({ value: -1, entryID: ID, entryType: "comment" })
+                  }
+                >
+                  <ThumbDownOffAlt />
+                </IconButton>
+              </Tooltip>
             </>
           )}
           {curUser?.username === user.username && (

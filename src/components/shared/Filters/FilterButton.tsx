@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { useAppDispatch } from "../../../app/hooks";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
@@ -17,16 +17,18 @@ const FilterButton: React.FC<Props> = ({
   const dispatch = useAppDispatch();
 
   return (
-    <Button
-      onClick={() => {
-        dispatch(dispatchAction(query));
-        // refetch();
-      }}
-      variant={curActive ? "outlined" : "text"}
-      sx={{ fontWeight: curActive ? 600 : 400 }}
-    >
-      by {query === "created_at" ? "time" : query}
-    </Button>
+    <Tooltip title={`Sort by ${query === "created_at" ? "time" : query}`}>
+      <Button
+        onClick={() => {
+          dispatch(dispatchAction(query));
+          // refetch();
+        }}
+        variant={curActive ? "outlined" : "text"}
+        sx={{ fontWeight: curActive ? 600 : 400 }}
+      >
+        by {query === "created_at" ? "time" : query}
+      </Button>
+    </Tooltip>
   );
 };
 

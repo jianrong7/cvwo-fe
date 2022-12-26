@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, Tooltip } from "@mui/material";
 import {
   RefetchOptions,
   RefetchQueryFilters,
@@ -44,14 +44,16 @@ const HomeStickyBar: React.FC<Props> = ({ refetch }) => {
       >
         <SearchForm refetch={refetch} />
         {curUser && (
-          <Button
-            component={RouterLink}
-            to="/submit"
-            color="success"
-            variant="contained"
-          >
-            Create
-          </Button>
+          <Tooltip title="Create post">
+            <Button
+              component={RouterLink}
+              to="/submit"
+              color="success"
+              variant="contained"
+            >
+              Create
+            </Button>
+          </Tooltip>
         )}
         <BackToTop />
       </Stack>

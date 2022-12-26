@@ -46,23 +46,29 @@ const MainPost: React.FC = () => {
     <Stack direction="row" spacing={2}>
       <Box>
         <Stack direction="column" alignItems="center" spacing={1}>
-          <IconButton
-            size="small"
-            aria-label="upvote"
-            onClick={() => mutate({ value: 1, entryID: ID, entryType: "post" })}
-          >
-            <ThumbUpOffAlt />
-          </IconButton>
+          <Tooltip title="Upvote">
+            <IconButton
+              size="small"
+              aria-label="upvote"
+              onClick={() =>
+                mutate({ value: 1, entryID: ID, entryType: "post" })
+              }
+            >
+              <ThumbUpOffAlt />
+            </IconButton>
+          </Tooltip>
           <Typography>{upvotes.length - downvotes.length}</Typography>
-          <IconButton
-            size="small"
-            aria-label="downvote"
-            onClick={() =>
-              mutate({ value: -1, entryID: ID, entryType: "post" })
-            }
-          >
-            <ThumbDownOffAlt />
-          </IconButton>
+          <Tooltip title="Downvote">
+            <IconButton
+              size="small"
+              aria-label="downvote"
+              onClick={() =>
+                mutate({ value: -1, entryID: ID, entryType: "post" })
+              }
+            >
+              <ThumbDownOffAlt />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </Box>
       <Stack spacing={1}>

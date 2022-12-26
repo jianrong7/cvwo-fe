@@ -4,6 +4,7 @@ import {
   CircularProgress,
   IconButton,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -34,25 +35,29 @@ const StickyTitleHeader: React.FC = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center" spacing={4}>
           <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton
-              size="small"
-              aria-label="upvote"
-              onClick={() =>
-                mutate({ value: 1, entryID: ID, entryType: "post" })
-              }
-            >
-              <ThumbUpOffAlt />
-            </IconButton>
+            <Tooltip title="Upvote">
+              <IconButton
+                size="small"
+                aria-label="upvote"
+                onClick={() =>
+                  mutate({ value: 1, entryID: ID, entryType: "post" })
+                }
+              >
+                <ThumbUpOffAlt />
+              </IconButton>
+            </Tooltip>
             <Typography>{upvotes.length - downvotes.length}</Typography>
-            <IconButton
-              size="small"
-              aria-label="downvote"
-              onClick={() =>
-                mutate({ value: -1, entryID: ID, entryType: "post" })
-              }
-            >
-              <ThumbDownOffAlt />
-            </IconButton>
+            <Tooltip title="Downvote">
+              <IconButton
+                size="small"
+                aria-label="downvote"
+                onClick={() =>
+                  mutate({ value: -1, entryID: ID, entryType: "post" })
+                }
+              >
+                <ThumbDownOffAlt />
+              </IconButton>
+            </Tooltip>
           </Stack>
           <Typography component="h1" sx={{ fontWeight: 600 }}>
             {title}
