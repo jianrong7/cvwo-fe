@@ -2,8 +2,8 @@
 
 A web forum built with React and Golang.
 
-You can find the live version of the project [here](https://3.1.102.180.nip.io/).
-You can find the frontend [here](https://cvwo-fe.s3.ap-southeast-1.amazonaws.com/index.html) and its repository [here](https://github.com/jianrong7/cvwo-fe).
+You can find the live version of the project [here](https://d3mj3t330xelda.cloudfront.net).
+You can find the backend [here](https://3.1.102.180.nip.io) and its repository [here](https://github.com/jianrong7/cvwo-be).
 
 ## Submission Details
 
