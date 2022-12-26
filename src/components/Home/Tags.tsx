@@ -35,12 +35,8 @@ const Tags: React.FC<Props> = ({ tags, refetch }) => {
   return (
     <Stack direction="row" spacing={1} sx={{ marginX: 2 }}>
       {tags.map((tag, i) => (
-        <Tooltip title={`See posts with ${tag} tag`}>
-          <Button
-            key={`${tag}_${i}`}
-            onClick={() => handleClick(tag)}
-            sx={{ fontSize: 12 }}
-          >
+        <Tooltip key={`${tag}_${i}`} title={`See posts with ${tag} tag`}>
+          <Button onClick={() => handleClick(tag)} sx={{ fontSize: 12 }}>
             {tag}
           </Button>
         </Tooltip>
