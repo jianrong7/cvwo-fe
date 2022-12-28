@@ -70,7 +70,7 @@ src
 
 ## Deployment
 
-This app is deployed to an AWS S3 bucket. In order to enable HTTPS, I used AWS Cloudfront as a CDN to allow for HTTPS connections. As I do not have a custom domain and I do not want to pay for one, I just used to given AWS domain.
+This app is deployed to an AWS S3 bucket. In order to enable HTTPS, I used AWS Cloudfront as a CDN. As I do not have a custom domain and I do not want to pay for one, I just used the given AWS domain.
 
 ## Reflections
 
