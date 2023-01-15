@@ -115,7 +115,11 @@ const CreatePost: React.FC = () => {
             mutate={fetchAi}
           />
           <TagsInput tagsState={tagsState} handleChange={handleTagsChange} />
-          <Button variant="text" type="submit">
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ minWidth: "200px", alignSelf: "center" }}
+          >
             Submit
           </Button>
         </Box>

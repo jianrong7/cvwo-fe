@@ -49,11 +49,16 @@ const MenuBar: React.FC<Props> = ({
         borderBottom: 0,
         borderTopLeftRadius: "4px",
         borderTopRightRadius: "4px",
+        flexDirection: { sx: "column", md: "row" },
+        alignItems: { sx: "center", md: "unset" },
       }}
-      direction="row"
       justifyContent="space-between"
     >
-      <Stack direction="row">
+      <Stack
+        direction="row"
+        alignContent="center"
+        sx={{ flexWrap: "wrap", width: "100%" }}
+      >
         <Tooltip title="Bold">
           <span>
             <IconButton
@@ -270,6 +275,7 @@ const MenuBar: React.FC<Props> = ({
             };
             mutate(payload);
           }}
+          sx={{ maxWidth: "300px" }}
         >
           Create content from title
         </LoadingButton>

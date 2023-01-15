@@ -65,18 +65,26 @@ const MainContent: React.FC<Props> = ({ data }) => {
         <UserComments comments={comments} />
       ) : (
         <Stack spacing={4}>
-          <Box>
-            <Typography sx={{ fontSize: 20, fontWeight: 600, marginBottom: 2 }}>
-              Posts
-            </Typography>
-            <UserPosts posts={ratedPosts} />
-          </Box>
-          <Box>
-            <Typography sx={{ fontSize: 20, fontWeight: 600, marginBottom: 2 }}>
-              Comments
-            </Typography>
-            <UserComments comments={ratedComments} />
-          </Box>
+          {ratedPosts.length > 0 && (
+            <Box>
+              <Typography
+                sx={{ fontSize: 20, fontWeight: 600, marginBottom: 2 }}
+              >
+                Posts
+              </Typography>
+              <UserPosts posts={ratedPosts} />
+            </Box>
+          )}
+          {ratedComments.length > 0 && (
+            <Box>
+              <Typography
+                sx={{ fontSize: 20, fontWeight: 600, marginBottom: 2 }}
+              >
+                Comments
+              </Typography>
+              <UserComments comments={ratedComments} />
+            </Box>
+          )}
         </Stack>
       )}
     </Box>
