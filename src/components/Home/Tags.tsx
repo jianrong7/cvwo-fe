@@ -7,7 +7,9 @@ import {
 } from "react-query";
 import {
   getQueryParamsTags,
+  getSearchBarState,
   updateQueryParamsTags,
+  updateSearchBar,
 } from "../../modules/posts/postsSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
@@ -20,6 +22,7 @@ interface Props {
 const Tags: React.FC<Props> = ({ tags, refetch }) => {
   const dispatch = useAppDispatch();
   const curTags = useAppSelector(getQueryParamsTags);
+  const searchBar = useAppSelector(getSearchBarState);
 
   const handleClick = (tag: string) => {
     if (curTags) {
@@ -27,6 +30,7 @@ const Tags: React.FC<Props> = ({ tags, refetch }) => {
     } else {
       dispatch(updateQueryParamsTags(tag));
     }
+    dispatch(updateSearchBar(searchBar.concat(tag)));
     refetch();
   };
 

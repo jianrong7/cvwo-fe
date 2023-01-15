@@ -36,7 +36,7 @@ const SearchBar: React.FC<Props> = ({ handleChange }) => {
           )
         )
       }
-      renderInput={(params) => <TextField {...params} label="Tags" />}
+      renderInput={(params) => <TextField {...params} label="Search" />}
     />
   );
 };
