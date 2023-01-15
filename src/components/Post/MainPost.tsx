@@ -93,7 +93,12 @@ const MainPost: React.FC = () => {
           }}
           sx={{ textAlign: "left" }}
         />
-        <Stack direction="row" spacing={4} alignItems="center">
+        <Stack
+          sx={{
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "flex-start", sm: "center" },
+          }}
+        >
           <Stack direction="row" alignItems="center" spacing={1}>
             <ModeComment fontSize="small" />
             <Typography>
@@ -102,26 +107,28 @@ const MainPost: React.FC = () => {
                 : `${commentsLength} comments`}
             </Typography>
           </Stack>
-          <Tooltip title="Copy link">
-            <IconButton
-              size="small"
-              sx={{ width: "fit-content" }}
-              onClick={() => {
-                window.navigator.clipboard.writeText(window.location.href);
-                dispatch(updateSnackbarContent("Link copied"));
-                dispatch(updateAlertSeverity("success"));
-                dispatch(openSnackbar());
-              }}
-            >
-              <Share />
-            </IconButton>
-          </Tooltip>
-          {curUser?.username === username && (
-            <>
-              <EditButton originalContent={content} id={ID} />
-              <DeleteButton id={ID} />
-            </>
-          )}
+          <Box>
+            <Tooltip title="Copy link">
+              <IconButton
+                size="small"
+                sx={{ width: "fit-content" }}
+                onClick={() => {
+                  window.navigator.clipboard.writeText(window.location.href);
+                  dispatch(updateSnackbarContent("Link copied"));
+                  dispatch(updateAlertSeverity("success"));
+                  dispatch(openSnackbar());
+                }}
+              >
+                <Share />
+              </IconButton>
+            </Tooltip>
+            {curUser?.username === username && (
+              <>
+                <EditButton originalContent={content} id={ID} />
+                <DeleteButton id={ID} />
+              </>
+            )}
+          </Box>
         </Stack>
       </Stack>
     </Stack>

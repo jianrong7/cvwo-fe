@@ -122,6 +122,9 @@ export const CommentsFromPostQuery = (postId: string) => {
     onSuccess: (data) => {
       dispatch(updateComments(data));
     },
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
   });
 };
 

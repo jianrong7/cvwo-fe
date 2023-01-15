@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import React from "react";
 import FilterButton from "./FilterButton";
@@ -9,7 +9,7 @@ interface Props {
 
 const Filters: React.FC<Props> = ({ sort, dispatchAction }) => {
   return (
-    <Box sx={{ display: "flex", gap: 2 }}>
+    <Stack flexDirection="row" alignItems="center">
       <FilterButton
         query="upvotes"
         curActive={sort === "upvotes"}
@@ -25,7 +25,7 @@ const Filters: React.FC<Props> = ({ sort, dispatchAction }) => {
         curActive={sort === "created_at"}
         dispatchAction={dispatchAction}
       />
-    </Box>
+    </Stack>
   );
 };
 

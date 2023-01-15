@@ -17,7 +17,13 @@ const User: React.FC = () => {
     <>
       <SecondaryNav />
       <Container maxWidth="lg">
-        <Box sx={{ display: "flex", gap: 8 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column-reverse", sm: "row" },
+            gap: { xs: 2, sm: 4, md: 8 },
+          }}
+        >
           <MainContent data={data?.user} />
           <SideBar />
         </Box>

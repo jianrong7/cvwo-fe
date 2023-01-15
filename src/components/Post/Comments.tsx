@@ -18,7 +18,10 @@ const Comments: React.FC = () => {
 
   return (
     <>
-      <Stack direction="row" alignItems="center" spacing={4}>
+      <Stack
+        sx={{ flexDirection: { xs: "column", sm: "row" }, gap: 2 }}
+        alignItems="center"
+      >
         <Typography>Sort by</Typography>
         <Filters sort={sort} dispatchAction={updateCommentsQueryParams} />
       </Stack>

@@ -21,7 +21,6 @@ const FilterButton: React.FC<Props> = ({
       <Button
         onClick={() => {
           dispatch(dispatchAction(query));
-          // refetch();
         }}
         variant={curActive ? "outlined" : "text"}
         sx={{ fontWeight: curActive ? 600 : 400 }}

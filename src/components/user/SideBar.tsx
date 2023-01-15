@@ -15,7 +15,7 @@ const SideBar: React.FC = () => {
   return (
     <Card
       sx={{
-        position: "sticky",
+        position: { xs: "unset", sm: "sticky" },
         top: 20,
         height: "fit-content",
         flex: 1,
