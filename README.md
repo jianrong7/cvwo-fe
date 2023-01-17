@@ -20,7 +20,7 @@ You can find the backend [here](https://3.1.102.180.nip.io) and its repository [
 1. Clone the reponsitory.
 
 ```
-$ git clone git@github.com:jianrong7/cvwo-be.git
+$ git clone git@github.com:jianrong7/cvwo-fe.git
 ```
 
 2. Install project dependencies.
@@ -74,27 +74,4 @@ src
 
 This app is deployed to an AWS S3 bucket. In order to enable HTTPS, I used AWS Cloudfront as a CDN. As I do not have a custom domain and I do not want to pay for one, I just used the given AWS domain.
 
-## Reflections
-
-Updated as at 25 Dec 2022.
-
-I have been enjoying building this application. Having some experience working with React and Redux at 99.co, I was quite confident about the frontend. However, I think integrating TypeScript has been a relative joy and I think I will continue using it in the future. The learning curve is still gentle enough for me to pick up on the go as I built the project.
-
-Since this project was to maximise my learning, I decided to learn something that I thought would be more popular in the real-world. Therefore, I decided to use Golang for my backend. I was excited for it because it is my first time using a compiled language to build a backend application as I have been mostly using interpreted languages like Node.js and Python.
-
-I think the hardest part was designing the database schema. Fortunately, this is a new project and I can easily nuke the existing database to replace them. If I handle databases with existing data in the future, I will need to know how to handle them as well.
-
-I have not dealt with deployment on AWS yet, so I think that will be another challenge. However, I am excited for that and I hope to do that soon once I finish my plan without the stretch goals. Only after the site is live, I will begin work on the stretch goals.
-
-## Feature ideas so I don't forget
-
-- [x] Update/Delete for Posts/Comments
-- [x] Login should have a remember me checkbox
-- [x] Search function for homepage
-- [x] Ratings system/model
-- [x] Fix the sorting system on homepage
-- [x] URL Search Params
-- [x] Generate post with ChatGPT/OpenAI
-- [x] Sorting system for comments
-- [x] User page -> Offers customisation to profile
-- [ ] Image hosting for posts
+## [User Manual](https://imgur.com/a/UAjL8q6)
