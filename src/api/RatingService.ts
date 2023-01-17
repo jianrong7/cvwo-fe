@@ -6,7 +6,7 @@ const baseURL = "/ratings/";
 export const RatingMutation = (postId: string) => {
   const queryClient = useQueryClient();
   return useMutation(
-    async (payload: any) => {
+    async (payload: { value: number; entryID: number; entryType: string }) => {
       try {
         const { data: response } = await apiClient.put(baseURL, payload, {
           headers: {

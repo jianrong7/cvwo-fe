@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  QueryFunctionContext,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { Comment } from "../modules/comments/types";
@@ -22,6 +27,7 @@ import {
   updateAlertSeverity,
   openSnackbar,
 } from "../modules/snackbar/snackbarSlice";
+import { PostInput } from "../pages/CreatePost";
 import apiClient from "./http-common";
 
 const baseURL = "/posts/";
@@ -29,8 +35,8 @@ const baseURL = "/posts/";
 export const PostsQuery = () => {
   const dispatch = useAppDispatch();
   const queryParams: PostQueryParams = useAppSelector(getQueryParams);
-  const fetchPosts = async (context: any) => {
-    const { tags, sort, search } = context.queryKey[1];
+  const fetchPosts = async (context: QueryFunctionContext) => {
+    const { tags, sort, search } = context.queryKey[1] as PostQueryParams;
     dispatch(updateIsFetchingPosts(true));
     try {
       const { data } = await apiClient.get(
@@ -133,7 +139,7 @@ export const PostMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (payload: any) => {
+    async (payload: PostInput) => {
       try {
         const { data } = await apiClient.post(baseURL, payload, {
           headers: {
@@ -170,7 +176,7 @@ export const PostEditMutation = (postId: number) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (payload: any) => {
+    async (payload: { content: string }) => {
       try {
         const { data: response } = await apiClient.put(
           `${baseURL}${postId}`,
@@ -249,7 +255,7 @@ export const PostDeleteMutation = (postId: number) => {
 export const PostAiMutation = () => {
   const dispatch = useAppDispatch();
   return useMutation(
-    async (payload: any) => {
+    async (payload: { maxTokens: number; prompt: string }) => {
       try {
         const { data: response } = await apiClient.post(
           `${baseURL}ai`,

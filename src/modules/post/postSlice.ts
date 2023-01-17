@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
+import { Comment } from "../comments/types";
 import { Post } from "../posts/types";
 
 interface PostState {
@@ -29,7 +30,7 @@ export const postSlice = createSlice({
     updateIsFetchingPost: (state, action: PayloadAction<boolean>) => {
       state.isFetchingPost = action.payload;
     },
-    updateComments: (state, action: PayloadAction<any>) => {
+    updateComments: (state, action: PayloadAction<Comment[]>) => {
       state.comments = action.payload;
     },
     updateIsFetchingComments: (state, action: PayloadAction<boolean>) => {

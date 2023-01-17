@@ -1,6 +1,7 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useAppSelector } from "../../app/hooks";
+import { Comment as CommentType } from "../../modules/comments/types";
 import {
   getComments,
   getCommentsQueryParams,
@@ -27,7 +28,7 @@ const Comments: React.FC = () => {
       </Stack>
 
       <Stack direction="column" spacing={4}>
-        {comments?.map((comment: any) => (
+        {comments?.map((comment: CommentType) => (
           <Comment key={comment.ID} comment={comment} />
         ))}
       </Stack>

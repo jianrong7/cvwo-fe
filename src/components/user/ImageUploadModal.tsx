@@ -23,8 +23,8 @@ const ImageUploadModal: React.FC = () => {
     setOpen(false);
   };
 
-  const onChange = (imageList: any) => {
-    setImages(imageList);
+  const onChange = (imageList: ImageListType) => {
+    setImages(imageList as never[]);
   };
 
   const handleUpload = () => {

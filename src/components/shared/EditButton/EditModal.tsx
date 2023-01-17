@@ -24,7 +24,12 @@ import RichTextEditor from "../../Form/RichTextEditor";
 interface Props {
   open: boolean;
   handleClose: () => void;
-  handleEdit: UseMutateFunction<any, unknown, void, unknown>;
+  handleEdit: UseMutateFunction<
+    any,
+    unknown,
+    any | { content: string },
+    unknown
+  >;
   isComment: boolean;
   originalContent: string;
 }
@@ -50,7 +55,7 @@ const EditModal: React.FC<Props> = ({
   });
 
   const handleEditClick = () => {
-    handleEdit({ content: editor?.getHTML() } as any);
+    handleEdit({ content: editor?.getHTML() as string });
     handleClose();
   };
   return (

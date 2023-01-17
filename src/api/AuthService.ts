@@ -39,7 +39,7 @@ export const LoginMutation = (snackbarContent: string) => {
         dispatch(openSnackbar());
       },
       onMutate: () => dispatch(updateIsFetchingUser(true)),
-      onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
+      onSettled: () => dispatch(updateIsFetchingUser(false)) as unknown as void,
       onSuccess: (data) => {
         if (rememberMe) window.localStorage.setItem("accessToken", data.token);
         dispatch(updateCurrentUser(data));
@@ -81,7 +81,7 @@ export const SignupMutation = () => {
 export const RefreshTokenMutation = () => {
   const dispatch = useAppDispatch();
   return useMutation(
-    async (payload: any) => {
+    async (payload: { accessToken: string }) => {
       try {
         const { data } = await apiClient.post(
           `${baseURL}refresh`,

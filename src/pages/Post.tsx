@@ -46,7 +46,7 @@ const PostPage: React.FC = () => {
 
   const handleSubmitComment = () => {
     addComment({
-      content: editor?.getHTML(),
+      content: editor?.getHTML() as string,
       postId: parseInt(params?.id as string),
     });
     editor?.commands.clearContent();

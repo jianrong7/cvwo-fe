@@ -15,7 +15,7 @@ export const CommentMutation = (postId: string) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (payload: any) => {
+    async (payload: { content: string; postId: number }) => {
       try {
         const { data: response } = await apiClient.post(baseURL, payload, {
           headers: {
@@ -51,7 +51,7 @@ export const CommentEditMutation = (commentId: number, postId: number) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (payload: any) => {
+    async (payload: { content: string }) => {
       try {
         const { data: response } = await apiClient.put(
           `${baseURL}${commentId}`,

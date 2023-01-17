@@ -12,7 +12,7 @@ export interface TagsState {
 }
 interface Props {
   tagsState: TagsState;
-  handleChange: (options: any, value: any) => void;
+  handleChange: (options: React.SyntheticEvent, value: string[]) => void;
 }
 
 const TagsInput: React.FC<Props> = ({ tagsState, handleChange }) => {

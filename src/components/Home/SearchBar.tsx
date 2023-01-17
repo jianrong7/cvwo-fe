@@ -5,7 +5,7 @@ import { getTags } from "../../modules/home/homeSlice";
 import { getSearchBarState } from "../../modules/posts/postsSlice";
 
 interface Props {
-  handleChange: (options: any, value: any) => void;
+  handleChange: (options: React.SyntheticEvent, value: string[]) => void;
 }
 
 const SearchBar: React.FC<Props> = ({ handleChange }) => {

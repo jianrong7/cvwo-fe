@@ -54,7 +54,7 @@ export const UserRatedQuery = (payload: PayloadState) => {
 export const UserUploadPicture = (userId: string) => {
   const { mutate } = UpdateUser(userId);
   return useMutation(
-    async (payload: any) => {
+    async (payload: FormData) => {
       try {
         const { data } = await apiClient.post(`${baseURL}${userId}`, payload, {
           headers: {
@@ -85,7 +85,7 @@ export const UpdateUser = (userId: string) => {
   const curUser = useAppSelector(getCurrentUser);
   const userData = useAppSelector(getUserData);
   return useMutation(
-    async (payload: any) => {
+    async (payload: { imageName: string; userId: number }) => {
       try {
         const { data } = await apiClient.put(`${baseURL}${userId}`, payload, {
           headers: {
@@ -101,7 +101,7 @@ export const UpdateUser = (userId: string) => {
     },
     {
       onMutate: () => dispatch(updateIsFetchingUser(true)),
-      onSettled: () => dispatch(updateIsFetchingUser(false)) as any,
+      onSettled: () => dispatch(updateIsFetchingUser(false)) as unknown as void,
       onSuccess: (data: { user: UserModel }) => {
         const { profilePicture } = data.user;
         dispatch(

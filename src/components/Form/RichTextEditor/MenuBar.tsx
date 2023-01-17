@@ -269,11 +269,10 @@ const MenuBar: React.FC<Props> = ({
           loading={isFetchingAiPost}
           loadingIndicator="Fetching..."
           onClick={() => {
-            const payload = {
+            mutate({
               maxTokens: 100,
               prompt: title,
-            };
-            mutate(payload);
+            });
           }}
           sx={{ maxWidth: "300px" }}
         >

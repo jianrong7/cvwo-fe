@@ -82,7 +82,7 @@ const CreatePost: React.FC = () => {
   const handleTagsChange: (
     options: React.SyntheticEvent,
     value: string[]
-  ) => void = (options, value) => {
+  ) => void = (_, value) => {
     if (value.length > 3) {
       setTagsState({
         ...tagsState,
